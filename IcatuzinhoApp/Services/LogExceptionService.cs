@@ -4,7 +4,7 @@ using Xamarin;
 
 namespace IcatuzinhoApp
 {
-    public class LogExceptionServices : ILogExceptionServices
+    public class LogExceptionService : ILogExceptionService
     {
         private BaseRepository<LogException> repository = new BaseRepository<LogException>();
 

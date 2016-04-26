@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace IcatuzinhoApp
 {
-    public class BaseServices<T> : IBaseServices<T> where T : class, new()
+    public abstract class BaseService<T> : IBaseService<T> where T : class, new()
     {
         private BaseRepository<T> repository;
 

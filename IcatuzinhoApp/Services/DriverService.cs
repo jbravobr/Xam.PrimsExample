@@ -2,9 +2,9 @@
 
 namespace IcatuzinhoApp
 {
-    public class LogBookServices : BaseServices<LogBook>
+    public class DriverService : IDriveService
     {
-        public LogBookServices()
+        public DriverService()
             : base()
         {
         }

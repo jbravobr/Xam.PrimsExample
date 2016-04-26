@@ -2,9 +2,9 @@
 
 namespace IcatuzinhoApp
 {
-    public class TransactionServices:BaseServices<Transaction>
+    public class TransactionService : ITransactionService
     {
-        public TransactionServices()
+        public TransactionService()
             : base()
         {
         }

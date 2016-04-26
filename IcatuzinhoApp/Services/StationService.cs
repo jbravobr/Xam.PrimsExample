@@ -2,9 +2,9 @@
 
 namespace IcatuzinhoApp
 {
-    public class TravelServices :BaseServices<Travel>
+    public class StationService : IStationService
     {
-        public TravelServices()
+        public StationService()
             : base()
         {
         }

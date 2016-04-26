@@ -2,9 +2,9 @@
 
 namespace IcatuzinhoApp
 {
-    public class UsuarioServices : BaseServices<User>
+    public class UserService : IUserService
     {
-        public UsuarioServices()
+        public UserService()
             : base()
         {
         }

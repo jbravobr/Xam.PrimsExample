@@ -2,9 +2,9 @@
 
 namespace IcatuzinhoApp
 {
-    public class VehicleServices:BaseServices<Vehicle>
+    public class VehicleService : IVehicleService
     {
-        public VehicleServices()
+        public VehicleService()
             : base()
         {
         }

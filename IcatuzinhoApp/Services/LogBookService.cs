@@ -2,9 +2,9 @@
 
 namespace IcatuzinhoApp
 {
-    public class DriverServices : BaseServices<Driver>
+    public class LogBookService : ILogExceptionService
     {
-        public DriverServices()
+        public LogBookService()
             : base()
         {
         }
