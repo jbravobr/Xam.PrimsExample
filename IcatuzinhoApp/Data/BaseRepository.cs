@@ -5,14 +5,13 @@ using Xamarin.Forms;
 using SQLiteNetExtensionsAsync.Extensions;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Xamarin;
 
 namespace IcatuzinhoApp
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
     {
-        private readonly SQLiteAsyncConnection conn;
-        private readonly AsyncLock Mutex = new AsyncLock();
+        readonly SQLiteAsyncConnection conn;
+        readonly AsyncLock Mutex = new AsyncLock();
 
         public BaseRepository()
         {
@@ -30,7 +29,7 @@ namespace IcatuzinhoApp
             {
                 using (await Mutex.LockAsync().ConfigureAwait(false))
                 {
-					
+
                 }
             }
             catch (Exception ex)
@@ -46,7 +45,7 @@ namespace IcatuzinhoApp
 
                 try
                 {
-                    await this.conn.InsertOrReplaceWithChildrenAsync(entity, recursive : true);
+                    await this.conn.InsertOrReplaceWithChildrenAsync(entity, recursive: true);
                     return await Task.FromResult<bool>(true);
                 }
                 catch (Exception ex)
@@ -62,7 +61,7 @@ namespace IcatuzinhoApp
         /// </summary>
         /// <param name="listaEntity">Lista entity.</param>
         public async Task<bool> InsertOrReplaceAllWithChildrenAsync(IList<T> list)
-        {	
+        {
             using (await Mutex.LockAsync().ConfigureAwait(false))
             {
 
@@ -120,7 +119,7 @@ namespace IcatuzinhoApp
             }
         }
 
-        public async Task<T> GetAsync(Expression<Func<T,bool>> expr)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> expr)
         {
             try
             {

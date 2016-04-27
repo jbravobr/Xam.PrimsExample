@@ -2,9 +2,9 @@
 
 namespace IcatuzinhoApp
 {
-	public class Driver : BaseEntity
-	{
-		public string Name { get; set; }
-	}
+    public class Driver : EntityBase
+    {
+        public string Name { get; set; }
+    }
 }
 

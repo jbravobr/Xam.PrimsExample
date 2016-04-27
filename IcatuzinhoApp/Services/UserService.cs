@@ -1,57 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace IcatuzinhoApp
 {
     public class UserService : IUserService
     {
-        public UserService()
-            : base()
-        {
-        }
-
         #region IBaseService implementation
 
-        public System.Threading.Tasks.Task<bool> InsertOrReplaceAllWithChildrenAsync(System.Collections.Generic.List<User> list)
+        public Task<bool> InsertOrReplaceAllWithChildrenAsync(List<User> list)
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<bool> DeleteAsync(User entidade)
+        public Task<bool> DeleteAsync(User entidade)
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<User>> GetAllWithChildrenAsync(System.Linq.Expressions.Expression<Func<User, bool>> predicate)
+        public Task<List<User>> GetAllWithChildrenAsync(Expression<Func<User, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<User> GetAsync(System.Linq.Expressions.Expression<Func<User, bool>> predicate)
+        public Task<User> GetAsync(Expression<Func<User, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<User>> GetAllWithChildrenAsync()
+        public Task<List<User>> GetAllWithChildrenAsync()
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<User> GetWithChildrenByIdAsync(int pkId)
+        public Task<User> GetWithChildrenByIdAsync(int pkId)
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<bool> UpdateWithChildrenAsync(User entity)
+        public Task<bool> UpdateWithChildrenAsync(User entity)
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<bool> Any()
+        public Task<bool> Any()
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<bool> InsertOrReplaceWithChildrenAsync(User entity)
+        public Task<bool> InsertOrReplaceWithChildrenAsync(User entity)
         {
             throw new NotImplementedException();
         }

@@ -5,7 +5,7 @@ using PropertyChanged;
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class User : BaseEntity
+    public class User : EntityBase
     {
         public string Email { get; set; }
 
