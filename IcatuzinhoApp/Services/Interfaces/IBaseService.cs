@@ -13,7 +13,7 @@ namespace IcatuzinhoApp
 
         Task<List<T>> GetAllWithChildrenAsync(Expression<Func<T, bool>> predicate);
 
-        Task<T> GetAsync(Expression<Func<T,bool>> predicate);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate);
 
         Task<List<T>> GetAllWithChildrenAsync();
 
@@ -21,7 +21,7 @@ namespace IcatuzinhoApp
 
         Task<bool> UpdateWithChildrenAsync(T entity);
 
-        Task<bool>Any();
+        Task<bool> Any();
 
         Task<bool> InsertOrReplaceWithChildrenAsync(T entity);
     }

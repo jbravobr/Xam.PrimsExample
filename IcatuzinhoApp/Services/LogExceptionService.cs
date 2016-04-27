@@ -4,10 +4,8 @@ using Xamarin;
 
 namespace IcatuzinhoApp
 {
-    public class LogExceptionService : ILogExceptionService
+    public class LogExceptionService : BaseService<LogException>, ILogExceptionService
     {
-        private BaseRepository<LogException> repository = new BaseRepository<LogException> ();
-
         /// <summary>
         /// Efetua o registro local da erro/transação ocorrido.
         /// </summary>
@@ -15,25 +13,27 @@ namespace IcatuzinhoApp
         /// <param name="type">Type.</param>
         /// <param name="exceptionMessage">Exception message.</param>
         /// <param name="innerExceptionMessage">Inner exception message.</param>
-        public async Task Save (Transaction trasaction, LogExceptionType type, string exceptionMessage, string innerExceptionMessage)
+        public async Task Save(Transaction trasaction, LogExceptionType type, string exceptionMessage, string innerExceptionMessage)
         {
-            var logEx = new LogException {
+            var logEx = new LogException
+            {
                 Exception = exceptionMessage,
                 InnerException = innerExceptionMessage,
                 Trasaction = trasaction,
                 Type = type
             };
 
-            await this.repository.InsertOrReplaceWithChildrenAsync (logEx);
+            base.InitiateRepository();
+            await base.repository.InsertOrReplaceWithChildrenAsync(logEx);
         }
 
         /// <summary>
         /// Envia para o Insights o erro (Exception) ocorrido.
         /// </summary>
         /// <param name="ex">Ex.</param>
-        public void SubmitToInsights (Exception ex)
+        public void SubmitToInsights(Exception ex)
         {
-            Insights.Report (ex);
+            Insights.Report(ex);
         }
     }
 }

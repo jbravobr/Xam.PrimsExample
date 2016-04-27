@@ -38,9 +38,8 @@
     <Compile Include="Services\Interfaces\IBaseService.cs" />
     <Compile Include="Services\AuthenticationCodeService.cs" />
     <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\DepartureTimeService.cs" />
+    <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Services\DriverService.cs" />
-    <Compile Include="Services\LogBookService.cs" />
     <Compile Include="Services\LogExceptionService.cs" />
     <Compile Include="Services\StationService.cs" />
     <Compile Include="Services\TransactionService.cs" />
