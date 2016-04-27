@@ -20,7 +20,7 @@ namespace IcatuzinhoApp
 
         public static Page GetMainPage()
         {
-            return FreshMvvm.FreshPageModelResolver.ResolvePageModel<LoginPageModel>();
+            return FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
         }
     }
 }

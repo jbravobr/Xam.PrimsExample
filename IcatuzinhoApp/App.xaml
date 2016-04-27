@@ -10,6 +10,13 @@
 				Everytime you change any of the exported colors
 				you MUST compile (Right click on "Colors.tt" > Tools > Process T4 Templates)
 				to see your changes on your App
+
+				f073 Nuvem
+				f186 Lua
+				f185 Sol
+				f207 Onibus
+				f015 Casa
+
 			-->
 			<!-- Export AccentColor -->
 			<Color x:Key="AccentColor">#185e8a</Color>
@@ -42,6 +49,7 @@
 			<Color x:Key="ComplementColorDarker">#1f252a</Color>
 			<Color x:Key="TranslucidBlack">#44000000</Color>
 			<Color x:Key="TranslucidWhite">#22ffffff</Color>
+			<Color x:Key="ComplementGreen">#449d44</Color>
 			<!-- INDICATOR COLORS -->
 			<Color x:Key="OkColor">#22c064</Color>
 			<Color x:Key="ErrorColor">Red</Color>
@@ -215,7 +223,7 @@
 				<Setter Property="HeightRequest" Value="{StaticResource BaseButtonHeight}" />
 			</Style>
 			<Style x:Key="SecondaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource RoundedButtonStyle}">
-				<Setter Property="BackgroundColor" Value="{StaticResource ComplementColor}" />
+				<Setter Property="BackgroundColor" Value="{StaticResource ComplementGreen}" />
 				<Setter Property="TextColor" Value="{StaticResource LabelButtonColor}" />
 				<Setter Property="HeightRequest" Value="{StaticResource BaseButtonHeight}" />
 			</Style>
