@@ -38,3 +38,8 @@ Thumbs.db
 
 #dotCover
 *.dotCover
+
+# Mantendo a DLL do Grial UIKIT
+!UXDivers.Artina.Shared.dll
+!UXDivers.Artina.Shared.dll.iOS
+!UXDivers.Artina.Shared.dll.Droid
