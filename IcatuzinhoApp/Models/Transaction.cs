@@ -2,11 +2,11 @@
 
 namespace IcatuzinhoApp
 {
-	public class Transaction : BaseEntity
-	{
-		public string Name { get; set; }
+    public class Transaction : EntityBase
+    {
+        public string Name { get; set; }
 
-		public string TransactionDetails { get; set; }
-	}
+        public string TransactionDetails { get; set; }
+    }
 }
 

@@ -57,9 +57,9 @@
     <Compile Include="Services\Interfaces\IUserervice.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\Interfaces\IVehicleService.cs" />
-    <Compile Include="Models\BaseEntity.cs" />
+    <Compile Include="Models\EntityBase.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\DepartureTime.cs" />
+    <Compile Include="Models\Schedule.cs" />
     <Compile Include="Models\AuthenticationCode.cs" />
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\Vehicle.cs" />

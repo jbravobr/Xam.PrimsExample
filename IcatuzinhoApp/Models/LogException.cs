@@ -2,17 +2,15 @@
 
 namespace IcatuzinhoApp
 {
-	public class LogException
-	{
-		public int Id { get; set; }
+    public class LogException : EntityBase
+    {
+        public string Exception { get; set; }
 
-		public string ExceptionMessage { get; set; }
+        public string InnerException { get; set; }
 
-		public string InnerExceptionMessage { get; set; }
+        public LogExceptionType Type { get; set; }
 
-		public LogExceptionType Type { get; set; }
-
-		public Transaction Trasaction { get; set; }
-	}
+        public Transaction Trasaction { get; set; }
+    }
 }
 
