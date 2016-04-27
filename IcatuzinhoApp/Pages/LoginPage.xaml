@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IcatuzinhoApp.LoginPage" xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" BackgroundColor="White" BackgroundImage="{ StaticResource SignUpBackgroundImage }">
+	<ScrollView>
+		<!-- MAIN CONTAINER -->
+		<Grid ColumnSpacing="0" RowSpacing="0" HorizontalOptions="Fill" VerticalOptions="FillAndExpand">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="280" />
+				<RowDefinition Height="100" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<StackLayout HorizontalOptions="Fill" VerticalOptions="StartAndExpand" Grid.Row="0">
+				<StackLayout.Padding>
+					<OnPlatform x:TypeArguments="Thickness">
+						<OnPlatform.iOS>
+				        20, 70, 20, 20
+				      </OnPlatform.iOS>
+						<OnPlatform.Android>
+				        0, 0, 0, 0
+				      </OnPlatform.Android>
+						<OnPlatform.WinPhone>
+				        0, 0, 0, 0
+				      </OnPlatform.WinPhone>
+					</OnPlatform>
+				</StackLayout.Padding>
+				<Image Source="{StaticResource BrandImage}" VerticalOptions="Start" />
+			</StackLayout>
+			<!---FIELDS CONTAINER-->
+			<Grid Padding="40, 0" ColumnSpacing="0" RowSpacing="0" VerticalOptions="CenterAndExpand" Grid.Row="1" HeightRequest="160">
+				<StackLayout Grid.Row="0" VerticalOptions="StartAndExpand">
+					<!---EMAIL FIELD-->
+					<Entry Placeholder="E-mail" Style="{DynamicResource ArtinaLoginEntryStyle}" />
+					<Label HorizontalOptions="Start" Text=" Insira um e-mail válido " IsVisible="false" Style="{DynamicResource ValidationEntryErrorStyle}" />
+				</StackLayout>
+				<!---PASSWORD FIELD-->
+				<Entry Grid.Row="2" Placeholder="Senha" IsPassword="true" Style="{DynamicResource ArtinaLoginEntryStyle}" VerticalOptions="StartAndExpand" />
+			</Grid>
+			<!-- FOOTER -->
+			<StackLayout HorizontalOptions="Fill" VerticalOptions="EndAndExpand" Padding="20" Grid.Row="2">
+				<Button Style="{DynamicResource PrimaryActionButtonStyle}" VerticalOptions="End" Text="Entrar" />
+			</StackLayout>
+		</Grid>
+	</ScrollView>
+</ContentPage>

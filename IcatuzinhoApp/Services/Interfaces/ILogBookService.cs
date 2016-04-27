@@ -2,7 +2,7 @@
 
 namespace IcatuzinhoApp
 {
-    public interface ILogBookService : BaseService<LogBook>
+    public interface ILogBookService : IBaseService<LogBook>
     {
     }
 }

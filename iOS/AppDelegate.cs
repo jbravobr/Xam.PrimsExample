@@ -18,7 +18,7 @@ namespace IcatuzinhoApp.iOS
 			#if ENABLE_TEST_CLOUD
 			Xamarin.Calabash.Start();
 			#endif
-
+            Appearance.Configure ();
 			LoadApplication (new App ());
 
 			return base.FinishedLaunching (app, options);

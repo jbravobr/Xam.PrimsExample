@@ -7,7 +7,7 @@ namespace IcatuzinhoApp
         public static void Init()
         {
             // Registrando Serviços e dependências.
-            FreshMvvm.FreshIOC.Container.Register<UserService,IUserService>();
+            FreshMvvm.FreshIOC.Container.Register<IUserService,UserService>();
         }
     }
 }

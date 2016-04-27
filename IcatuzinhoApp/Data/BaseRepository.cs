@@ -35,7 +35,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionServices().SubmitToInsights(ex);
+                new LogExceptionService().SubmitToInsights(ex);
             }
         }
 
@@ -51,7 +51,7 @@ namespace IcatuzinhoApp
                 }
                 catch (Exception ex)
                 {
-                    new LogExceptionServices().SubmitToInsights(ex);
+                    new LogExceptionService().SubmitToInsights(ex);
                     return await Task.FromResult<bool>(false);
                 }
             }
@@ -73,7 +73,7 @@ namespace IcatuzinhoApp
                 }
                 catch (Exception ex)
                 {
-                    new LogExceptionServices().SubmitToInsights(ex);
+                    new LogExceptionService().SubmitToInsights(ex);
                     return await Task.FromResult<bool>(false);
                 }
             }
@@ -94,7 +94,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionServices().SubmitToInsights(ex);
+                new LogExceptionService().SubmitToInsights(ex);
                 return await Task.FromResult(false);
 
             }
@@ -115,7 +115,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionServices().SubmitToInsights(ex);
+                new LogExceptionService().SubmitToInsights(ex);
                 return null;
             }
         }
@@ -133,7 +133,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionServices().SubmitToInsights(ex);
+                new LogExceptionService().SubmitToInsights(ex);
                 return null;
             }
         }
@@ -151,7 +151,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionServices().SubmitToInsights(ex);
+                new LogExceptionService().SubmitToInsights(ex);
                 return null;
             }
         }
@@ -171,7 +171,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionServices().SubmitToInsights(ex);
+                new LogExceptionService().SubmitToInsights(ex);
                 return null;
             }
         }
@@ -192,7 +192,7 @@ namespace IcatuzinhoApp
                 }
                 catch (Exception ex)
                 {
-                    new LogExceptionServices().SubmitToInsights(ex);
+                    new LogExceptionService().SubmitToInsights(ex);
                     return await Task.FromResult<bool>(false);
                 }
             }
@@ -213,7 +213,7 @@ namespace IcatuzinhoApp
                 }
                 catch (Exception ex)
                 {
-                    new LogExceptionServices().SubmitToInsights(ex);
+                    new LogExceptionService().SubmitToInsights(ex);
                     return await Task.FromResult(false);
                 }
             }
