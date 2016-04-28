@@ -16,20 +16,28 @@ namespace IcatuzinhoApp
         public BaseRepository()
         {
             this.conn = DependencyService.Get<ISQLite>().GetConnection();
-            CreateDataBase();
+            CreateDataBase().ConfigureAwait(false);
         }
 
         /// <summary>
         /// Criação da base
         /// </summary>
-        /// <returns>The base.</returns>
         private async Task CreateDataBase()
         {
             try
             {
                 using (await Mutex.LockAsync().ConfigureAwait(false))
                 {
-
+                    await conn.CreateTableAsync<AuthenticationCode>();
+                    await conn.CreateTableAsync<Driver>();
+                    await conn.CreateTableAsync<LogException>();
+                    await conn.CreateTableAsync<Schedule>();
+                    await conn.CreateTableAsync<Station>();
+                    await conn.CreateTableAsync<Transaction>();
+                    await conn.CreateTableAsync<Travel>();
+                    await conn.CreateTableAsync<User>();
+                    await conn.CreateTableAsync<Vehicle>();
+                    await conn.CreateTableAsync<Weather>();
                 }
             }
             catch (Exception ex)
@@ -38,11 +46,13 @@ namespace IcatuzinhoApp
             }
         }
 
+        /// <summary>
+        /// Insere ou atualiza entidades existente e seus filhos.
+        /// </summary>
         public async Task<bool> InsertOrReplaceWithChildrenAsync(T entity)
         {
             using (await Mutex.LockAsync().ConfigureAwait(false))
             {
-
                 try
                 {
                     await this.conn.InsertOrReplaceWithChildrenAsync(entity, recursive: true);
@@ -59,7 +69,6 @@ namespace IcatuzinhoApp
         /// <summary>
         /// Insere uma nova coleção da entidade T no Banco de Dados.
         /// </summary>
-        /// <param name="listaEntity">Lista entity.</param>
         public async Task<bool> InsertOrReplaceAllWithChildrenAsync(IList<T> list)
         {
             using (await Mutex.LockAsync().ConfigureAwait(false))
@@ -102,7 +111,6 @@ namespace IcatuzinhoApp
         /// <summary>
         /// Retorna uma coleção de Entidades T de acordo com um predicado
         /// </summary>
-        /// <returns></returns>
         public async Task<List<T>> GetAllWithChildrenAsync(Expression<Func<T, bool>> predicate)
         {
             try
@@ -141,7 +149,6 @@ namespace IcatuzinhoApp
         /// Retorna um único registro da entidade T
         /// </summary>
         /// <param name = "pkId">Chave primária para busca</param>
-        /// <returns></returns>
         public async Task<T> GetWithChildrenByIdAsync(int pkId)
         {
             try
@@ -158,7 +165,6 @@ namespace IcatuzinhoApp
         /// <summary>
         /// Retorna todas as Entidades T
         /// </summary>
-        /// <returns></returns>
         public async Task<List<T>> GetAllWithChildrenAsync()
         {
             try
@@ -178,7 +184,6 @@ namespace IcatuzinhoApp
         /// <summary>
         /// Atualizar uma Entidade T
         /// </summary>
-        /// <param name="entidade"></param>
         public async Task<bool> UpdateWithChildrenAsync(T entity)
         {
             using (await Mutex.LockAsync().ConfigureAwait(false))
@@ -200,7 +205,6 @@ namespace IcatuzinhoApp
         /// <summary>
         /// Verificar se existe registro
         /// </summary>
-        /// <returns>The registro.</returns>
         public async Task<bool> Any()
         {
             using (await Mutex.LockAsync().ConfigureAwait(false))

@@ -6,11 +6,7 @@
 		x:Class="IcatuzinhoApp.TravelPage">
 	<ContentPage.Content>
 		<StackLayout VerticalOptions="FillAndExpand" Padding="0">
-        <maps:Map WidthRequest="320" HeightRequest="200"
-            x:Name="MapRoutes"
-            IsShowingUser="true"
-            MapType="Satellite"
-        />
+        <maps:Map WidthRequest="320" HeightRequest="200" x:Name="MapRoutes" />
     </StackLayout>
 	</ContentPage.Content>
 </ContentPage>

@@ -2,15 +2,17 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace IcatuzinhoApp
+namespace IcatuzinhoApp.UITests
 {
-    public class HttpAccessService : IHttpAccessService
+    public static class Helpers
     {
-        public HttpClient Init()
+        public static HttpClient ReturnClient()
         {
+            var baseAddress = new Uri("http://labdev.labdevmobile.com.br/");
+
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri($"{Constants.BaseAddress}"),
+                BaseAddress = baseAddress,
                 Timeout = TimeSpan.FromSeconds(40)
             };
 

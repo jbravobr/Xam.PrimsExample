@@ -48,5 +48,7 @@
 	<string>Precisamos usar o seu GPS, ok ?</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>New Entry</string>
+	<key>XamarinInsightsKey</key>
+	<string>af422595c1a35c1ad1a77863b9852f80f7d7542c</string>
 </dict>
 </plist>

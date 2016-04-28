@@ -87,6 +87,11 @@
       <DependentUpon>TravelPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PageModels\TravelPageModel.cs" />
+    <Compile Include="Models\Weather.cs" />
+    <Compile Include="Services\Interfaces\IWeatherService.cs" />
+    <Compile Include="Services\WeatherService.cs" />
+    <Compile Include="Utils\Utils.cs" />
+    <Compile Include="Utils\Constants.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -103,6 +108,7 @@
     <Folder Include="Configurations\" />
     <Folder Include="Pages\" />
     <Folder Include="PageModels\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

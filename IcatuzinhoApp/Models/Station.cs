@@ -1,7 +1,9 @@
 ﻿using System;
+using PropertyChanged;
 
 namespace IcatuzinhoApp
 {
+    [ImplementPropertyChanged]
     public class Station : EntityBase
     {
         public double Latitude { get; set; }
