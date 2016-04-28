@@ -42,5 +42,11 @@
 	<array>
 		<string>fontawesome-webfont.ttf</string>
 	</array>
+	<key>CFBundleName</key>
+	<string>IcatuzinhoApp</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Precisamos usar o seu GPS, ok ?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>New Entry</string>
 </dict>
 </plist>

@@ -1,8 +1,9 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
+using PropertyChanged;
 
 namespace IcatuzinhoApp
 {
+    [ImplementPropertyChanged]
     public class LoginPageModel : FreshMvvm.FreshBasePageModel
     {
         public string Email { get; set; }
@@ -16,18 +17,18 @@ namespace IcatuzinhoApp
             _userService = userService;
         }
 
-        public Command Signin
+        public Command Confirm
         {
             get
             {
-                return new Command(async () =>
-                {
-                    var page = new FreshMvvm.FreshTabbedNavigationContainer();
-                    page.AddTab<HomePageModel>("Home", "");
-                    page.AddTab<TravelPageModel>("Itinerário", "");
+                return new Command(() =>
+               {
+                   var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
+                   tabPage.AddTab<HomePageModel>("Home", "", null);
+                   tabPage.AddTab<TravelPageModel>("Itinerário", "", null);
 
-                    await CoreMethods.PushNewNavigationServiceModal(page, null);
-                });
+                   CoreMethods.SwitchOutRootNavigation("HomeContainer");
+               });
             }
         }
     }

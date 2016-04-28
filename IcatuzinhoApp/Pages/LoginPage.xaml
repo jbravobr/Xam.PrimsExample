@@ -38,7 +38,7 @@
 			<!-- FOOTER -->
 			<StackLayout HorizontalOptions="Fill" VerticalOptions="EndAndExpand" Padding="20" Grid.Row="2">
 				<Button Style="{DynamicResource PrimaryActionButtonStyle}"
-						Command = "{Binding Signin}"
+						Command="{Binding Confirm}"
 					    VerticalOptions="End" Text="Entrar" />
 			</StackLayout>
 		</Grid>

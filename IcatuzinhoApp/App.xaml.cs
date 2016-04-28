@@ -15,11 +15,7 @@ namespace IcatuzinhoApp
 
             IoCconfiguration.Init();
 
-            var page = new FreshMvvm.FreshTabbedNavigationContainer();
-            page.AddTab<HomePageModel>("Home", "");
-            page.AddTab<TravelPageModel>("Itinerário", "");
-
-            MainPage = page;
+            MainPage = GetMainPage();
             MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
         }
 
