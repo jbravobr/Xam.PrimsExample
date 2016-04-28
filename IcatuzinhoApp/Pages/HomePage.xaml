@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 x:Class="IcatuzinhoApp.HomePage">
-=======
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IcatuzinhoApp.HomePage" xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" >
->>>>>>> 0bd77db... * Info.plist: * App.xaml.cs: * IcatuzinhoApp.iOS.csproj: * HomePage.xaml: * IcatuzinhoApp.csproj: * TravelPage.xaml: * social_header_bg_0.jpg: * fontawesome-webfont.ttf: * TravelPage.xaml.cs: * TravelPageModel.cs: * Contents.json:
 	<ContentPage.Content>
 		<ScrollView>
 			<!--GRID WRAPPER-->
