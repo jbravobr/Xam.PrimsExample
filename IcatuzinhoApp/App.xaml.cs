@@ -6,7 +6,7 @@ using Xamarin.Forms.Xaml;
 
 namespace IcatuzinhoApp
 {
-    [XamlCompilation (XamlCompilationOptions.Skip)]
+    [XamlCompilation(XamlCompilationOptions.Skip)]
     public partial class App : Application
     {
         public App()
@@ -14,13 +14,18 @@ namespace IcatuzinhoApp
             InitializeComponent();
 
             IoCconfiguration.Init();
-            MainPage = GetMainPage();
-            MainPage.SetValue (NavigationPage.BarTextColorProperty, Color.White);
+
+            var page = new FreshMvvm.FreshTabbedNavigationContainer();
+            page.AddTab<HomePageModel>("Home", "");
+            page.AddTab<TravelPageModel>("Itinerário", "");
+
+            MainPage = page;
+            MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
         }
 
         public static Page GetMainPage()
         {
-            return FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
+            return FreshMvvm.FreshPageModelResolver.ResolvePageModel<LoginPageModel>();
         }
     }
 }

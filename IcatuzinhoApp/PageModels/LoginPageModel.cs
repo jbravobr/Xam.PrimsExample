@@ -9,18 +9,26 @@ namespace IcatuzinhoApp
 
         public string Password { get; set; }
 
-        public Command Signin { get; set; }
-
-        private IUserService _userService;
+        IUserService _userService;
 
         public LoginPageModel(IUserService userService)
         {
             _userService = userService;
+        }
 
-            Signin = new Command(async () =>
+        public Command Signin
+        {
+            get
+            {
+                return new Command(async () =>
                 {
-                    await CoreMethods.PushPageModel<HomePageModel>();
+                    var page = new FreshMvvm.FreshTabbedNavigationContainer();
+                    page.AddTab<HomePageModel>("Home", "");
+                    page.AddTab<TravelPageModel>("Itinerário", "");
+
+                    await CoreMethods.PushNewNavigationServiceModal(page, null);
                 });
+            }
         }
     }
 }

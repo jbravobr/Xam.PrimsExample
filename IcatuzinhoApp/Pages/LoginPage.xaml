@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IcatuzinhoApp.LoginPage" xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" BackgroundColor="White" BackgroundImage="{ StaticResource SignUpBackgroundImage }">
 	<ScrollView>
 		<!-- MAIN CONTAINER -->
@@ -37,7 +37,9 @@
 			</Grid>
 			<!-- FOOTER -->
 			<StackLayout HorizontalOptions="Fill" VerticalOptions="EndAndExpand" Padding="20" Grid.Row="2">
-				<Button Style="{DynamicResource PrimaryActionButtonStyle}" VerticalOptions="End" Text="Entrar" />
+				<Button Style="{DynamicResource PrimaryActionButtonStyle}"
+						Command = "{Binding Signin}"
+					    VerticalOptions="End" Text="Entrar" />
 			</StackLayout>
 		</Grid>
 	</ScrollView>
