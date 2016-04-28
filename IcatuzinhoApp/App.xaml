@@ -19,7 +19,8 @@
 
 			-->
 			<!-- Export AccentColor -->
-			<Color x:Key="AccentColor">#185e8a</Color>
+			<!--<Color x:Key="AccentColor">#185e8a</Color>-->
+			<Color x:Key="AccentColor">Black</Color>
 			<!-- Export InverseTextColor -->
 			<Color x:Key="InverseTextColor">White</Color>
 			<!-- STATIC IMAGES -->

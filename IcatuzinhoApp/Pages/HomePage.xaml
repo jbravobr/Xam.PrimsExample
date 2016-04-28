@@ -1,89 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IcatuzinhoApp.HomePage" xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" Title="Próxima partida" BackgroundColor="Black">
 	<ContentPage.Content>
-			<!--GRID WRAPPER-->
-			<Grid Padding="0">
-				<!--SOCIAL HEADER-->
-				<Grid Padding="0">
+		<Grid Padding="0">
 
-					<!-- BACKGROUND IMAGE -->
- 					<Image Source="{ StaticResource SocialHeaderBackgroundImage1 }" IsOpaque="false" Opacity="0.75" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+			<!-- BACKGROUND IMAGE -->
+			<Image Source="{ StaticResource SocialHeaderBackgroundImage1 }" IsOpaque="false" Opacity="0.75" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
 
-					<!-- TOOLBAR -->
-					<Grid VerticalOptions="StartAndExpand" Style="{StaticResource ToolbarStyle}" BackgroundColor="{StaticResource TranslucidBlack}" Padding="0">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
+			<!-- TOOLBAR -->
+			<Grid VerticalOptions="StartAndExpand" Style="{StaticResource ToolbarStyle}" BackgroundColor="{StaticResource TranslucidBlack}" Padding="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
 
-						<Label Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
-							<Label.FormattedText>
-								<FormattedString>
-									<FormattedString.Spans>
-										<Span Text="&#xf073; " FontSize="{StaticResource BaseFontSize}" ForegroundColor="{StaticResource InverseTextColor}" FontFamily="{x:Static artina:FontAwesome.FontName}" />
-										<Span Text="27/04" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" />
-									</FormattedString.Spans>
-								</FormattedString>
-							</Label.FormattedText>
-						</Label>
+				<Label Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="&#xf073; " FontSize="{StaticResource BaseFontSize}" ForegroundColor="{StaticResource InverseTextColor}" FontFamily="{x:Static artina:FontAwesome.FontName}" />
+								<Span Text="27/04" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
 
-						<Label Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" >
-							<Label.FormattedText>
-								<FormattedString>
-									<FormattedString.Spans>
-										<Span Text="&#xf183;  " FontSize="{StaticResource BaseFontSize}" ForegroundColor="{StaticResource InverseTextColor}" FontFamily="{x:Static artina:FontAwesome.FontName}" />
-										<Span Text="10" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" FontAttributes="Bold" />
-										<Span Text="/30" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" />
-									</FormattedString.Spans>
-								</FormattedString>
-							</Label.FormattedText>
-						</Label>
+				<Label Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" >
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="&#xf183;  " FontSize="{StaticResource BaseFontSize}" ForegroundColor="{StaticResource InverseTextColor}" FontFamily="{x:Static artina:FontAwesome.FontName}" />
+								<Span Text="10" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" FontAttributes="Bold" />
+								<Span Text="/30" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
 
-						<Label Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" >
-							<Label.FormattedText>
-								<FormattedString>
-									<FormattedString.Spans>
-										<Span Text="&#xf186;  " FontSize="{StaticResource BaseFontSize}" ForegroundColor="{StaticResource InverseTextColor}" FontFamily="{x:Static artina:FontAwesome.FontName}" />
-										<Span Text="17°" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" />
-									</FormattedString.Spans>
-								</FormattedString>
-							</Label.FormattedText>
-						</Label>
-					</Grid>
-
-					<Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="20, 0">
-
-						<Grid.RowDefinitions>
-							<RowDefinition Height="*" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						
-						<!-- TIME -->
-						<Label Grid.Row="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
-							<Label.FormattedText>
-								<FormattedString>
-									<FormattedString.Spans>
-										<Span Text="&#xf017; " FontSize="48" ForegroundColor="White" FontFamily="{x:Static artina:FontAwesome.FontName}" />
-										<Span Text="18:30" FontSize="48" ForegroundColor="White" FontAttributes="Bold" />
-									</FormattedString.Spans>
-								</FormattedString>
-							</Label.FormattedText>
-						</Label>
-
-						<!-- DESCRIPTION -->
-						<Label Grid.Row="1" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Fique atento! Esse é o horário em que as pessoas mais utilizam o ônibus." />
-						
-					</Grid>
-					
-
-					<!-- CHECK IN AND CHECK OUT BUTTON -->
-					<StackLayout HorizontalOptions="Fill" VerticalOptions="EndAndExpand" Padding="20">
-						<Button Style="{DynamicResource SecondaryActionButtonStyle}" VerticalOptions="End" Text="CHECK IN" />
-						<!--<Button Style="{DynamicResource TertiaryActionButtonStyle}" VerticalOptions="End" Text="CHECK OUT" />-->
-					</StackLayout>
-
-				</Grid>
+				<Label Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" >
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="&#xf186;  " FontSize="{StaticResource BaseFontSize}" ForegroundColor="{StaticResource InverseTextColor}" FontFamily="{x:Static artina:FontAwesome.FontName}" />
+								<Span Text="17°" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
 			</Grid>
+
+			<Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="20, 0">
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				
+				<!-- TIME -->
+				<Label Grid.Row="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="&#xf017; " FontSize="48" ForegroundColor="White" FontFamily="{x:Static artina:FontAwesome.FontName}" />
+								<Span Text="18:30" FontSize="48" ForegroundColor="White" FontAttributes="Bold" />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+
+				<!-- DESCRIPTION -->
+				<Label Grid.Row="1" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Fique atento! Esse é o horário em que as pessoas mais utilizam o ônibus." />
+				
+			</Grid>
+			
+
+			<!-- CHECK IN AND CHECK OUT BUTTON -->
+			<StackLayout HorizontalOptions="Fill" VerticalOptions="EndAndExpand" Padding="20">
+				<Button Style="{DynamicResource SecondaryActionButtonStyle}" VerticalOptions="End" Text="CHECK IN" />
+				<!--<Button Style="{DynamicResource TertiaryActionButtonStyle}" VerticalOptions="End" Text="CHECK OUT" />-->
+			</StackLayout>
+
+		</Grid>
 	</ContentPage.Content>
 </ContentPage>
