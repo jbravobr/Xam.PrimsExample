@@ -1,4 +1,4 @@
-﻿using Xamarin.Forms;
+using Xamarin.Forms;
 using PropertyChanged;
 
 namespace IcatuzinhoApp
@@ -24,8 +24,15 @@ namespace IcatuzinhoApp
                 return new Command(() =>
                {
                    var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-                   tabPage.AddTab<HomePageModel>("Home", "", null);
-                   tabPage.AddTab<TravelPageModel>("Itinerário", "", null);
+                   tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
+                   tabPage.AddTab<TravelPageModel>("Itinerário", "bus-full.png", null);
+
+                //return new Command(async () =>
+                //{
+                    //var page = new FreshMvvm.FreshTabbedNavigationContainer();
+
+					//page.AddTab<HomePageModel>("Home", "monkeyicon.png", null);
+                    //page.AddTab<TravelPageModel>("Itinerário", "", null);
 
                    CoreMethods.SwitchOutRootNavigation("HomeContainer");
                });

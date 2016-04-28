@@ -35,8 +35,8 @@
 			<FileImageSource x:Key="WalkthroughStepGenericPhoneBackgroundImage">walkthrough_generic_phone_bg</FileImageSource>
 			<FileImageSource x:Key="ThemeAvatarSample0Image">user_profile_0.jpg</FileImageSource>
 			<FileImageSource x:Key="ThemeAvatarSample1Image">user_profile_1.jpg</FileImageSource>
-			<FileImageSource x:Key="SocialHeaderBackgroundImage0">social_header_bg_0.jpg</FileImageSource>
-			<FileImageSource x:Key="SocialHeaderBackgroundImage1">social_header_bg_1.jpg</FileImageSource>
+			<FileImageSource x:Key="SocialHeaderBackgroundImage0">social_header_bg_0.png</FileImageSource>
+			<FileImageSource x:Key="SocialHeaderBackgroundImage1">social_header_bg_1.png</FileImageSource>
 			<!-- COLORS -->
 			<Color x:Key="BrandColor">#ad1457</Color>
 			<Color x:Key="BrandColorLight">#ec407a</Color>
@@ -50,6 +50,8 @@
 			<Color x:Key="TranslucidBlack">#44000000</Color>
 			<Color x:Key="TranslucidWhite">#22ffffff</Color>
 			<Color x:Key="ComplementGreen">#449d44</Color>
+			<Color x:Key="ComplementLightRed">#D9534F</Color>
+			<Color x:Key="ComplementRed">#D43F3A</Color>
 			<!-- INDICATOR COLORS -->
 			<Color x:Key="OkColor">#22c064</Color>
 			<Color x:Key="ErrorColor">Red</Color>
@@ -85,6 +87,10 @@
 			<x:String x:Key="AboutPageURL">http://www.uxdivers.com</x:String>
 			<x:String x:Key="AboutPageTitle">Made by UXDivers</x:String>
 			<!-- IMPLICIT STYLES -->
+			<Style TargetType="Image" x:Key="Home">
+				<Setter Property="Aspect" Value="AspectFill" />
+			</Style>
+			
 			<Style TargetType="Frame">
 				<Setter Property="OutlineColor" Value="{StaticResource BrandColor}" />
 			</Style>
@@ -224,6 +230,11 @@
 			</Style>
 			<Style x:Key="SecondaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource RoundedButtonStyle}">
 				<Setter Property="BackgroundColor" Value="{StaticResource ComplementGreen}" />
+				<Setter Property="TextColor" Value="{StaticResource LabelButtonColor}" />
+				<Setter Property="HeightRequest" Value="{StaticResource BaseButtonHeight}" />
+			</Style>
+			<Style x:Key="TertiaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource RoundedButtonStyle}">
+				<Setter Property="BackgroundColor" Value="{StaticResource ComplementRed}" />
 				<Setter Property="TextColor" Value="{StaticResource LabelButtonColor}" />
 				<Setter Property="HeightRequest" Value="{StaticResource BaseButtonHeight}" />
 			</Style>

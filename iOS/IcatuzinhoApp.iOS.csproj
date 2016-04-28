@@ -137,13 +137,23 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\logo.png" />
     <BundleResource Include="Resources\signup_bg.png" />
     <BundleResource Include="Resources\signup_bg%402x.png" />
-    <BundleResource Include="Resources\logo%402x.png" />
     <BundleResource Include="Resources\signup_bg%403x.png" />
-    <BundleResource Include="Resources\social_header_bg_0.jpg" />
     <BundleResource Include="Resources\fontawesome-webfont.ttf" />
+    <BundleResource Include="Resources\social_header_bg_0.png" />
+    <BundleResource Include="Resources\logo.png" />
+    <BundleResource Include="Resources\logo%402x.png" />
+    <BundleResource Include="Resources\monkeyicon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\social_header_bg_1.png" />
+    <BundleResource Include="Resources\bus-full.png" />
+    <BundleResource Include="Resources\house-full.png" />
+    <BundleResource Include="Resources\bus-full%402x.png" />
+    <BundleResource Include="Resources\bus-full%403x.png" />
+    <BundleResource Include="Resources\house-full%402x.png" />
+    <BundleResource Include="Resources\house-full%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />

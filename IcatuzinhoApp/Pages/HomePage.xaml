@@ -1,65 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IcatuzinhoApp.HomePage" xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" Title="Home" >
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IcatuzinhoApp.HomePage" xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" Title="Próxima partida" BackgroundColor="Black">
 	<ContentPage.Content>
-		<ScrollView>
 			<!--GRID WRAPPER-->
 			<Grid Padding="0">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-
 				<!--SOCIAL HEADER-->
-				<Grid Grid.Row="0" BackgroundColor="Black" Padding="0">
+				<Grid Padding="0">
 
 					<!-- BACKGROUND IMAGE -->
- 					<Image BackgroundColor="Black" Source="{ StaticResource SocialHeaderBackgroundImage0 }" IsOpaque="false" Opacity="0.75" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-
-					<StackLayout Orientation="Vertical" Spacing="20">
-
-						<Grid HorizontalOptions="Center" VerticalOptions="Center" TranslationY="25" Padding="0, 20, 0, 0">
-							<!-- AVATAR -->
-							<!--artina:CircleImage x:Name="avatar" Source="{ StaticResource ThemeAvatarSample0Image }" HeightRequest="100" WidthRequest="100" /-->
-
-							<Grid.RowDefinitions>
-								<RowDefinition Height="30" />
-								<RowDefinition Height="Auto" />
-							</Grid.RowDefinitions>
-
-							<Label Grid.Row="0" TextColor="White" HorizontalTextAlignment="Center" Text="Próxima partida" FontSize="18" FontAttributes="Bold" />
-
-							<Label Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
-								<Label.FormattedText>
-									<FormattedString>
-										<FormattedString.Spans>
-											<Span Text="&#xf017; " FontSize="48" ForegroundColor="White" FontFamily="{x:Static artina:FontAwesome.FontName}" />
-											<Span Text="18:30" FontSize="48" ForegroundColor="White" FontAttributes="Bold" />
-										</FormattedString.Spans>
-									</FormattedString>
-								</Label.FormattedText>
-							</Label>
-						</Grid>
-
-						<!-- USER NAME AND DESCRIPTION -->
-						<StackLayout Padding="20">
-							<Label TextColor="White" HorizontalTextAlignment="Center" Text="Fique atento! Esse é o horário que as pessoas mais utilizam o ônibus." />
-						</StackLayout>
-
-						<!-- CHECK IN AND CHECK OUT BUTTON -->
-						<StackLayout HorizontalOptions="Fill" VerticalOptions="End" Padding="20">
-							<Button Style="{DynamicResource SecondaryActionButtonStyle}" VerticalOptions="End" Text="CHECK IN" />
-						</StackLayout>
-
-					</StackLayout>
-
+ 					<Image Source="{ StaticResource SocialHeaderBackgroundImage1 }" IsOpaque="false" Opacity="0.75" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
 
 					<!-- TOOLBAR -->
-					<Grid VerticalOptions="EndAndExpand" Style="{StaticResource ToolbarStyle}" BackgroundColor="{StaticResource TranslucidBlack}" Padding="0">
+					<Grid VerticalOptions="StartAndExpand" Style="{StaticResource ToolbarStyle}" BackgroundColor="{StaticResource TranslucidBlack}" Padding="0">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
-<!--							<ColumnDefinition Width="*" />-->
 						</Grid.ColumnDefinitions>
 
 						<Label Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
@@ -78,7 +33,8 @@
 								<FormattedString>
 									<FormattedString.Spans>
 										<Span Text="&#xf183;  " FontSize="{StaticResource BaseFontSize}" ForegroundColor="{StaticResource InverseTextColor}" FontFamily="{x:Static artina:FontAwesome.FontName}" />
-										<Span Text="10/30" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" />
+										<Span Text="10" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" FontAttributes="Bold" />
+										<Span Text="/30" FontSize="{StaticResource BaseFontSize}" ForegroundColor="White" />
 									</FormattedString.Spans>
 								</FormattedString>
 							</Label.FormattedText>
@@ -94,22 +50,40 @@
 								</FormattedString>
 							</Label.FormattedText>
 						</Label>
+					</Grid>
 
-<!--						<Label Grid.Column="3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+					<Grid HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="20, 0">
+
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						
+						<!-- TIME -->
+						<Label Grid.Row="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
 							<Label.FormattedText>
 								<FormattedString>
 									<FormattedString.Spans>
-										<Span Text="&#xf017; " FontSize="{StaticResource BaseFontSize}" ForegroundColor="{StaticResource AccentColor}" FontFamily="{x:Static artina:FontAwesome.FontName}" />
-										<Span Text="17°" FontSize="{StaticResource BaseFontSize}"  ForegroundColor="White" />
+										<Span Text="&#xf017; " FontSize="48" ForegroundColor="White" FontFamily="{x:Static artina:FontAwesome.FontName}" />
+										<Span Text="18:30" FontSize="48" ForegroundColor="White" FontAttributes="Bold" />
 									</FormattedString.Spans>
 								</FormattedString>
 							</Label.FormattedText>
-						</Label>-->
+						</Label>
+
+						<!-- DESCRIPTION -->
+						<Label Grid.Row="1" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Fique atento! Esse é o horário em que as pessoas mais utilizam o ônibus." />
+						
 					</Grid>
+					
+
+					<!-- CHECK IN AND CHECK OUT BUTTON -->
+					<StackLayout HorizontalOptions="Fill" VerticalOptions="EndAndExpand" Padding="20">
+						<Button Style="{DynamicResource SecondaryActionButtonStyle}" VerticalOptions="End" Text="CHECK IN" />
+						<!--<Button Style="{DynamicResource TertiaryActionButtonStyle}" VerticalOptions="End" Text="CHECK OUT" />-->
+					</StackLayout>
 
 				</Grid>
 			</Grid>
-
-		</ScrollView>
 	</ContentPage.Content>
 </ContentPage>

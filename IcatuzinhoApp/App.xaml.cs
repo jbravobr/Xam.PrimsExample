@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
@@ -16,6 +16,13 @@ namespace IcatuzinhoApp
             IoCconfiguration.Init();
 
             MainPage = GetMainPage();
+
+            var page = new FreshMvvm.FreshTabbedNavigationContainer();
+            page.AddTab<HomePageModel>("Home", "monkeyicon.png", null);
+            page.AddTab<TravelPageModel>("Itinerário", "monkeyicon.png", null);
+
+            //MainPage = page;
+
             MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
         }
 
@@ -25,4 +32,3 @@ namespace IcatuzinhoApp
         }
     }
 }
-
