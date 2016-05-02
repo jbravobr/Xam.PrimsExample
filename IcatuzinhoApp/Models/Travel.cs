@@ -8,17 +8,22 @@ namespace IcatuzinhoApp
     [ImplementPropertyChanged]
     public class Travel : EntityBase
     {
-        [OneToMany(CascadeOperations = CascadeOperation.CascadeInsert | CascadeOperation.CascadeRead)]
-        public List<Schedule> Schedule { get; set; }
+        [OneToOne(CascadeOperations = CascadeOperation.CascadeInsert | CascadeOperation.CascadeRead)]
+        public Schedule Schedule { get; set; }
 
-        [OneToOne]
+        [ForeignKey(typeof(Schedule))]
+        public int ScheduleId { get; set; }
+
+        [OneToOne(CascadeOperations = CascadeOperation.CascadeInsert | CascadeOperation.CascadeRead)]
         public Driver Driver { get; set; }
 
+        [ForeignKey(typeof(Driver))]
         public int DriverId { get; set; }
 
-        [OneToOne]
+        [OneToOne(CascadeOperations = CascadeOperation.CascadeInsert | CascadeOperation.CascadeRead)]
         public Vehicle Vehicle { get; set; }
 
+        [ForeignKey(typeof(Vehicle))]
         public int VehicleId { get; set; }
     }
 }

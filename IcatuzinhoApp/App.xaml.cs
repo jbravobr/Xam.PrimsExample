@@ -1,22 +1,32 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin;
 
 namespace IcatuzinhoApp
 {
-    [XamlCompilation(XamlCompilationOptions.Skip)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class App : Application
     {
+        public static User UserAuthenticated { get; set; }
+
         public App()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
 
-            IoCconfiguration.Init();
+                IoCconfiguration.Init();
 
-            MainPage = GetMainPage();
-            MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
+                MainPage = GetMainPage();
+                MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
+            }
+            catch (Exception ex)
+            {
+                new LogExceptionService().SubmitToInsights(ex);
+            }
         }
 
         public static Page GetMainPage()
@@ -25,4 +35,3 @@ namespace IcatuzinhoApp
         }
     }
 }
-

@@ -15,6 +15,25 @@ namespace IcatuzinhoApp
             _httpService = httpService;
         }
 
+        public async Task<bool> GetAuthenticatedUser()
+        {
+            var resultDB = false;
+
+            try
+            {
+                var user = await base.GetAsync();
+
+                if (user != null)
+                    resultDB = await Task.FromResult(true);
+            }
+            catch (Exception ex)
+            {
+                new LogExceptionService().SubmitToInsights(ex);
+            }
+
+            return await Task.FromResult(resultDB);
+        }
+
         public async Task<bool> Login(string email, string password)
         {
             var resultDB = false;
@@ -43,6 +62,8 @@ namespace IcatuzinhoApp
 
             return resultDB;
         }
+
+
     }
 }
 

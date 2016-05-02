@@ -59,7 +59,7 @@ namespace IcatuzinhoApp
             if (predicate != null && predicate.Parameters.Count > 0)
             {
                 InitiateRepository();
-                return await this.repository.GetAsync(predicate);
+                return await this.repository.GetWithChildrenAsync(predicate);
             }
 
             return null;
@@ -129,6 +129,33 @@ namespace IcatuzinhoApp
         {
             if (this.repository == null)
                 this.repository = new BaseRepository<T>();
+        }
+
+        /// <summary>
+        /// Retorna uma entidade
+        /// </summary>
+        public async Task<T> GetAsync()
+        {
+            InitiateRepository();
+            return await this.repository.GetAllAsync();
+        }
+
+        /// <summary>
+        /// Retorna uma entidade e seus filhos.
+        /// </summary>
+        public async Task<T> GetWithChildrenAsync(Expression<Func<T, bool>> predicate)
+        {
+            InitiateRepository();
+            return await this.repository.GetWithChildrenAsync(predicate);
+        }
+
+        /// <summary>
+        /// Retorna uma entidade só.
+        /// </summary>
+        public async Task<T> GetAllAsync()
+        {
+            InitiateRepository();
+            return await this.repository.GetAllAsync();
         }
 
         #endregion

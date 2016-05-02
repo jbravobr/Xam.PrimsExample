@@ -127,11 +127,29 @@ namespace IcatuzinhoApp
             }
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>> expr)
+        public async Task<T> GetWithChildrenAsync(Expression<Func<T, bool>> expr)
         {
             try
             {
-                return await this.conn.GetAsync(expr);
+                return await this.conn.GetWithChildrenAsync<T>(expr);
+
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+            catch (Exception ex)
+            {
+                new LogExceptionService().SubmitToInsights(ex);
+                return null;
+            }
+        }
+
+        public async Task<T> GetAllAsync()
+        {
+            try
+            {
+                return await this.conn.Table<T>().FirstOrDefaultAsync();
 
             }
             catch (InvalidOperationException)

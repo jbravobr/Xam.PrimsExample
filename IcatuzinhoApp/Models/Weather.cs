@@ -9,6 +9,8 @@ namespace IcatuzinhoApp
         public string Temp { get; set; }
 
         public string WeatherDesc { get; set; }
+
+        public string Ico { get; set; }
     }
 }
 

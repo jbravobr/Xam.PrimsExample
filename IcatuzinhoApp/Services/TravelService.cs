@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace IcatuzinhoApp
 {
@@ -14,12 +15,12 @@ namespace IcatuzinhoApp
             _httpService = httpService;
         }
 
-        public async Task GetTravelById(int travelId)
+        public async Task GetTravelByScheduleId(int scheduleId)
         {
             try
             {
                 var clientCaller = _httpService.Init();
-                var data = await clientCaller.GetAsync($"{Constants.TravelServiceAddress}{travelId}");
+                var data = await clientCaller.GetAsync($"{Constants.TravelServiceAddress}{scheduleId}");
 
                 if (data != null && data.IsSuccessStatusCode)
                 {
@@ -82,6 +83,30 @@ namespace IcatuzinhoApp
             {
                 new LogExceptionService().SubmitToInsights(ex);
                 return await Task.FromResult(false);
+            }
+        }
+
+        public async Task<int> GetAvailableSeats(int travelId)
+        {
+            try
+            {
+                var clientCaller = _httpService.Init();
+                var data = await clientCaller.GetAsync($"{Constants.TravelServiceAvailableSeats}{travelId}");
+
+                if (data != null && data.IsSuccessStatusCode)
+                {
+                    var stringJson = await data.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<int>(stringJson);
+
+                    return result;
+                }
+
+                return await Task.FromResult(0);
+            }
+            catch (Exception ex)
+            {
+                new LogExceptionService().SubmitToInsights(ex);
+                return await Task.FromResult(0);
             }
         }
     }

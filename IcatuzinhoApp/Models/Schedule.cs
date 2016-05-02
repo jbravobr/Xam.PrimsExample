@@ -9,8 +9,7 @@ namespace IcatuzinhoApp
     {
         public DateTime StartSchedule { get; set; }
 
-        [ForeignKey(typeof(Travel))]
-        public int TravelId { get; set; }
+        public string Message { get; set; }
     }
 }
 

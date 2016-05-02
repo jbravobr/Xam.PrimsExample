@@ -1,4 +1,5 @@
 ﻿using System;
+using Acr.UserDialogs;
 
 namespace IcatuzinhoApp
 {
@@ -19,6 +20,9 @@ namespace IcatuzinhoApp
             FreshMvvm.FreshIOC.Container.Register<IUserService, UserService>();
             FreshMvvm.FreshIOC.Container.Register<IVehicleService, VehicleService>();
             FreshMvvm.FreshIOC.Container.Register<IWeatherService, WeatherService>();
+
+            //3rd Party Controlls
+            FreshMvvm.FreshIOC.Container.Register<IUserDialogs>(UserDialogs.Instance);
         }
     }
 }

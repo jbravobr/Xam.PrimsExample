@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Plugin.Toasts;
 using UIKit;
+using Xamarin.Forms;
 
 namespace IcatuzinhoApp.iOS
 {
@@ -14,8 +16,11 @@ namespace IcatuzinhoApp.iOS
         {
             Xamarin.FormsMaps.Init();
             Xamarin.Insights.Initialize("af422595c1a35c1ad1a77863b9852f80f7d7542c");
-            global::Xamarin.Forms.Forms.Init();
 
+            DependencyService.Register<ToastNotificatorImplementation>();
+            ToastNotificatorImplementation.Init();
+
+            global::Xamarin.Forms.Forms.Init();
 
             // Code for starting up the Xamarin Test Cloud Agent
 #if ENABLE_TEST_CLOUD
