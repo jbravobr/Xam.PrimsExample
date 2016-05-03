@@ -29,17 +29,21 @@ namespace IcatuzinhoApp
 
         readonly ITravelService _travelService;
 
+        readonly IWeatherService _weatherService;
+
         //IUserDialogs _userDialogs;
 
         public LoginPageModel(IUserService userService,
                               IScheduleService scheduleService,
                               IStationService stationService,
-                              ITravelService travelService)
+                              ITravelService travelService,
+                              IWeatherService weatherService)
         {
             _userService = userService;
             _scheduleService = scheduleService;
             _stationService = stationService;
             _travelService = travelService;
+            _weatherService = weatherService;
             //_userDialogs = userDialogs;
 
             EmailError = false;
@@ -52,7 +56,9 @@ namespace IcatuzinhoApp
 
             if (await GetAuthenticatedUser())
             {
-                await RegisterLocalAuthenticatedUser();
+                await _weatherService.GetWeather();
+
+                RegisterLocalAuthenticatedUser();
 
                 var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
                 tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
@@ -104,12 +110,13 @@ namespace IcatuzinhoApp
                                await _stationService.GetAllStations();
                                await _scheduleService.GetAllSchedules();
                                await InsertTravels();
+                               await _weatherService.GetWeather();
 
                                var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
                                tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
                                tabPage.AddTab<TravelPageModel>("Itinerário", "bus-full.png", null);
 
-                               await RegisterLocalAuthenticatedUser();
+                               RegisterLocalAuthenticatedUser();
 
                                CoreMethods.SwitchOutRootNavigation("HomeContainer");
                            }
@@ -129,26 +136,24 @@ namespace IcatuzinhoApp
             }
         }
 
-        public async Task RegisterLocalAuthenticatedUser()
+        public void RegisterLocalAuthenticatedUser()
         {
-            var user = await _userService.GetAllAsync();
+            var user = _userService.GetAll();
 
-            if (user != null)
-                App.UserAuthenticated = user;
+            if (user != null && user.Any())
+                App.UserAuthenticated = user.FirstOrDefault();
         }
 
         public async Task InsertTravels()
         {
-            var schedules = await _scheduleService.GetAllWithChildrenAsync();
+            var schedules = _scheduleService.GetAllWithChildren();
 
             if (schedules != null && schedules.Any())
             {
                 foreach (var schedule in schedules)
                 {
                     if (schedule != null)
-                    {
                         await _travelService.GetTravelByScheduleId(schedule.Id);
-                    }
                 }
             }
         }

@@ -26,12 +26,15 @@ namespace IcatuzinhoApp
 
         public bool isCheckOut { get; set; }
 
+        public string WeatherFontAwesome { get; set; }
+
         const string ZeroHours = "00";
+
         const string Minutes = "00";
 
         Travel _travel { get; set; }
 
-        Weather _weather { get; set; }
+        public Weather _weather { get; set; }
 
         readonly ITravelService _travelService;
 
@@ -53,28 +56,32 @@ namespace IcatuzinhoApp
         {
             base.Init(initData);
 
-            //_userDialogs.ShowLoading();
+            _userDialogs.ShowLoading();
 
-            _travel = await GetNextTravel();
-
-            if (_travel != null)
+            try
             {
-                SeatsAvailable = _travel.Vehicle.SeatsAvailable.ToString();
-                SeatsTotal = _travel.Vehicle.SeatsTotal.ToString();
-                Description = _travel.Schedule.Message;
+                _travel = GetNextTravel();
 
-                var _hours = _travel.Schedule.StartSchedule.Hour == 0 ? ZeroHours : _travel.Schedule.StartSchedule.Hour.ToString();
-                var _minutes = _travel.Schedule.StartSchedule.Minute == 0 ? Minutes : _travel.Schedule.StartSchedule.Minute.ToString();
+                if (_travel != null)
+                {
+                    SeatsAvailable = _travel.Vehicle.SeatsAvailable.ToString();
+                    SeatsTotal = _travel.Vehicle.SeatsTotal.ToString();
+                    Description = _travel.Schedule.Message;
 
-                Time = $"{_hours}:{_minutes}";
+                    var _hours = _travel.Schedule.StartSchedule.Hour == 0 ? ZeroHours : _travel.Schedule.StartSchedule.Hour.ToString();
+                    var _minutes = _travel.Schedule.StartSchedule.Minute == 0 ? Minutes : _travel.Schedule.StartSchedule.Minute.ToString();
 
-                var weather = await GetWeather();
-                Temp = weather.Temp;
+                    Time = $"{_hours}:{_minutes}";
 
-                //_userDialogs.HideLoading();
+                    _userDialogs.HideLoading();
+                }
+                else
+                    await _userDialogs.AlertAsync("Houve um erro na aplicação", "Erro", "OK");
             }
-            else
-                await _userDialogs.AlertAsync("Houve um erro na aplicação", "Erro", "OK");
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Command CheckIn
@@ -125,11 +132,11 @@ namespace IcatuzinhoApp
                 SeatsAvailable = result.ToString();
         }
 
-        public async Task<Travel> GetNextTravel()
+        public Travel GetNextTravel()
         {
             //Expression<Func<Travel, bool>> bySchedule = (x) => x.Schedule.StartSchedule <= DateTime.Now;
             //var travel = await _travelService.GetWithChildrenAsync(bySchedule);
-            var travel = await _travelService.GetWithChildrenByIdAsync(1);
+            var travel = _travelService.GetWithChildrenById(1);
 
             if (travel != null)
                 return travel;
@@ -137,90 +144,58 @@ namespace IcatuzinhoApp
             return null;
         }
 
-        public async Task<Weather> GetWeather()
+        public void GetWeather()
         {
-            var weather = await _weatherService.GetWeather();
-
-            if (weather != null)
-                return weather;
-
-            return null;
+            _weather = new Weather
+            {
+                Ico = $"\uf185 ",
+                Temp = "20"
+            };
         }
 
-        public FormattedString CustomFormattedTextCurrentDate
+        #region Label Text
+
+        public string GetCurrentDate
         {
             get
             {
-                return new FormattedString
-                {
-                    Spans = {
-                                new Span { Text = "\uf073 ", FontFamily = FontAwesome.FontName, FontSize = 16, ForegroundColor = Color.White },
-                                new Span { Text = CurrentDate, FontFamily = FontAwesome.FontName, FontSize = 16, ForegroundColor = Color.White}
-                            }
-                };
+                return $"\uf073 {CurrentDate}";
             }
         }
 
-        public FormattedString CustomFormattedTextSeats
+        public string GetSeats
         {
             get
             {
-                return new FormattedString
-                {
-                    Spans = {
-                                new Span { Text = "\uf183 ", FontFamily = FontAwesome.FontName, FontSize = 16, ForegroundColor = Color.White },
-                                new Span { Text = SeatsAvailable, FontAttributes=FontAttributes.Bold, FontFamily = FontAwesome.FontName, FontSize = 16, ForegroundColor = Color.White},
-                                new Span { Text = "/", ForegroundColor = Color.White },
-                                new Span { Text = SeatsTotal, ForegroundColor = Color.White, FontSize = 16 }
-                            }
-                };
+                return $"\uf183 {SeatsAvailable}/{SeatsTotal}";
             }
         }
 
-        public FormattedString CustomFormattedTemp
+        public string GetTemp
         {
             get
             {
-                return new FormattedString
-                {
-                    Spans = {
-                                new Span { Text = SetFontAwesomeForTemp(), FontFamily = FontAwesome.FontName, FontSize = 16, ForegroundColor = Color.White },
-                                new Span { Text = Temp, ForegroundColor = Color.White, FontSize = 16 },
-                                new Span { Text = "º", ForegroundColor=Color.White, FontSize=16 }
-                            }
-                };
+                return $"\uf185 17º";
             }
         }
 
-        public FormattedString CustomFormattedTextTime
+        public string GetTime
         {
             get
             {
-                return new FormattedString
-                {
-                    Spans = {
-                                new Span { Text = "\uf017 ", FontFamily = FontAwesome.FontName, FontSize = 48, ForegroundColor = Color.White },
-                                new Span { Text = Time, FontAttributes=FontAttributes.Bold, FontSize = 48, ForegroundColor = Color.White},
-                            }
-                };
+                return $"\uf017 {Time}";
             }
         }
+
+        #endregion
 
         string SetFontAwesomeForTemp()
         {
-            Task<Weather> weather = Task.Run(async () =>
-            {
-                var w = await GetWeather();
-                return w;
-            });
-
-            var tempDesc = weather.Result.Ico;
-
-            if (tempDesc.Contains("rain") || tempDesc.Contains("thunder"))
+            if (_weather.Ico.Contains("rain") || _weather.Ico.Contains("thunder"))
                 return $"\uf0e9 ";
-            else if (tempDesc.Contains("cloudy"))
+            else if (_weather.Ico.Contains("cloudy"))
                 return $"\uf073 ";
-            else if (tempDesc.Contains("sunny"))
+            else if (_weather.Ico.Contains("sunny"))
                 return $"\uf185 ";
             else
                 return $"\uf186 ";

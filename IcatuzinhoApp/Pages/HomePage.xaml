@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IcatuzinhoApp.HomePage" xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" Title="Próxima partida" BackgroundColor="Black">
+<ContentPage 
+		xmlns="http://xamarin.com/schemas/2014/forms" 
+		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+		x:Class="IcatuzinhoApp.HomePage" 
+		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
+		Title="Próxima partida" 
+		BackgroundColor="Black">
+	
 	<ContentPage.Content>
 		<Grid Padding="0">
 
 			<!-- BACKGROUND IMAGE -->
-			<Image Source="{ StaticResource SocialHeaderBackgroundImage1 }" IsOpaque="false" Opacity="0.75" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+			<Image Source="{ StaticResource SocialHeaderBackgroundImage1 }" 
+				IsOpaque="false" 
+				Opacity="0.75" 
+				Aspect="AspectFill" 
+				HorizontalOptions="FillAndExpand" 
+				VerticalOptions="FillAndExpand" />
 
 			<!-- TOOLBAR -->
 			<Grid VerticalOptions="StartAndExpand" Style="{StaticResource ToolbarStyle}" BackgroundColor="{StaticResource TranslucidBlack}" Padding="0">
@@ -14,13 +26,31 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 
-				<Label FormattedText="{Binding CustomFormattedTextCurrentDate}" Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+				<Label Text="{Binding GetCurrentDate}" 
+						Grid.Column="0" 
+						HorizontalTextAlignment="Center" 
+						VerticalTextAlignment="Center"
+						FontSize="16"                  
+						FontFamily="{x:Static artina:FontAwesome.FontName}"
+						TextColor="White">
 				</Label>
 
-				<Label FormattedText="{Binding CustomFormattedTextSeats}" Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" >
+				<Label Text="{Binding GetSeats}" 
+						Grid.Column="1" 
+						HorizontalTextAlignment="Center" 
+						VerticalTextAlignment="Center"
+						FontSize="16"                  
+                        FontFamily="{x:Static artina:FontAwesome.FontName}"
+						TextColor="White">
 				</Label>
 
-				<Label FormattedText="{Binding CustomFormattedTemp}" Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" >
+				<Label Text="{Binding GetTemp}" 
+						Grid.Column="2" 
+						HorizontalTextAlignment="Center" 
+						VerticalTextAlignment="Center"
+						FontSize="16"                  
+                        FontFamily="{x:Static artina:FontAwesome.FontName}"
+						TextColor="White">
 				</Label>
 			</Grid>
 
@@ -32,22 +62,46 @@
 				</Grid.RowDefinitions>
 				
 				<!-- TIME -->
-				<Label FormattedText="{Binding CustomFormattedTextTime}" Grid.Row="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+				<Label Text="{Binding GetTime}" 
+						Grid.Row="0" 
+						HorizontalTextAlignment="Center" 
+						VerticalTextAlignment="Center"
+						FontSize="48"                  
+                        FontFamily="{x:Static artina:FontAwesome.FontName}"
+						TextColor="White">
 				</Label>
 
 				<!-- DESCRIPTION -->
-				<Label Grid.Row="1" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-					Text="{Binding Description}" />
+				<Label Grid.Row="1" 
+						TextColor="White" 
+						HorizontalTextAlignment="Center" 
+						VerticalTextAlignment="Center"
+					    Text="{Binding Description}" 
+						FontSize="16">
+				</Label>
 				
 			</Grid>
 			
 
 			<!-- CHECK IN AND CHECK OUT BUTTON -->
-			<StackLayout HorizontalOptions="Fill" VerticalOptions="EndAndExpand" Padding="20">
-				<Button Style="{DynamicResource SecondaryActionButtonStyle}" Command="{Binding CheckIn}" IsVisible="{Binding isCheckIn}" VerticalOptions="End" Text="CHECK IN" />
-				<Button Style="{DynamicResource TertiaryActionButtonStyle}" Command="{Binding CheckOut}" IsVisible="{Binding isCheckOut}" VerticalOptions="End" Text="CHECK OUT" />
+			<StackLayout HorizontalOptions="Fill" 
+					VerticalOptions="EndAndExpand" 
+					Padding="20">
+
+				<Button Style="{DynamicResource SecondaryActionButtonStyle}" 
+					Command="{Binding CheckIn}" 
+					IsVisible="{Binding isCheckIn}" 
+					VerticalOptions="End" 
+					Text="CHECK IN" />
+				
+				<Button Style="{DynamicResource TertiaryActionButtonStyle}" 
+					Command="{Binding CheckOut}" 
+					IsVisible="{Binding isCheckOut}" 
+					VerticalOptions="End" 
+					Text="CHECK OUT" />
 			</StackLayout>
 
 		</Grid>
+		
 	</ContentPage.Content>
 </ContentPage>

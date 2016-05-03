@@ -13,10 +13,9 @@ namespace IcatuzinhoApp
     {
         double _latitude = -22.9101457;
         double _longitude = -43.1707052;
-        List<Station> Stations;
+        List<Station> _stations;
 
-
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
 
@@ -25,18 +24,18 @@ namespace IcatuzinhoApp
 
             if (_stationService != null)
             {
-                Stations = await _stationService.GetAllWithChildrenAsync();
+                _stations = _stationService.GetAllWithChildren();
 
                 _userDialogsService.ShowLoading();
 
-                if (Stations != null && Stations.Any())
+                if (_stations != null && _stations.Any())
                 {
-                    foreach (var station in Stations)
+                    foreach (var s in _stations)
                     {
                         var p = new Pin
                         {
-                            Label = station.Name,
-                            Position = new Position(station.Latitude, station.Longitude),
+                            Label = s.Name,
+                            Position = new Position(s.Latitude, s.Longitude),
                             Type = PinType.SearchResult
                         };
 
@@ -45,7 +44,7 @@ namespace IcatuzinhoApp
                 }
 
                 MapaTravel.MoveToRegion(MapSpan.FromCenterAndRadius(
-                    new Position(Stations.First().Latitude, Stations.First().Longitude), Distance.FromMeters(1000)));
+                    new Position(_stations.First().Latitude, _stations.First().Longitude), Distance.FromMeters(1000)));
 
                 _userDialogsService.HideLoading();
             }

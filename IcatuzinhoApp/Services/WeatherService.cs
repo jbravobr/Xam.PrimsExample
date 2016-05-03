@@ -13,7 +13,7 @@ namespace IcatuzinhoApp
             _httpService = httpService;
         }
 
-        public async Task<Weather> GetWeather()
+        public async Task GetWeather()
         {
             try
             {
@@ -26,15 +26,12 @@ namespace IcatuzinhoApp
                     var weather = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (weather != null)
-                        return weather;
+                        InsertOrReplaceWithChildren(weather);
                 }
-
-                return null;
             }
             catch (Exception ex)
             {
                 new LogExceptionService().SubmitToInsights(ex);
-                return null;
             }
         }
     }

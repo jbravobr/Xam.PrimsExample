@@ -10,11 +10,7 @@ namespace IcatuzinhoApp.iOS
 {
     public class SQLite_iOS : ISQLite
     {
-        public SQLite_iOS()
-        {
-        }
-
-        public SQLiteAsyncConnection GetConnection()
+        public SQLiteConnection GetConnection()
         {
             var sqliteFilename = "Icatuzinho.db3";
             string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal); // Documents folder
@@ -23,8 +19,7 @@ namespace IcatuzinhoApp.iOS
 
             // Create the connection
             var plat = new SQLite.Net.Platform.XamarinIOS.SQLitePlatformIOS();
-            var param = new SQLite.Net.SQLiteConnectionString(path, false);
-            var conn = new SQLite.Net.Async.SQLiteAsyncConnection(() => new SQLiteConnectionWithLock(plat, param));
+            var conn = new SQLite.Net.SQLiteConnection(plat, path);
 
 
             return conn;

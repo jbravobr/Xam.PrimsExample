@@ -7,25 +7,17 @@ namespace IcatuzinhoApp
 {
     public interface IBaseRepository<T>
     {
-        Task<bool> InsertOrReplaceAllWithChildrenAsync(IList<T> list);
-
-        Task<bool> DeleteAsync(T entidade);
-
-        Task<List<T>> GetAllWithChildrenAsync(Expression<Func<T, bool>> predicate);
-
-        Task<T> GetWithChildrenAsync(Expression<Func<T, bool>> predicate);
-
-        Task<List<T>> GetAllWithChildrenAsync();
-
-        Task<T> GetWithChildrenByIdAsync(int pkId);
-
-        Task<bool> UpdateWithChildrenAsync(T entity);
-
-        Task<bool> Any();
-
-        Task<bool> InsertOrReplaceWithChildrenAsync(T entity);
-
-        Task<T> GetAllAsync();
+        bool InsertOrReplaceWithChildren(T entity);
+        bool InsertOrReplaceAllWithChildren(List<T> list);
+        bool Delete(T entity);
+        List<T> GetAllWithChildren(Expression<Func<T, bool>> predicate);
+        T GetWithChildren(Expression<Func<T, bool>> predicate);
+        List<T> GetAll();
+        T Get();
+        T GetWithChildrenById(int pkId);
+        List<T> GetAllWithChildren();
+        bool UpdateWithChildren(T entity);
+        bool Any();
     }
 }
 

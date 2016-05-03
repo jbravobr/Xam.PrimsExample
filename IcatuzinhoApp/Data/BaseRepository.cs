@@ -1,43 +1,43 @@
 ﻿using System;
-using System.Threading.Tasks;
-using SQLite.Net.Async;
 using Xamarin.Forms;
-using SQLiteNetExtensionsAsync.Extensions;
+using SQLiteNetExtensions.Extensions;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using SQLite.Net;
+using System.Linq;
 
 namespace IcatuzinhoApp
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
     {
-        readonly SQLiteAsyncConnection conn;
-        readonly AsyncLock Mutex = new AsyncLock();
+        readonly SQLiteConnection conn;
+        object _lock = new object();
 
         public BaseRepository()
         {
             this.conn = DependencyService.Get<ISQLite>().GetConnection();
-            CreateDataBase().ConfigureAwait(false);
+            CreateDataBase();
         }
 
         /// <summary>
         /// Criação da base
         /// </summary>
-        private async Task CreateDataBase()
+        void CreateDataBase()
         {
             try
             {
-                using (await Mutex.LockAsync().ConfigureAwait(false))
+                lock (_lock)
                 {
-                    await conn.CreateTableAsync<AuthenticationCode>();
-                    await conn.CreateTableAsync<Driver>();
-                    await conn.CreateTableAsync<LogException>();
-                    await conn.CreateTableAsync<Schedule>();
-                    await conn.CreateTableAsync<Station>();
-                    await conn.CreateTableAsync<Transaction>();
-                    await conn.CreateTableAsync<Travel>();
-                    await conn.CreateTableAsync<User>();
-                    await conn.CreateTableAsync<Vehicle>();
-                    await conn.CreateTableAsync<Weather>();
+                    conn.CreateTable<AuthenticationCode>();
+                    conn.CreateTable<Driver>();
+                    conn.CreateTable<LogException>();
+                    conn.CreateTable<Schedule>();
+                    conn.CreateTable<Station>();
+                    conn.CreateTable<Transaction>();
+                    conn.CreateTable<Travel>();
+                    conn.CreateTable<User>();
+                    conn.CreateTable<Vehicle>();
+                    conn.CreateTable<Weather>();
                 }
             }
             catch (Exception ex)
@@ -47,42 +47,42 @@ namespace IcatuzinhoApp
         }
 
         /// <summary>
-        /// Insere ou atualiza entidades existente e seus filhos.
+        /// Insere ou atualiza uma entidade existente e seus filhos.
         /// </summary>
-        public async Task<bool> InsertOrReplaceWithChildrenAsync(T entity)
+        public bool InsertOrReplaceWithChildren(T entity)
         {
-            using (await Mutex.LockAsync().ConfigureAwait(false))
+            lock (_lock)
             {
                 try
                 {
-                    await this.conn.InsertOrReplaceWithChildrenAsync(entity, recursive: true);
-                    return await Task.FromResult<bool>(true);
+                    conn.InsertOrReplaceWithChildren(entity, recursive: true);
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     new LogExceptionService().SubmitToInsights(ex);
-                    return await Task.FromResult<bool>(false);
+                    return false;
                 }
             }
         }
 
         /// <summary>
-        /// Insere uma nova coleção da entidade T no Banco de Dados.
+        /// Insere uma nova coleção da entidade e seus filhos T no Banco de Dados.
         /// </summary>
-        public async Task<bool> InsertOrReplaceAllWithChildrenAsync(IList<T> list)
+        public bool InsertOrReplaceAllWithChildren(List<T> list)
         {
-            using (await Mutex.LockAsync().ConfigureAwait(false))
+            lock (_lock)
             {
 
                 try
                 {
-                    await this.conn.InsertOrReplaceAllWithChildrenAsync(list, recursive: true);
-                    return await Task.FromResult<bool>(true);
+                    conn.InsertOrReplaceAllWithChildren(list, recursive: true);
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     new LogExceptionService().SubmitToInsights(ex);
-                    return await Task.FromResult<bool>(false);
+                    return false;
                 }
             }
         }
@@ -90,34 +90,34 @@ namespace IcatuzinhoApp
         /// <summary>
         /// Delete uma determinada entidade T do Banco de Dados
         /// </summary>
-        public async Task<bool> DeleteAsync(T entity)
+        public bool Delete(T entity)
         {
             try
             {
-                using (await Mutex.LockAsync().ConfigureAwait(false))
+                lock (_lock)
                 {
-                    await this.conn.DeleteAsync(entity, recursive: false);
-                    return await Task.FromResult(true);
+                    conn.Delete(entity, recursive: false);
+                    return true;
                 }
             }
             catch (Exception ex)
             {
                 new LogExceptionService().SubmitToInsights(ex);
-                return await Task.FromResult(false);
+                return false;
 
             }
         }
 
         /// <summary>
-        /// Retorna uma coleção de Entidades T de acordo com um predicado
+        /// Retorna uma coleção de Entidades T e seus filhos de acordo com um predicado
         /// </summary>
-        public async Task<List<T>> GetAllWithChildrenAsync(Expression<Func<T, bool>> predicate)
+        public List<T> GetAllWithChildren(Expression<Func<T, bool>> predicate)
         {
             try
             {
-                using (await Mutex.LockAsync().ConfigureAwait(false))
+                lock (_lock)
                 {
-                    return await this.conn.GetAllWithChildrenAsync<T>(predicate, recursive: true);
+                    return conn.GetAllWithChildren<T>(predicate, recursive: true);
                 }
             }
             catch (Exception ex)
@@ -127,29 +127,17 @@ namespace IcatuzinhoApp
             }
         }
 
-        public async Task<T> GetWithChildrenAsync(Expression<Func<T, bool>> expr)
+        /// <summary>
+        /// Retorna uma Entidade T e seus filhos de acordo com um predicado
+        /// </summary>
+        public T GetWithChildren(Expression<Func<T, bool>> predicate)
         {
             try
             {
-                return await this.conn.GetWithChildrenAsync<T>(expr);
-
-            }
-            catch (InvalidOperationException)
-            {
-                return null;
-            }
-            catch (Exception ex)
-            {
-                new LogExceptionService().SubmitToInsights(ex);
-                return null;
-            }
-        }
-
-        public async Task<T> GetAllAsync()
-        {
-            try
-            {
-                return await this.conn.Table<T>().FirstOrDefaultAsync();
+                lock (_lock)
+                {
+                    return conn.GetWithChildren<T>(predicate);
+                }
 
             }
             catch (InvalidOperationException)
@@ -164,14 +152,59 @@ namespace IcatuzinhoApp
         }
 
         /// <summary>
-        /// Retorna um único registro da entidade T
+        /// Retorna T
+        /// </summary>
+        public T Get()
+        {
+            try
+            {
+                lock (_lock)
+                    return conn.Table<T>().FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                new LogExceptionService().SubmitToInsights(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Retorna uma Lista Entidade T sem filtros e sem filhos
+        /// </summary>
+        /// <returns>The all .</returns>
+        public List<T> GetAll()
+        {
+            try
+            {
+                lock (_lock)
+                {
+                    return conn.Table<T>().ToList();
+                }
+
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+            catch (Exception ex)
+            {
+                new LogExceptionService().SubmitToInsights(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Retorna um único registro da entidade T com filhos pela chave primária
         /// </summary>
         /// <param name = "pkId">Chave primária para busca</param>
-        public async Task<T> GetWithChildrenByIdAsync(int pkId)
+        public T GetWithChildrenById(int pkId)
         {
             try
             {
-                return await this.conn.GetWithChildrenAsync<T>(pkId, recursive: true);
+                lock (_lock)
+                {
+                    return conn.GetWithChildren<T>(pkId, recursive: true);
+                }
             }
             catch (Exception ex)
             {
@@ -181,15 +214,15 @@ namespace IcatuzinhoApp
         }
 
         /// <summary>
-        /// Retorna todas as Entidades T
+        /// Retorna todas as Entidades T e seus filhos
         /// </summary>
-        public async Task<List<T>> GetAllWithChildrenAsync()
+        public List<T> GetAllWithChildren()
         {
             try
             {
-                using (await Mutex.LockAsync().ConfigureAwait(false))
+                lock (_lock)
                 {
-                    return await this.conn.GetAllWithChildrenAsync<T>(null, recursive: true);
+                    return conn.GetAllWithChildren<T>(null, recursive: true);
                 }
             }
             catch (Exception ex)
@@ -202,20 +235,19 @@ namespace IcatuzinhoApp
         /// <summary>
         /// Atualizar uma Entidade T
         /// </summary>
-        public async Task<bool> UpdateWithChildrenAsync(T entity)
+        public bool UpdateWithChildren(T entity)
         {
-            using (await Mutex.LockAsync().ConfigureAwait(false))
+            lock (_lock)
             {
-
                 try
                 {
-                    await this.conn.UpdateWithChildrenAsync(entity);
-                    return await Task.FromResult<bool>(true);
+                    conn.UpdateWithChildren(entity);
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     new LogExceptionService().SubmitToInsights(ex);
-                    return await Task.FromResult<bool>(false);
+                    return false;
                 }
             }
         }
@@ -223,19 +255,18 @@ namespace IcatuzinhoApp
         /// <summary>
         /// Verificar se existe registro
         /// </summary>
-        public async Task<bool> Any()
+        public bool Any()
         {
-            using (await Mutex.LockAsync().ConfigureAwait(false))
+            lock (_lock)
             {
-
                 try
                 {
-                    return await this.conn.Table<T>().CountAsync() > 0;
+                    return conn.Table<T>().Count() > 0;
                 }
                 catch (Exception ex)
                 {
                     new LogExceptionService().SubmitToInsights(ex);
-                    return await Task.FromResult(false);
+                    return false;
                 }
             }
         }

@@ -5,7 +5,7 @@
 		<Grid ColumnSpacing="0" RowSpacing="0" HorizontalOptions="Fill" VerticalOptions="FillAndExpand">
 	
 			<!-- BACKGROUND IMAGE -->
-			<Image Source="{ StaticResource PasswordRecoveryBackgroundImage }" IsOpaque="false" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+<!--			<Image Source="{ StaticResource PasswordRecoveryBackgroundImage }" IsOpaque="false" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />-->
 			<ScrollView Orientation="Vertical">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -23,7 +23,7 @@
 								<OnPlatform.WinPhone>20, 50, 20, 20</OnPlatform.WinPhone>
 							</OnPlatform>
 						</StackLayout.Padding>
-						<Image Source="{StaticResource BrandImage}" VerticalOptions="Start" />
+<!--						<Image Source="{StaticResource BrandImage}" VerticalOptions="Start" />-->
 						<Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
 							<Label.FormattedText>
 							<FormattedString>

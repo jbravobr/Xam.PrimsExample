@@ -7,7 +7,7 @@ using Xamarin;
 
 namespace IcatuzinhoApp
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Skip)]
     public partial class App : Application
     {
         public static User UserAuthenticated { get; set; }

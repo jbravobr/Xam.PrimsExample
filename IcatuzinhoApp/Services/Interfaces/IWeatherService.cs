@@ -5,7 +5,7 @@ namespace IcatuzinhoApp
 {
     public interface IWeatherService : IBaseService<Weather>
     {
-        Task<Weather> GetWeather();
+        Task GetWeather();
     }
 }
 

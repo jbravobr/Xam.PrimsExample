@@ -28,7 +28,7 @@ namespace IcatuzinhoApp
                     var stations = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (stations != null && stations.Any())
-                        await base.InsertOrReplaceAllWithChildrenAsync(stations);
+                        InsertOrReplaceAllWithChildren(stations);
                 }
 
             }

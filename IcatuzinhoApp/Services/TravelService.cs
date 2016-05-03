@@ -28,7 +28,7 @@ namespace IcatuzinhoApp
                     var travel = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (travel != null)
-                        await base.InsertOrReplaceWithChildrenAsync(travel);
+                        InsertOrReplaceWithChildren(travel);
                 }
 
             }

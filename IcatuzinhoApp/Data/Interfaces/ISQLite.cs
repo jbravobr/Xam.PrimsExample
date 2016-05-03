@@ -1,11 +1,11 @@
 ﻿using System;
-using SQLite.Net.Async;
+using SQLite.Net;
 
 namespace IcatuzinhoApp
 {
-	public interface ISQLite
-	{
-		SQLiteAsyncConnection GetConnection ();
-	}
+    public interface ISQLite
+    {
+        SQLiteConnection GetConnection();
+    }
 }
 

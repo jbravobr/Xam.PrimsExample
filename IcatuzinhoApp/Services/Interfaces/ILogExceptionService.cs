@@ -5,7 +5,7 @@ namespace IcatuzinhoApp
 {
     public interface ILogExceptionService
     {
-        Task Save(Transaction transacion, LogExceptionType type, string ExceptionMessage, string InnerExceptionMessage);
+        void Save(Transaction transacion, LogExceptionType type, string ExceptionMessage, string InnerExceptionMessage);
 
         void SubmitToInsights(Exception ex);
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace IcatuzinhoApp
 {
@@ -21,7 +22,7 @@ namespace IcatuzinhoApp
 
             try
             {
-                var user = await base.GetAsync();
+                var user = GetAllWithChildren().FirstOrDefault();
 
                 if (user != null)
                     resultDB = await Task.FromResult(true);
@@ -29,6 +30,7 @@ namespace IcatuzinhoApp
             catch (Exception ex)
             {
                 new LogExceptionService().SubmitToInsights(ex);
+                return await Task.FromResult(resultDB);
             }
 
             return await Task.FromResult(resultDB);
@@ -49,7 +51,7 @@ namespace IcatuzinhoApp
                     var user = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (user != null)
-                        resultDB = await base.InsertOrReplaceWithChildrenAsync(user);
+                        resultDB = InsertOrReplaceWithChildren(user);
 
                     return resultDB;
                 }

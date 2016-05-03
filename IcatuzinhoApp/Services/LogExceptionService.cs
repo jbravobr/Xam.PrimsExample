@@ -13,7 +13,7 @@ namespace IcatuzinhoApp
         /// <param name="type">Type.</param>
         /// <param name="exceptionMessage">Exception message.</param>
         /// <param name="innerExceptionMessage">Inner exception message.</param>
-        public async Task Save(Transaction trasaction, LogExceptionType type, string exceptionMessage, string innerExceptionMessage)
+        public void Save(Transaction trasaction, LogExceptionType type, string exceptionMessage, string innerExceptionMessage)
         {
             var logEx = new LogException
             {
@@ -23,8 +23,8 @@ namespace IcatuzinhoApp
                 Type = type
             };
 
-            base.InitiateRepository();
-            await base.repository.InsertOrReplaceWithChildrenAsync(logEx);
+            InitiateRepository();
+            repository.InsertOrReplaceWithChildren(logEx);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace IcatuzinhoApp
         /// <param name="ex">Ex.</param>
         public void SubmitToInsights(Exception ex)
         {
-            Insights.Report(ex, Insights.Severity.Error);
+            throw ex;
         }
     }
 }

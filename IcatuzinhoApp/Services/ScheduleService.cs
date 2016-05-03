@@ -28,7 +28,7 @@ namespace IcatuzinhoApp
                     var schedules = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (schedules != null && schedules.Any())
-                        await base.InsertOrReplaceAllWithChildrenAsync(schedules);
+                        InsertOrReplaceAllWithChildren(schedules);
                 }
 
             }
