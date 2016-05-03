@@ -1,14 +1,12 @@
 ﻿using System;
 using PropertyChanged;
-using System.Threading.Tasks;
 using Acr.UserDialogs;
 using Xamarin.Forms;
-using UXDivers.Artina.Shared;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class HomePageModel : FreshMvvm.FreshBasePageModel
+    public class HomePageModel : BasePageModel
     {
         public string CurrentDate { get; } = $"{DateTime.Now.Day.ToString()}/{DateTime.Now.Month.ToString()}";
 
@@ -56,10 +54,9 @@ namespace IcatuzinhoApp
         {
             base.Init(initData);
 
-            _userDialogs.ShowLoading();
-
             try
             {
+                _userDialogs.ShowLoading();
                 _travel = GetNextTravel();
 
                 if (_travel != null)
@@ -76,11 +73,14 @@ namespace IcatuzinhoApp
                     _userDialogs.HideLoading();
                 }
                 else
+                {
+                    _userDialogs.HideLoading();
                     await _userDialogs.AlertAsync("Houve um erro na aplicação", "Erro", "OK");
+                }
             }
             catch (Exception ex)
             {
-                throw ex;
+                base.SendToInsights(ex);
             }
         }
 
@@ -116,7 +116,6 @@ namespace IcatuzinhoApp
                         {
                             isCheckIn = true;
                             isCheckOut = false;
-
                             UpdateSeats();
                         }
                     }
@@ -126,10 +125,13 @@ namespace IcatuzinhoApp
 
         public async void UpdateSeats()
         {
+            _userDialogs.ShowLoading();
             var result = await _travelService.GetAvailableSeats(_travel.Id);
 
             if (result > 0)
                 SeatsAvailable = result.ToString();
+
+            _userDialogs.HideLoading();
         }
 
         public Travel GetNextTravel()
@@ -146,11 +148,9 @@ namespace IcatuzinhoApp
 
         public void GetWeather()
         {
-            _weather = new Weather
-            {
-                Ico = $"\uf185 ",
-                Temp = "20"
-            };
+            var w = _weatherService.Get();
+            _weather.Ico = SetFontAwesomeForTemp(w.Ico);
+            _weather.Temp = w.Temp;
         }
 
         #region Label Text
@@ -175,7 +175,7 @@ namespace IcatuzinhoApp
         {
             get
             {
-                return $"\uf185 17º";
+                return $"{_weather.Ico} {_weather.Temp}º";
             }
         }
 
@@ -189,13 +189,13 @@ namespace IcatuzinhoApp
 
         #endregion
 
-        string SetFontAwesomeForTemp()
+        string SetFontAwesomeForTemp(string ico)
         {
-            if (_weather.Ico.Contains("rain") || _weather.Ico.Contains("thunder"))
+            if (ico.Contains("rain") || ico.Contains("thunder"))
                 return $"\uf0e9 ";
-            else if (_weather.Ico.Contains("cloudy"))
+            else if (ico.Contains("cloudy"))
                 return $"\uf073 ";
-            else if (_weather.Ico.Contains("sunny"))
+            else if (ico.Contains("sunny"))
                 return $"\uf185 ";
             else
                 return $"\uf186 ";

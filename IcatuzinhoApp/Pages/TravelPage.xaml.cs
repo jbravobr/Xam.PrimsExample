@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using System.Linq;
-using System.Threading.Tasks;
 using Acr.UserDialogs;
 
 namespace IcatuzinhoApp
 {
     public partial class TravelPage : ContentPage
     {
-        double _latitude = -22.9101457;
-        double _longitude = -43.1707052;
+        double _latitudeInicial = -22.9101457;
+        double _longitudeInicial = -43.1707052;
         List<Station> _stations;
+        ILogExceptionService _logExceptionService;
 
         protected override void OnAppearing()
         {
@@ -22,30 +22,42 @@ namespace IcatuzinhoApp
             var _stationService = FreshMvvm.FreshIOC.Container.Resolve<IStationService>();
             var _userDialogsService = FreshMvvm.FreshIOC.Container.Resolve<IUserDialogs>();
 
-            if (_stationService != null)
+            if (_logExceptionService == null)
+                _logExceptionService = FreshMvvm.FreshIOC.Container.Resolve<ILogExceptionService>();
+
+            try
             {
-                _stations = _stationService.GetAllWithChildren();
-
-                _userDialogsService.ShowLoading();
-
-                if (_stations != null && _stations.Any())
+                if (_stationService != null)
                 {
-                    foreach (var s in _stations)
+                    _stations = _stationService.GetAllWithChildren();
+                    _userDialogsService.ShowLoading();
+
+                    if (_stations != null && _stations.Any())
                     {
-                        var p = new Pin
+                        foreach (var s in _stations)
                         {
-                            Label = s.Name,
-                            Position = new Position(s.Latitude, s.Longitude),
-                            Type = PinType.SearchResult
-                        };
+                            var p = new Pin
+                            {
+                                Label = s.Name,
+                                Position = new Position(s.Latitude, s.Longitude),
+                                Type = PinType.SearchResult
+                            };
 
-                        MapaTravel.Pins.Add(p);
+                            MapaTravel.Pins.Add(p);
+                        }
                     }
+
+                    MapaTravel.MoveToRegion(MapSpan.FromCenterAndRadius(
+                        new Position(_stations.First().Latitude,
+                                     _stations.First().Longitude),
+                                Distance.FromMeters(1000)));
+
+                    _userDialogsService.HideLoading();
                 }
-
-                MapaTravel.MoveToRegion(MapSpan.FromCenterAndRadius(
-                    new Position(_stations.First().Latitude, _stations.First().Longitude), Distance.FromMeters(1000)));
-
+            }
+            catch (Exception ex)
+            {
+                _logExceptionService.SubmitToInsights(ex);
                 _userDialogsService.HideLoading();
             }
         }
@@ -54,14 +66,17 @@ namespace IcatuzinhoApp
         {
             InitializeComponent();
 
+            if (_logExceptionService == null)
+                _logExceptionService = FreshMvvm.FreshIOC.Container.Resolve<ILogExceptionService>();
+
             try
             {
                 MapaTravel.MoveToRegion(MapSpan.FromCenterAndRadius(
-                    new Position(_latitude, _longitude), new Distance(2.00)));
+                    new Position(_latitudeInicial, _longitudeInicial), new Distance(2.00)));
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _logExceptionService.SubmitToInsights(ex);
             }
         }
     }

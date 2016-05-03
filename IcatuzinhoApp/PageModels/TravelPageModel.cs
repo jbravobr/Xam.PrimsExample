@@ -6,11 +6,8 @@ using Xamarin.Forms;
 
 namespace IcatuzinhoApp
 {
-    public class TravelPageModel : FreshMvvm.FreshBasePageModel
+    public class TravelPageModel : BasePageModel
     {
-        public TravelPageModel()
-        {
-        }
     }
 }
 

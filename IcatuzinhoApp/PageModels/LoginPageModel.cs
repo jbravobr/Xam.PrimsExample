@@ -4,14 +4,13 @@ using PropertyChanged;
 using Plugin.Toasts;
 using System;
 using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 using System.Linq;
-using System.Reflection;
+using Acr.UserDialogs;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class LoginPageModel : FreshMvvm.FreshBasePageModel
+    public class LoginPageModel : BasePageModel
     {
         public string Email { get; set; }
 
@@ -31,8 +30,6 @@ namespace IcatuzinhoApp
 
         readonly IWeatherService _weatherService;
 
-        //IUserDialogs _userDialogs;
-
         public LoginPageModel(IUserService userService,
                               IScheduleService scheduleService,
                               IStationService stationService,
@@ -44,7 +41,6 @@ namespace IcatuzinhoApp
             _stationService = stationService;
             _travelService = travelService;
             _weatherService = weatherService;
-            //_userDialogs = userDialogs;
 
             EmailError = false;
             PasswordError = false;
@@ -54,17 +50,24 @@ namespace IcatuzinhoApp
         {
             base.Init(initData);
 
-            if (await GetAuthenticatedUser())
+            try
             {
-                await _weatherService.GetWeather();
+                if (await GetAuthenticatedUser())
+                {
+                    await _weatherService.GetWeather();
 
-                RegisterLocalAuthenticatedUser();
+                    RegisterLocalAuthenticatedUser();
 
-                var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-                tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
-                tabPage.AddTab<TravelPageModel>("Itinerário", "bus-full.png", null);
+                    var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
+                    tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
+                    tabPage.AddTab<TravelPageModel>("Itinerário", "bus-full.png", null);
 
-                CoreMethods.SwitchOutRootNavigation("HomeContainer");
+                    CoreMethods.SwitchOutRootNavigation("HomeContainer");
+                }
+            }
+            catch (Exception ex)
+            {
+                new LogExceptionService().SubmitToInsights(ex);
             }
         }
 
@@ -80,57 +83,64 @@ namespace IcatuzinhoApp
             {
                 return new Command(async (obj) =>
                {
-                   if (string.IsNullOrEmpty(Email) && string.IsNullOrEmpty(Password))
+                   try
                    {
-                       EmailError = true;
-                       PasswordError = true;
-                       return;
-                   }
-                   else if (string.IsNullOrEmpty(Email))
-                   {
-                       EmailError = true;
-                       return;
-                   }
-                   else if (string.IsNullOrEmpty(Password))
-                   {
-                       PasswordError = true;
-                       return;
-                   }
-                   else
-                   {
-                       EmailError = false;
-                       PasswordError = false;
-
-                       var userAuthenticated = await _userService.Login(Email, Password);
-
-                       if (userAuthenticated)
+                       if (string.IsNullOrEmpty(Email) && string.IsNullOrEmpty(Password))
                        {
-                           try
-                           {
-                               await _stationService.GetAllStations();
-                               await _scheduleService.GetAllSchedules();
-                               await InsertTravels();
-                               await _weatherService.GetWeather();
-
-                               var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-                               tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
-                               tabPage.AddTab<TravelPageModel>("Itinerário", "bus-full.png", null);
-
-                               RegisterLocalAuthenticatedUser();
-
-                               CoreMethods.SwitchOutRootNavigation("HomeContainer");
-                           }
-                           catch (Exception ex)
-                           {
-                               new LogExceptionService().SubmitToInsights(ex);
-                           }
+                           EmailError = true;
+                           PasswordError = true;
+                           return;
+                       }
+                       else if (string.IsNullOrEmpty(Email))
+                       {
+                           EmailError = true;
+                           return;
+                       }
+                       else if (string.IsNullOrEmpty(Password))
+                       {
+                           PasswordError = true;
+                           return;
                        }
                        else
                        {
-                           //await _userDialogs.AlertAsync(string.Empty, "Usuário/Senha inválidos");
-                           await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error,
-                               "Usuário/Senha inválidos", string.Empty, TimeSpan.FromSeconds(4));
+                           EmailError = false;
+                           PasswordError = false;
+
+                           var userAuthenticated = await _userService.Login(Email, Password);
+
+                           if (userAuthenticated)
+                           {
+                               try
+                               {
+                                   await _stationService.GetAllStations();
+                                   await _scheduleService.GetAllSchedules();
+                                   await InsertTravels();
+                                   await _weatherService.GetWeather();
+
+                                   var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
+                                   tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
+                                   tabPage.AddTab<TravelPageModel>("Itinerário", "bus-full.png", null);
+
+                                   RegisterLocalAuthenticatedUser();
+
+                                   CoreMethods.SwitchOutRootNavigation("HomeContainer");
+                               }
+                               catch (Exception ex)
+                               {
+                                   new LogExceptionService().SubmitToInsights(ex);
+                               }
+                           }
+                           else
+                           {
+                               //await _userDialogs.AlertAsync(string.Empty, "Usuário/Senha inválidos");
+                               await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error,
+                                   "Usuário/Senha inválidos", string.Empty, TimeSpan.FromSeconds(4));
+                           }
                        }
+                   }
+                   catch (Exception ex)
+                   {
+                       base.SendToInsights(ex);
                    }
                });
             }
