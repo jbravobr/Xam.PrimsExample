@@ -44,6 +44,8 @@ namespace IcatuzinhoApp
                             };
 
                             MapaTravel.Pins.Add(p);
+
+                            MapaTravel.RouteCoordinates.Add(new Position(s.Latitude, s.Longitude));
                         }
                     }
 

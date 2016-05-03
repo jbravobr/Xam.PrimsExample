@@ -32,7 +32,7 @@ namespace IcatuzinhoApp
 
         Travel _travel { get; set; }
 
-        public Weather _weather { get; set; }
+        public string TempIco { get; set; }
 
         readonly ITravelService _travelService;
 
@@ -69,6 +69,10 @@ namespace IcatuzinhoApp
                     var _minutes = _travel.Schedule.StartSchedule.Minute == 0 ? Minutes : _travel.Schedule.StartSchedule.Minute.ToString();
 
                     Time = $"{_hours}:{_minutes}";
+
+                    var w = GetWeather();
+                    TempIco = SetFontAwesomeForTemp(w.Ico);
+                    Temp = w.Temp;
 
                     _userDialogs.HideLoading();
                 }
@@ -146,11 +150,9 @@ namespace IcatuzinhoApp
             return null;
         }
 
-        public void GetWeather()
+        public Weather GetWeather()
         {
-            var w = _weatherService.Get();
-            _weather.Ico = SetFontAwesomeForTemp(w.Ico);
-            _weather.Temp = w.Temp;
+            return _weatherService.Get();
         }
 
         #region Label Text
@@ -175,7 +177,7 @@ namespace IcatuzinhoApp
         {
             get
             {
-                return $"{_weather.Ico} {_weather.Temp}º";
+                return $"{TempIco} {Temp}º";
             }
         }
 
