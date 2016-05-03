@@ -33,7 +33,7 @@ namespace IcatuzinhoApp
         /// <param name="ex">Ex.</param>
         public void SubmitToInsights(Exception ex)
         {
-            throw ex;
+            Insights.Report(ex);
         }
     }
 }
