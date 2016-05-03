@@ -1,6 +1,5 @@
 using Xamarin.Forms;
 using PropertyChanged;
-//using Acr.UserDialogs;
 using Plugin.Toasts;
 using System;
 using System.Threading.Tasks;
@@ -30,17 +29,21 @@ namespace IcatuzinhoApp
 
         readonly IWeatherService _weatherService;
 
+        readonly IUserDialogs _userDialogs;
+
         public LoginPageModel(IUserService userService,
                               IScheduleService scheduleService,
                               IStationService stationService,
                               ITravelService travelService,
-                              IWeatherService weatherService)
+                              IWeatherService weatherService,
+                              IUserDialogs userDialogs)
         {
             _userService = userService;
             _scheduleService = scheduleService;
             _stationService = stationService;
             _travelService = travelService;
             _weatherService = weatherService;
+            _userDialogs = userDialogs;
 
             EmailError = false;
             PasswordError = false;
@@ -54,6 +57,7 @@ namespace IcatuzinhoApp
             {
                 if (await GetAuthenticatedUser())
                 {
+                    _userDialogs.ShowLoading();
                     await _weatherService.GetWeather();
 
                     RegisterLocalAuthenticatedUser();
@@ -61,12 +65,14 @@ namespace IcatuzinhoApp
                     var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
                     tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
                     tabPage.AddTab<TravelPageModel>("Itinerário", "bus-full.png", null);
+                    _userDialogs.HideLoading();
 
                     CoreMethods.SwitchOutRootNavigation("HomeContainer");
                 }
             }
             catch (Exception ex)
             {
+                _userDialogs.HideLoading();
                 new LogExceptionService().SubmitToInsights(ex);
             }
         }
@@ -85,6 +91,7 @@ namespace IcatuzinhoApp
                {
                    try
                    {
+                       _userDialogs.ShowLoading();
                        if (string.IsNullOrEmpty(Email) && string.IsNullOrEmpty(Password))
                        {
                            EmailError = true;
@@ -123,16 +130,17 @@ namespace IcatuzinhoApp
 
                                    RegisterLocalAuthenticatedUser();
 
+                                   _userDialogs.HideLoading();
                                    CoreMethods.SwitchOutRootNavigation("HomeContainer");
                                }
                                catch (Exception ex)
                                {
+                                   _userDialogs.HideLoading();
                                    new LogExceptionService().SubmitToInsights(ex);
                                }
                            }
                            else
                            {
-                               //await _userDialogs.AlertAsync(string.Empty, "Usuário/Senha inválidos");
                                await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error,
                                    "Usuário/Senha inválidos", string.Empty, TimeSpan.FromSeconds(4));
                            }

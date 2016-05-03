@@ -40,7 +40,9 @@ namespace IcatuzinhoApp
 
         readonly IUserDialogs _userDialogs;
 
-        public HomePageModel(ITravelService travelService, IWeatherService weatherService, IUserDialogs userDialogs)
+        public HomePageModel(ITravelService travelService,
+                             IWeatherService weatherService,
+                             IUserDialogs userDialogs)
         {
             _travelService = travelService;
             _weatherService = weatherService;
@@ -194,13 +196,13 @@ namespace IcatuzinhoApp
         string SetFontAwesomeForTemp(string ico)
         {
             if (ico.Contains("rain") || ico.Contains("thunder"))
-                return $"\uf0e9 ";
+                return $"\uf0e9";
             else if (ico.Contains("cloudy"))
-                return $"\uf073 ";
+                return $"\uf073";
             else if (ico.Contains("sunny"))
-                return $"\uf185 ";
+                return $"\uf185";
             else
-                return $"\uf186 ";
+                return $"\uf186";
         }
     }
 }

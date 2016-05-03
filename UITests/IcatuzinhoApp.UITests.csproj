@@ -78,8 +78,10 @@
     <Compile Include="TravelTests.cs" />
     <Compile Include="CheckinTests.cs" />
     <Compile Include="StationTests.cs" />
+    <Compile Include="ItineraryTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

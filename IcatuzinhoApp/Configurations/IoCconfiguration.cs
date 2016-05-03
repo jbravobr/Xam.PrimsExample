@@ -15,6 +15,7 @@ namespace IcatuzinhoApp
             FreshMvvm.FreshIOC.Container.Register<ILogExceptionService, LogExceptionService>();
             FreshMvvm.FreshIOC.Container.Register<IScheduleService, ScheduleService>();
             FreshMvvm.FreshIOC.Container.Register<IStationService, StationService>();
+            FreshMvvm.FreshIOC.Container.Register<ItineraryService, ItineraryService>();
             FreshMvvm.FreshIOC.Container.Register<ITransactionService, TransactionService>();
             FreshMvvm.FreshIOC.Container.Register<ITravelService, TravelService>();
             FreshMvvm.FreshIOC.Container.Register<IUserService, UserService>();

@@ -38,6 +38,7 @@ namespace IcatuzinhoApp
                     conn.CreateTable<User>();
                     conn.CreateTable<Vehicle>();
                     conn.CreateTable<Weather>();
+                    conn.CreateTable<Itinerary>();
                 }
             }
             catch (Exception ex)
