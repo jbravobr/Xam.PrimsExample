@@ -31,19 +31,23 @@ namespace IcatuzinhoApp
 
         readonly IUserDialogs _userDialogs;
 
+        readonly IItineraryService _itineraryService;
+
         public LoginPageModel(IUserService userService,
                               IScheduleService scheduleService,
                               IStationService stationService,
                               ITravelService travelService,
                               IWeatherService weatherService,
-                              IUserDialogs userDialogs)
+                              IUserDialogs userDialogs,
+                              IItineraryService itineraryService)
         {
             _userService = userService;
             _scheduleService = scheduleService;
             _stationService = stationService;
+            _userDialogs = userDialogs;
             _travelService = travelService;
             _weatherService = weatherService;
-            _userDialogs = userDialogs;
+            _itineraryService = itineraryService;
 
             EmailError = false;
             PasswordError = false;
@@ -94,17 +98,20 @@ namespace IcatuzinhoApp
                        _userDialogs.ShowLoading();
                        if (string.IsNullOrEmpty(Email) && string.IsNullOrEmpty(Password))
                        {
+                           _userDialogs.HideLoading();
                            EmailError = true;
                            PasswordError = true;
                            return;
                        }
                        else if (string.IsNullOrEmpty(Email))
                        {
+                           _userDialogs.HideLoading();
                            EmailError = true;
                            return;
                        }
                        else if (string.IsNullOrEmpty(Password))
                        {
+                           _userDialogs.HideLoading();
                            PasswordError = true;
                            return;
                        }
@@ -123,6 +130,7 @@ namespace IcatuzinhoApp
                                    await _scheduleService.GetAllSchedules();
                                    await InsertTravels();
                                    await _weatherService.GetWeather();
+                                   await _itineraryService.GetAllItineraries();
 
                                    var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
                                    tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
@@ -141,6 +149,7 @@ namespace IcatuzinhoApp
                            }
                            else
                            {
+                               _userDialogs.HideLoading();
                                await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error,
                                    "Usuário/Senha inválidos", string.Empty, TimeSpan.FromSeconds(4));
                            }
@@ -148,6 +157,7 @@ namespace IcatuzinhoApp
                    }
                    catch (Exception ex)
                    {
+                       _userDialogs.HideLoading();
                        base.SendToInsights(ex);
                    }
                });

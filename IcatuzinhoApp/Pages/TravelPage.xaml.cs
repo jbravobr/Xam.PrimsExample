@@ -12,21 +12,30 @@ namespace IcatuzinhoApp
     {
         double _latitudeInicial = -22.9101457;
         double _longitudeInicial = -43.1707052;
+
         List<Station> _stations;
         ILogExceptionService _logExceptionService;
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
-            var _stationService = FreshMvvm.FreshIOC.Container.Resolve<IStationService>();
             var _userDialogsService = FreshMvvm.FreshIOC.Container.Resolve<IUserDialogs>();
-
-            if (_logExceptionService == null)
-                _logExceptionService = FreshMvvm.FreshIOC.Container.Resolve<ILogExceptionService>();
 
             try
             {
+                CustomMap iosMap;
+
+                if (Device.OS == TargetPlatform.iOS)
+                    iosMap = new CustomMap();
+
+                var model = BindingContext as TravelPageModel;
+                var routes = model.Get();
+
+                var _stationService = FreshMvvm.FreshIOC.Container.Resolve<IStationService>();
+
+                if (_logExceptionService == null)
+                    _logExceptionService = FreshMvvm.FreshIOC.Container.Resolve<ILogExceptionService>();
+
                 if (_stationService != null)
                 {
                     _stations = _stationService.GetAllWithChildren();
@@ -44,8 +53,14 @@ namespace IcatuzinhoApp
                             };
 
                             MapaTravel.Pins.Add(p);
+                        }
 
-                            MapaTravel.RouteCoordinates.Add(new Position(s.Latitude, s.Longitude));
+                        if (routes != null && routes.Any())
+                        {
+                            foreach (var route in routes.OrderBy(c => c.Order))
+                            {
+                                MapaTravel.RouteCoordinates.Add(new Position(route.Latitude, route.Longitude));
+                            }
                         }
                     }
 
@@ -55,6 +70,19 @@ namespace IcatuzinhoApp
                                 Distance.FromMeters(1000)));
 
                     _userDialogsService.HideLoading();
+
+                    if (Device.OS == TargetPlatform.iOS)
+                    {
+                        iosMap = MapaTravel;
+                        Content = new StackLayout
+                        {
+                            VerticalOptions = LayoutOptions.FillAndExpand,
+                            Padding = 0,
+                            Children = {
+                                        iosMap
+                            }
+                        };
+                    }
                 }
             }
             catch (Exception ex)

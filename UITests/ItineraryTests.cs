@@ -29,7 +29,7 @@ namespace IcatuzinhoApp.UITests
                 listItineraries = JsonConvert.DeserializeObject<List<Itinerary>>(stringJson);
             }
 
-            CollectionAssert.AllItemsAreInstancesOfType(listItineraries, typeof(Station));
+            CollectionAssert.AllItemsAreInstancesOfType(listItineraries, typeof(Itinerary));
             CollectionAssert.IsNotEmpty(listItineraries);
             CollectionAssert.AllItemsAreNotNull(listItineraries);
         }

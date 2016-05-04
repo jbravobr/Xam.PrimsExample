@@ -14,18 +14,15 @@ namespace IcatuzinhoApp.iOS
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Xamarin.FormsMaps.Init();
-            Xamarin.Insights.Initialize("af422595c1a35c1ad1a77863b9852f80f7d7542c");
-
             DependencyService.Register<ToastNotificatorImplementation>();
             ToastNotificatorImplementation.Init();
 
             global::Xamarin.Forms.Forms.Init();
+            Xamarin.FormsMaps.Init();
+            Xamarin.Insights.Initialize("af422595c1a35c1ad1a77863b9852f80f7d7542c");
 
-            // Code for starting up the Xamarin Test Cloud Agent
-#if ENABLE_TEST_CLOUD
+
             Xamarin.Calabash.Start();
-#endif
 
             Appearance.Configure();
 

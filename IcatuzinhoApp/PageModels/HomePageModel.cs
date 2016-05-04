@@ -114,7 +114,8 @@ namespace IcatuzinhoApp
                 return new Command(async (obj) =>
                 {
 
-                    var confirm = await _userDialogs.ConfirmAsync("Deseja realmente desistir da sua viagem?", "CheckOut", "Sim", "Não");
+                    var confirm = await _userDialogs.ConfirmAsync("Deseja realmente desistir da sua viagem?",
+                                                                  "CheckOut", "Sim", "Não");
 
                     if (confirm)
                     {
