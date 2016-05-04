@@ -20,7 +20,7 @@ namespace IcatuzinhoApp.Droid
         Icon = "@android:color/transparent",
         MainLauncher = true)
     ]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
