@@ -5,7 +5,7 @@
 	<color name="primary_dark">@color/AccentColor</color>
 	<color name="actionbar_tab_indicator">@color/AccentColor</color>
 	<!-- STYLES -->
-	<style name="AppTheme" parent="android:Theme.AppCompat.Light.NoActionBar">
+	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 		<!--
 		<item name="android:colorPrimary">@color/primary</item>
 		<item name="android:colorPrimaryDark">@color/primary_dark</item>

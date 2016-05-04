@@ -5,7 +5,7 @@
 	<color name="primary_dark">@color/AccentColor</color>
 	<color name="actionbar_tab_indicator">@color/AccentColor</color>
 	<!-- Theme -->
-	<style name="AppTheme" parent="android:Theme.AppCompat.Light.NoActionBar">
+	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 		<item name="android:colorAccent">@color/AccentColor</item>
 		<item name="android:actionBarStyle">@style/MyActionBar</item>
 		<!-- Used on ListView selected items -->

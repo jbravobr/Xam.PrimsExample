@@ -133,8 +133,8 @@ namespace IcatuzinhoApp
                                    await _itineraryService.GetAllItineraries();
 
                                    var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-                                   tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
-                                   tabPage.AddTab<TravelPageModel>("Itinerário", "bus-full.png", null);
+                                   tabPage.AddTab<HomePageModel>("Home", "", null);
+                                   tabPage.AddTab<TravelPageModel>("Itinerário", "", null);
 
                                    RegisterLocalAuthenticatedUser();
 

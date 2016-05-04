@@ -17,13 +17,16 @@ namespace IcatuzinhoApp.Droid
     [Activity(
         Label = "Icatuzinho",
         Theme = "@style/AppTheme",
-        Icon = "@android:color/transparent",
+        Icon = "@drawable/ic_launcher",
         MainLauncher = true)
     ]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
+            FormsAppCompatActivity.ToolbarResource = Resource.Layout.toolbar;
+            FormsAppCompatActivity.TabLayoutResource = Resource.Layout.tabs;
+
             base.OnCreate(bundle);
 
             Xamarin.FormsMaps.Init(this, bundle);
@@ -47,14 +50,14 @@ namespace IcatuzinhoApp.Droid
 
 #pragma warning disable 618
             // Hiding ActionBar Icon on Android versions using Material Design
-            if ((int)Android.OS.Build.VERSION.SdkInt >= 21)
-            {
-                ActionBar.SetIcon(
-                    new ColorDrawable(
-                        Resources.GetColor(Android.Resource.Color.Transparent)
-                    )
-                );
-            }
+            //if ((int)Android.OS.Build.VERSION.SdkInt >= 21)
+            //{
+            //ActionBar.SetIcon(
+            //new ColorDrawable(
+            //Resources.GetColor(Android.Resource.Color.Transparent)
+            //)
+            //);
+            //}
 #pragma warning restore 618
         }
     }
