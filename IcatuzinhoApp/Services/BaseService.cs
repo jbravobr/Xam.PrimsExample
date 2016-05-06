@@ -8,8 +8,6 @@ namespace IcatuzinhoApp
     {
         public BaseRepository<T> repository;
 
-        #region IBaseServices implementation
-
         /// <summary>
         /// Insere os novos registros quando estes são lista.
         /// </summary>
@@ -156,8 +154,6 @@ namespace IcatuzinhoApp
             InitiateRepository();
             return repository.Any();
         }
-
-        #endregion
     }
 }
 

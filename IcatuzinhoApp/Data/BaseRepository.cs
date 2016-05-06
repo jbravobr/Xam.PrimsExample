@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using SQLite.Net;
 using System.Linq;
+using Acr.UserDialogs;
 
 namespace IcatuzinhoApp
 {
@@ -13,9 +14,14 @@ namespace IcatuzinhoApp
         readonly SQLiteConnection conn;
         object _lock = new object();
 
+        readonly ILogExceptionService _log; 
+
         public BaseRepository()
         {
-            this.conn = DependencyService.Get<ISQLite>().GetConnection();
+            if(_log == null)
+                _log = FreshMvvm.FreshIOC.Container.Resolve<ILogExceptionService>();
+
+            conn = DependencyService.Get<ISQLite>().GetConnection();
             CreateDataBase();
         }
 
@@ -39,11 +45,12 @@ namespace IcatuzinhoApp
                     conn.CreateTable<Vehicle>();
                     conn.CreateTable<Weather>();
                     conn.CreateTable<Itinerary>();
+                    conn.CreateTable<AuthenticationToken>();
                 }
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
             }
         }
 
@@ -61,7 +68,7 @@ namespace IcatuzinhoApp
                 }
                 catch (Exception ex)
                 {
-                    new LogExceptionService().SubmitToInsights(ex);
+                    _log.SubmitToInsights(ex);
                     return false;
                 }
             }
@@ -72,19 +79,18 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool InsertOrReplaceAllWithChildren(List<T> list)
         {
-            lock (_lock)
+            try
             {
-
-                try
+                lock (_lock)
                 {
                     conn.InsertOrReplaceAllWithChildren(list, recursive: true);
                     return true;
                 }
-                catch (Exception ex)
-                {
-                    new LogExceptionService().SubmitToInsights(ex);
-                    return false;
-                }
+            }
+            catch (Exception ex)
+            {
+                _log.SubmitToInsights(ex);
+                return false;
             }
         }
 
@@ -103,7 +109,33 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
+                return false;
+
+            }
+        }
+
+        /// <summary>
+        /// Delete toda determinada entidade T do Banco de Dados
+        /// </summary>
+        public bool DeleteAll(List<T> entities)
+        {
+            try
+            {
+                lock (_lock)
+                {
+
+                    foreach (var entity in entities)
+                    {
+                        conn.Delete(entity, recursive: false);
+                    }
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.SubmitToInsights(ex);
                 return false;
 
             }
@@ -117,13 +149,11 @@ namespace IcatuzinhoApp
             try
             {
                 lock (_lock)
-                {
                     return conn.GetAllWithChildren<T>(predicate, recursive: true);
-                }
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
                 return null;
             }
         }
@@ -136,9 +166,7 @@ namespace IcatuzinhoApp
             try
             {
                 lock (_lock)
-                {
                     return conn.GetWithChildren<T>(predicate);
-                }
 
             }
             catch (InvalidOperationException)
@@ -147,7 +175,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
                 return null;
             }
         }
@@ -164,7 +192,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
                 return null;
             }
         }
@@ -178,9 +206,7 @@ namespace IcatuzinhoApp
             try
             {
                 lock (_lock)
-                {
                     return conn.Table<T>().ToList();
-                }
 
             }
             catch (InvalidOperationException)
@@ -189,7 +215,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
                 return null;
             }
         }
@@ -203,13 +229,11 @@ namespace IcatuzinhoApp
             try
             {
                 lock (_lock)
-                {
                     return conn.GetWithChildren<T>(pkId, recursive: true);
-                }
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
                 return null;
             }
         }
@@ -222,13 +246,11 @@ namespace IcatuzinhoApp
             try
             {
                 lock (_lock)
-                {
                     return conn.GetAllWithChildren<T>(null, recursive: true);
-                }
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
                 return null;
             }
         }
@@ -238,18 +260,19 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool UpdateWithChildren(T entity)
         {
-            lock (_lock)
+            try
             {
-                try
+                lock (_lock)
                 {
                     conn.UpdateWithChildren(entity);
                     return true;
+
                 }
+            }
                 catch (Exception ex)
-                {
-                    new LogExceptionService().SubmitToInsights(ex);
-                    return false;
-                }
+            {
+                _log.SubmitToInsights(ex);
+                return false;
             }
         }
 
@@ -258,17 +281,16 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Any()
         {
-            lock (_lock)
+            try
             {
-                try
-                {
+                lock (_lock)
                     return conn.Table<T>().Count() > 0;
-                }
-                catch (Exception ex)
-                {
-                    new LogExceptionService().SubmitToInsights(ex);
-                    return false;
-                }
+
+            }
+            catch (Exception ex)
+            {
+                _log.SubmitToInsights(ex);
+                return false;
             }
         }
     }

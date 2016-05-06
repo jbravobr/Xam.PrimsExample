@@ -10,6 +10,7 @@ namespace IcatuzinhoApp
         bool InsertOrReplaceWithChildren(T entity);
         bool InsertOrReplaceAllWithChildren(List<T> list);
         bool Delete(T entity);
+        bool DeleteAll(List<T> entities);
         List<T> GetAllWithChildren(Expression<Func<T, bool>> predicate);
         T GetWithChildren(Expression<Func<T, bool>> predicate);
         List<T> GetAll();

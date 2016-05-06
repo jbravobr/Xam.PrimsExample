@@ -8,18 +8,26 @@ namespace IcatuzinhoApp
     public class StationService : BaseService<Station>, IStationService
     {
         IHttpAccessService _httpService;
+        ILogExceptionService _log;
+        IAuthenticationService _auth;
         Utils<List<Station>> _utils;
 
-        public StationService(IHttpAccessService httpService)
+        public StationService(IHttpAccessService httpService, 
+                              ILogExceptionService log,
+                              IAuthenticationService auth)
         {
             _httpService = httpService;
+            _log = log;
+            _auth = auth;
         }
 
         public async Task GetAllStations()
         {
             try
             {
-                var clientCaller = _httpService.Init();
+                var token = _auth.Get();
+
+                var clientCaller = _httpService.Init(token?.AccessToken);
                 var data = await clientCaller.GetAsync($"{Constants.StationServiceAddress}");
 
                 if (data != null && data.IsSuccessStatusCode)
@@ -34,7 +42,8 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI();
             }
         }
     }

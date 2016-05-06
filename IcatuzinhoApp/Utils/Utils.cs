@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Acr.UserDialogs;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace IcatuzinhoApp
 {

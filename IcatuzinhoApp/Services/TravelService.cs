@@ -8,18 +8,26 @@ namespace IcatuzinhoApp
     public class TravelService : BaseService<Travel>, ITravelService
     {
         IHttpAccessService _httpService;
+        ILogExceptionService _log;
+        IAuthenticationService _auth;
         Utils<Travel> _utils;
 
-        public TravelService(IHttpAccessService httpService)
+        public TravelService(IHttpAccessService httpService, 
+                             ILogExceptionService log,
+                             IAuthenticationService auth)
         {
             _httpService = httpService;
+            _log = log;
+            _auth = auth;
         }
 
         public async Task GetTravelByScheduleId(int scheduleId)
         {
             try
             {
-                var clientCaller = _httpService.Init();
+                var token = _auth.Get();
+
+                var clientCaller = _httpService.Init(token?.AccessToken);
                 var data = await clientCaller.GetAsync($"{Constants.TravelServiceAddress}{scheduleId}");
 
                 if (data != null && data.IsSuccessStatusCode)
@@ -34,7 +42,8 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI();
             }
         }
 
@@ -42,7 +51,9 @@ namespace IcatuzinhoApp
         {
             try
             {
-                var clientCaller = _httpService.Init();
+                var token = _auth.Get();
+
+                var clientCaller = _httpService.Init(token?.AccessToken);
                 var data = await clientCaller.GetAsync($"{Constants.TravelServiceCheckInAddress}{scheduleId}/{userId}");
 
                 if (data != null && data.IsSuccessStatusCode)
@@ -57,7 +68,8 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI();
                 return await Task.FromResult(false);
             }
         }
@@ -66,7 +78,9 @@ namespace IcatuzinhoApp
         {
             try
             {
-                var clientCaller = _httpService.Init();
+                var token = _auth.Get();
+
+                var clientCaller = _httpService.Init(token?.AccessToken);
                 var data = await clientCaller.GetAsync($"{Constants.TravelServiceCheckOutAddress}{scheduleId}/{userId}");
 
                 if (data != null && data.IsSuccessStatusCode)
@@ -81,7 +95,8 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI();
                 return await Task.FromResult(false);
             }
         }
@@ -90,7 +105,9 @@ namespace IcatuzinhoApp
         {
             try
             {
-                var clientCaller = _httpService.Init();
+                var token = _auth.Get();
+
+                var clientCaller = _httpService.Init(token?.AccessToken);
                 var data = await clientCaller.GetAsync($"{Constants.TravelServiceAvailableSeats}{travelId}");
 
                 if (data != null && data.IsSuccessStatusCode)
@@ -105,7 +122,8 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI();
                 return await Task.FromResult(0);
             }
         }

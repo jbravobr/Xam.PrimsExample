@@ -1,23 +1,101 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Acr.UserDialogs;
 
 namespace IcatuzinhoApp
 {
     public class HttpAccessService : IHttpAccessService
     {
-        public HttpClient Init()
+        readonly ILogExceptionService _log;
+        readonly IUserDialogs _userDialogs;
+
+        public HttpAccessService(ILogExceptionService log,
+                                 IUserDialogs userDialogs)
         {
-            var httpClient = new HttpClient
+            _log = log;
+            _userDialogs = userDialogs;
+        }
+
+        public HttpClient Init(string accessToken = null)
+        {
+            try
             {
-                BaseAddress = new Uri($"{Constants.BaseAddress}"),
-                Timeout = TimeSpan.FromSeconds(40)
-            };
+                var httpClient = new HttpClient
+                {
+                    BaseAddress = new Uri($"{Constants.BaseAddress}"),
+                    Timeout = TimeSpan.FromSeconds(40)
+                };
 
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            return httpClient;
+                if (!string.IsNullOrEmpty(accessToken))
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                return httpClient;
+            }
+            catch (Exception ex)
+            {
+                _log.SubmitToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI();
+                return null;
+            }
+        }
+
+        public async Task<AuthenticationToken> AuthenticationWithFormUrlEncoded(string username, string password, bool isEncrypted)
+        {
+            try
+            {
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri($"{Constants.BaseAddress}"),
+                    Timeout = TimeSpan.FromSeconds(40)
+                };
+
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{Constants.FormsAuthentication}");
+                request.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("username",username),
+                    new KeyValuePair<string, string>("password",isEncrypted ?
+                                                     Crypto.EncryptStringAES(password,Constants.SharedSecret) :
+                                                     password)
+                });
+
+                var response = await client.SendAsync(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var authenticationToken = JsonConvert.DeserializeObject<AuthenticationToken>(jsonString);
+
+                    return authenticationToken;
+                }
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    _userDialogs.Prompt(new PromptConfig
+                    {
+                        Message = "Ops! Parece que você não está autorizado a usar este aplicativo.",
+                        OkText = "OK",
+                        Title = "Aviso"
+                    });
+
+                    _log.SubmitToInsights(new ArgumentException($"Erro na autorização para o email: {username}"));
+                }
+
+                return null;
+            } 
+            catch (Exception ex) 
+            {
+                _log.SubmitToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI();
+                return null;
+            }
         }
     }
 }

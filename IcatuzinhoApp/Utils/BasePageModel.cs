@@ -14,7 +14,7 @@ namespace IcatuzinhoApp
         public void RecordMetric(Transaction transaction, LogExceptionType type, Exception ex)
         {
             _logExceptionService = FreshMvvm.FreshIOC.Container.Resolve<ILogExceptionService>();
-            _logExceptionService.Save(transaction, type, ex.Message, ex.InnerException?.InnerException.Message);
+            _logExceptionService.Save(transaction, type, ex?.Message, ex.InnerException?.InnerException.Message);
         }
     }
 }

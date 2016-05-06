@@ -7,18 +7,26 @@ namespace IcatuzinhoApp
     public class ItineraryService : BaseService<Itinerary>, IItineraryService
     {
         IHttpAccessService _httpService;
+        ILogExceptionService _log;
+        IAuthenticationService _auth;
         Utils<Itinerary> _utils;
 
-        public ItineraryService(IHttpAccessService httpService)
+        public ItineraryService(IHttpAccessService httpService, 
+                                ILogExceptionService log,
+                                IAuthenticationService auth)
         {
             _httpService = httpService;
+            _log = log;
+            _auth = auth;
         }
 
         public async Task GetAllItineraries()
         {
             try
             {
-                var clientCaller = _httpService.Init();
+                var token = _auth.Get();
+
+                var clientCaller = _httpService.Init(token?.AccessToken);
                 var data = await clientCaller.GetAsync($"{Constants.ItineraryServiceAddress}");
 
                 if (data != null && data.IsSuccessStatusCode)
@@ -33,7 +41,8 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI();
             }
         }
     }

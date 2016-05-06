@@ -3,7 +3,7 @@ using Acr.UserDialogs;
 
 namespace IcatuzinhoApp
 {
-    public class IoCconfiguration
+    public static class IoCconfiguration
     {
         public static void Init()
         {
@@ -11,6 +11,7 @@ namespace IcatuzinhoApp
             FreshMvvm.FreshIOC.Container.Register<IUserService, UserService>();
             FreshMvvm.FreshIOC.Container.Register<IHttpAccessService, HttpAccessService>();
             FreshMvvm.FreshIOC.Container.Register<IAuthenticationCodeService, AuthenticationCodeService>();
+            FreshMvvm.FreshIOC.Container.Register<IAuthenticationService, AuthenticationService>();
             FreshMvvm.FreshIOC.Container.Register<IDriveService, DriverService>();
             FreshMvvm.FreshIOC.Container.Register<ILogExceptionService, LogExceptionService>();
             FreshMvvm.FreshIOC.Container.Register<IScheduleService, ScheduleService>();

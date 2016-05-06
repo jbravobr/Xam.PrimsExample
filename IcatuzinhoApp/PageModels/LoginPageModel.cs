@@ -21,6 +21,8 @@ namespace IcatuzinhoApp
 
         readonly IUserService _userService;
 
+        readonly IAuthenticationService _authService;
+
         readonly IScheduleService _scheduleService;
 
         readonly IStationService _stationService;
@@ -39,7 +41,8 @@ namespace IcatuzinhoApp
                               ITravelService travelService,
                               IWeatherService weatherService,
                               IUserDialogs userDialogs,
-                              IItineraryService itineraryService)
+                              IItineraryService itineraryService,
+                              IAuthenticationService authService)
         {
             _userService = userService;
             _scheduleService = scheduleService;
@@ -48,6 +51,7 @@ namespace IcatuzinhoApp
             _travelService = travelService;
             _weatherService = weatherService;
             _itineraryService = itineraryService;
+            _authService = authService;
 
             EmailError = false;
             PasswordError = false;
@@ -67,8 +71,8 @@ namespace IcatuzinhoApp
                     RegisterLocalAuthenticatedUser();
 
                     var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-                    tabPage.AddTab<HomePageModel>("Home", "house-full.png", null);
-                    tabPage.AddTab<TravelPageModel>("Itinerário", "bus-full.png", null);
+                    tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ? string.Empty : "house-full.png", null);
+                    tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ? string.Empty : "bus-full.png", null);
                     _userDialogs.HideLoading();
 
                     CoreMethods.SwitchOutRootNavigation("HomeContainer");
@@ -120,12 +124,15 @@ namespace IcatuzinhoApp
                            EmailError = false;
                            PasswordError = false;
 
-                           var userAuthenticated = await _userService.Login(Email, Password);
+                           var userAuthenticated = await _authService.DoAuthentication(Email, Password, false);
 
                            if (userAuthenticated)
                            {
                                try
                                {
+                                   //Gravando user
+                                   await _userService.Login(Email, Password);
+
                                    await _stationService.GetAllStations();
                                    await _scheduleService.GetAllSchedules();
                                    await InsertTravels();
@@ -133,8 +140,8 @@ namespace IcatuzinhoApp
                                    await _itineraryService.GetAllItineraries();
 
                                    var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-                                   tabPage.AddTab<HomePageModel>("Home", "", null);
-                                   tabPage.AddTab<TravelPageModel>("Itinerário", "", null);
+                                   tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ? string.Empty : "house-full.png", null);
+                                   tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ? string.Empty : "bus-full.png", null);
 
                                    RegisterLocalAuthenticatedUser();
 

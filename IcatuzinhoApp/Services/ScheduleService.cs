@@ -8,18 +8,24 @@ namespace IcatuzinhoApp
     public class ScheduleService : BaseService<Schedule>, IScheduleService
     {
         IHttpAccessService _httpService;
+        ILogExceptionService _log;
+        IAuthenticationService _auth;
         Utils<List<Schedule>> _utils;
 
-        public ScheduleService(IHttpAccessService httpService)
+        public ScheduleService(IHttpAccessService httpService,
+                               IAuthenticationService auth)
         {
             _httpService = httpService;
+            _auth = auth;
         }
 
         public async Task GetAllSchedules()
         {
             try
             {
-                var clientCaller = _httpService.Init();
+                var token = _auth.Get();
+
+                var clientCaller = _httpService.Init(token?.AccessToken);
                 var data = await clientCaller.GetAsync($"{Constants.ScheduleServiceAddress}");
 
                 if (data != null && data.IsSuccessStatusCode)
@@ -34,7 +40,8 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI();
             }
         }
     }
