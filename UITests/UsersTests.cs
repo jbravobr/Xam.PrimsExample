@@ -4,6 +4,7 @@ using System.Net.Http;
 using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace IcatuzinhoApp.UITests
 {
@@ -11,6 +12,50 @@ namespace IcatuzinhoApp.UITests
     public class UsersTests
     {
         HttpClient _httpClient = Helpers.ReturnClient();
+
+        [Test]
+        public async Task Try_To_Authenticate()
+        {
+            try
+            {
+                var username = "teste@icatuseguros.com.br";
+                var password = "Icatu123!";
+                var isEncrypted = false;
+
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri($"{Constants.BaseAddress}"),
+                    Timeout = TimeSpan.FromSeconds(40)
+                };
+
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{Constants.FormsAuthentication}");
+                request.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("username",username),
+                    new KeyValuePair<string, string>("password",isEncrypted ?
+                                                     Crypto.EncryptStringAES(password,Constants.SharedSecret) :
+                                                     password)
+                });
+
+                var response = await client.SendAsync(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var authenticationToken = JsonConvert.DeserializeObject<AuthenticationToken>(jsonString);
+
+                    if (authenticationToken != null)
+                        authenticationToken.SetExpirationTime();
+                }
+
+                Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         [Test]
         public async Task Try_Authenticate_With_Wrong_User()

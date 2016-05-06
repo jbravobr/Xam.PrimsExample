@@ -3,6 +3,7 @@ using PropertyChanged;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SQLite.Net.Attributes;
 
 namespace IcatuzinhoApp
 {
@@ -17,7 +18,16 @@ namespace IcatuzinhoApp
         public TokenType TokenType { get; set; }
 
         [JsonProperty(PropertyName="expires_in")]
-        public TimeSpan ExpiresIn { get; set; }
+        [Ignore]
+        public int Expires { get; set; }
+
+        [JsonIgnore]
+        public TimeSpan ExpiresIn { get; private set; }
+
+        public void SetExpirationTime()
+        {
+            ExpiresIn = TimeSpan.FromTicks(Expires);
+        }
     }
 }
 

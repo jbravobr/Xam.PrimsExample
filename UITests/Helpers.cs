@@ -21,6 +21,28 @@ namespace IcatuzinhoApp.UITests
 
             return httpClient;
         }
+
+        public static HttpClient ReturnClient(string accessToken)
+        {
+            try
+            {
+                var httpClient = new HttpClient
+                {
+                    BaseAddress = new Uri("http://labdev.labdevmobile.com.br/"),
+                    Timeout = TimeSpan.FromSeconds(40)
+                };
+
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                return httpClient;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

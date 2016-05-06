@@ -77,8 +77,6 @@ namespace IcatuzinhoApp.Droid
 			global::Plugin.Toasts.Resource.String.ApplicationName = global::IcatuzinhoApp.Droid.Resource.String.ApplicationName;
 			global::Plugin.Toasts.Resource.String.Hello = global::IcatuzinhoApp.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::IcatuzinhoApp.Droid.Resource.Attribute.actionBarSize;
-			global::PCLCrypto.Resource.String.ApplicationName = global::IcatuzinhoApp.Droid.Resource.String.ApplicationName;
-			global::PCLCrypto.Resource.String.Hello = global::IcatuzinhoApp.Droid.Resource.String.Hello;
 		}
 		
 		public partial class Animation
@@ -3655,11 +3653,11 @@ namespace IcatuzinhoApp.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f070046
-			public const int ApplicationName = 2131165254;
+			// aapt resource value: 0x7f070047
+			public const int ApplicationName = 2131165255;
 			
-			// aapt resource value: 0x7f070045
-			public const int Hello = 2131165253;
+			// aapt resource value: 0x7f070046
+			public const int Hello = 2131165254;
 			
 			// aapt resource value: 0x7f070031
 			public const int abc_action_bar_home_description = 2131165233;
@@ -3820,8 +3818,8 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f07001b
 			public const int common_signin_button_text_long = 2131165211;
 			
-			// aapt resource value: 0x7f070047
-			public const int library_name = 2131165255;
+			// aapt resource value: 0x7f070045
+			public const int library_name = 2131165253;
 			
 			// aapt resource value: 0x7f07001f
 			public const int mr_button_content_description = 2131165215;
