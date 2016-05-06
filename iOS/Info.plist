@@ -48,5 +48,7 @@
 	<string>Precisamos usar o seu GPS, ok ?</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Estamos usando seu GPS, ok?</string>
+	<key>XSAppIconAssets</key>
+	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 </dict>
 </plist>

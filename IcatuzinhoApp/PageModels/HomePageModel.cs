@@ -81,12 +81,14 @@ namespace IcatuzinhoApp
                 else
                 {
                     _userDialogs.HideLoading();
-                    await _userDialogs.AlertAsync("Houve um erro na aplicação", "Erro", "OK");
+                    UIFunctions.ShowErrorMessageToUI();
                 }
             }
             catch (Exception ex)
             {
                 base.SendToInsights(ex);
+                _userDialogs.HideLoading();
+                UIFunctions.ShowErrorMessageToUI();
             }
         }
 
@@ -96,12 +98,25 @@ namespace IcatuzinhoApp
             {
                 return new Command(async (obj) =>
                 {
-                    if (await _travelService.DoCheckIn(_travel.Schedule.Id, App.UserAuthenticated.Id))
+                    try
                     {
-                        isCheckIn = false;
-                        isCheckOut = true;
+                        _userDialogs.ShowLoading();
+                        var result = await _travelService.DoCheckIn(_travel.Schedule.Id, App.UserAuthenticated.Id);
 
-                        UpdateSeats();
+                        if (result)
+                        {
+                            isCheckIn = false;
+                            isCheckOut = true;
+
+                            UpdateSeats();
+                            _userDialogs.HideLoading();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        base.SendToInsights(ex);
+                        _userDialogs.HideLoading();
+                        UIFunctions.ShowErrorMessageToUI();
                     }
                 });
             }
@@ -113,18 +128,30 @@ namespace IcatuzinhoApp
             {
                 return new Command(async (obj) =>
                 {
-
-                    var confirm = await _userDialogs.ConfirmAsync("Deseja realmente desistir da sua viagem?",
-                                                                  "CheckOut", "Sim", "Não");
-
-                    if (confirm)
+                    try
                     {
-                        if (await _travelService.DoCheckOut(_travel.Schedule.Id, App.UserAuthenticated.Id))
+                        var confirm = await _userDialogs.ConfirmAsync("Deseja realmente desistir da sua viagem?",
+                                                                      "CheckOut", "Sim", "Não");
+
+                        if (confirm)
                         {
-                            isCheckIn = true;
-                            isCheckOut = false;
-                            UpdateSeats();
+                            _userDialogs.ShowLoading();
+                            var result = await _travelService.DoCheckOut(_travel.Schedule.Id, App.UserAuthenticated.Id);
+
+                            if (result)
+                            {
+                                isCheckIn = true;
+                                isCheckOut = false;
+                                UpdateSeats();
+                                _userDialogs.HideLoading();
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        base.SendToInsights(ex);
+                        _userDialogs.HideLoading();
+                        UIFunctions.ShowErrorMessageToUI();
                     }
                 });
             }
@@ -132,13 +159,10 @@ namespace IcatuzinhoApp
 
         public async void UpdateSeats()
         {
-            _userDialogs.ShowLoading();
             var result = await _travelService.GetAvailableSeats(_travel.Id);
 
             if (result > 0)
                 SeatsAvailable = result.ToString();
-
-            _userDialogs.HideLoading();
         }
 
         public Travel GetNextTravel()

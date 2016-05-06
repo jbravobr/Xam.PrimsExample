@@ -81,15 +81,12 @@ namespace IcatuzinhoApp
             catch (Exception ex)
             {
                 _userDialogs.HideLoading();
-                new LogExceptionService().SubmitToInsights(ex);
+                base.SendToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI();
             }
         }
 
-
-        public async Task<bool> GetAuthenticatedUser()
-        {
-            return await _userService.GetAuthenticatedUser();
-        }
+        public async Task<bool> GetAuthenticatedUser() => await _userService.GetAuthenticatedUser();
 
         public Command Confirm
         {
@@ -124,37 +121,34 @@ namespace IcatuzinhoApp
                            EmailError = false;
                            PasswordError = false;
 
-                           var userAuthenticated = await _authService.DoAuthentication(Email, Password, false);
+                           // Com token
+                           //var userAuthenticated = await _authService.DoAuthentication(Email, Password, false);
+
+                           // Sem token
+                           //Gravando user
+                           var userAuthenticated = await _userService.Login(Email, Password);
 
                            if (userAuthenticated)
                            {
-                               try
-                               {
-                                   //Gravando user
-                                   await _userService.Login(Email, Password);
+                               //Gravando user
+                               //await _userService.Login(Email, Password);
 
-                                   await _stationService.GetAllStations();
-                                   await _scheduleService.GetAllSchedules();
-                                   await InsertTravels();
-                                   await _weatherService.GetWeather();
-                                   await _itineraryService.GetAllItineraries();
+                               await _stationService.GetAllStations();
+                               await _scheduleService.GetAllSchedules();
+                               await InsertTravels();
+                               await _weatherService.GetWeather();
+                               await _itineraryService.GetAllItineraries();
 
-                                   var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-                                   tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ? string.Empty : "house-full.png", null);
-                                   tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ? string.Empty : "bus-full.png", null);
+                               var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
+                               tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ? string.Empty : "house-full.png", null);
+                               tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ? string.Empty : "bus-full.png", null);
 
-                                   RegisterLocalAuthenticatedUser();
+                               RegisterLocalAuthenticatedUser();
 
-                                   _userDialogs.HideLoading();
-                                   CoreMethods.SwitchOutRootNavigation("HomeContainer");
-                               }
-                               catch (Exception ex)
-                               {
-                                   _userDialogs.HideLoading();
-                                   new LogExceptionService().SubmitToInsights(ex);
-                               }
+                               _userDialogs.HideLoading();
+                               CoreMethods.SwitchOutRootNavigation("HomeContainer");
                            }
-                           else
+                           else if (!userAuthenticated)
                            {
                                _userDialogs.HideLoading();
                                await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error,
@@ -166,6 +160,7 @@ namespace IcatuzinhoApp
                    {
                        _userDialogs.HideLoading();
                        base.SendToInsights(ex);
+                       UIFunctions.ShowErrorMessageToUI();
                    }
                });
             }
@@ -193,15 +188,9 @@ namespace IcatuzinhoApp
             }
         }
 
-        public void TextChangedEmail()
-        {
-            EmailError = false;
-        }
+        public void TextChangedEmail() => EmailError = false;
 
-        public void TextChangedPassword()
-        {
-            PasswordError = false;
-        }
+        public void TextChangedPassword() => PasswordError = false;
     }
 }
 
