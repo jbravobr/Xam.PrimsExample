@@ -5,6 +5,7 @@ using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Moq;
 
 namespace IcatuzinhoApp.UITests
 {
@@ -12,9 +13,16 @@ namespace IcatuzinhoApp.UITests
     public class UsersTests
     {
         HttpClient _httpClient = Helpers.ReturnClient();
+        private Mock<IUserService> mockService;
+
+        [SetUp]
+        public void SetUp()
+        {
+            mockService = new Mock<IUserService>();
+        }
 
         [Test]
-        public async Task Try_To_Authenticate()
+        public async Task TryToAuthenticateWithFormsAuthentication()
         {
             try
             {
@@ -58,7 +66,7 @@ namespace IcatuzinhoApp.UITests
         }
 
         [Test]
-        public async Task Try_Authenticate_With_Wrong_User()
+        public async Task TryAuthenticateWithWrongUser()
         {
             var userEmail = "ramaral@icatuseguros.com.br";
             var userPassword = "123";
@@ -81,7 +89,7 @@ namespace IcatuzinhoApp.UITests
         }
 
         [Test]
-        public async Task Try_Authenticate_With_Right_User()
+        public async Task TryAuthenticateWithRightUser()
         {
             var userEmail = "teste@icatuseguros.com.br";
             var userPassword = "Icatu123!";
@@ -101,6 +109,19 @@ namespace IcatuzinhoApp.UITests
             else
                 Assert.IsTrue(result.StatusCode == System.Net.HttpStatusCode.InternalServerError, "Erro na API");
 
+        }
+
+        [Test]
+        public void PopulateUserTable()
+        {
+            var user = new User { Id = 1, Email = "teste@icatuseguros.com.br", Name = "Usuário Teste"};
+
+            mockService.Setup(m => m.InsertOrReplaceWithChildren(It.IsAny<User>())).Returns(true);
+
+            var service = mockService.Object;
+            var insert = service.InsertOrReplaceWithChildren(user);
+
+            Assert.IsTrue(insert);
         }
     }
 }

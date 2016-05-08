@@ -295,12 +295,14 @@ namespace IcatuzinhoApp
         {
             if (ico.Contains("rain") || ico.Contains("thunder"))
                 return $"\uf0e9";
-            else if (ico.Contains("cloudy"))
+
+            if (ico.Contains("cloudy"))
                 return $"\uf073";
-            else if (ico.Contains("sunny"))
+
+            if (ico.Contains("sunny"))
                 return $"\uf185";
-            else
-                return $"\uf186";
+
+            return $"\uf186";
         }
     }
 }

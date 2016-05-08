@@ -106,7 +106,15 @@
     <Compile Include="PageModels\BasePageModel.cs" />
     <Compile Include="Utils\Tracks.cs" />
     <Compile Include="Utils\Connectivity.cs" />
-    <Compile Include="Models\Settings.cs" />
+    <Compile Include="Models\DeveloperSettings.cs" />
+    <Compile Include="TriggerActions\LabelScaleTriggerAction.cs" />
+    <Compile Include="PageModels\SchedulePageModel.cs" />
+    <Compile Include="Pages\SchedulePage.xaml.cs">
+      <DependentUpon>SchedulePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Templates\FriendItemTemplate.xaml.cs">
+      <DependentUpon>FriendItemTemplate.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -129,6 +137,8 @@
     <Folder Include="Behaviors\" />
     <Folder Include="ValueConverters\" />
     <Folder Include="Settings\" />
+    <Folder Include="TriggerActions\" />
+    <Folder Include="Pages\Templates\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -233,6 +243,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\TravelPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\SchedulePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <LogicalName>SchedulePage.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Templates\FriendItemTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <LogicalName>FriendItemTemplate.xaml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

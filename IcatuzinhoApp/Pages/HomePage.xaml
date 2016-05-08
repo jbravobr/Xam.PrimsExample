@@ -3,6 +3,7 @@
 		xmlns="http://xamarin.com/schemas/2014/forms" 
 		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 		x:Class="IcatuzinhoApp.HomePage" 
+		xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp"
 		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
 		Title="Próxima partida" 
 		BackgroundColor="Black">
@@ -41,7 +42,15 @@
 						VerticalTextAlignment="Center"
 						FontSize="16"                  
                         FontFamily="{x:Static artina:FontAwesome.FontName}"
-						TextColor="White">
+						TextColor="White"
+						x:Name="labelSeats">
+
+					<!--<Label.Triggers>
+						<EventTrigger Event="PropertyChanged">
+                            <local:LabelScaleTriggerAction />
+                        </EventTrigger>
+					</Label.Triggers>-->
+					
 				</Label>
 
 				<Label Text="{Binding GetTemp}" 

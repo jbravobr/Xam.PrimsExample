@@ -87,19 +87,26 @@ namespace IcatuzinhoApp
 
                     RegisterLocalAuthenticatedUser();
 
-                    ; Insights.Identify(App.UserAuthenticated.Email,
+                    Insights.Identify(App.UserAuthenticated.Email,
                                          Insights.Traits.GuestIdentifier,
                                          App.UserAuthenticated.Email);
 
                     Tracks.TrackLoginInformation();
 
                     var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
+
                     tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ?
                                                   string.Empty :
                                                   "house-full.png", null);
+                    
                     tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
                                                     string.Empty :
                                                     "bus-full.png", null);
+                    
+                    tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
+                                                          string.Empty :
+                                                          "bus-full.png", null);
+                    
                     _userDialogs.HideLoading();
                     CoreMethods.SwitchOutRootNavigation("HomeContainer");
                 }
@@ -154,6 +161,10 @@ namespace IcatuzinhoApp
                                                         "house-full.png", null);
 
                            tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
+                                                          string.Empty :
+                                                          "bus-full.png", null);
+
+                            tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
                                                           string.Empty :
                                                           "bus-full.png", null);
 

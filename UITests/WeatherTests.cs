@@ -14,7 +14,7 @@ namespace IcatuzinhoApp.UITests
         HttpClient _httpClient = Helpers.ReturnClient();
 
         [Test]
-        public async Task Try_Return_Weather()
+        public async Task ReturnWeatherFromAPI()
         {
             var weather = new Weather();
 
@@ -33,23 +33,21 @@ namespace IcatuzinhoApp.UITests
         }
 
         [Test]
-        public async Task Try_Return_Weather_Authenticate()
+        public async Task ReturnWeatherFromAPIWithAuthenticate()
         {
-            try
+            var username = "teste@icatuseguros.com.br";
+            var password = "Icatu123!";
+            var isEncrypted = false;
+
+            var client = new HttpClient
             {
-                var username = "teste@icatuseguros.com.br";
-                var password = "Icatu123!";
-                var isEncrypted = false;
+                BaseAddress = new Uri($"{Constants.BaseAddress}"),
+                Timeout = TimeSpan.FromSeconds(40)
+            };
 
-                var client = new HttpClient
-                {
-                    BaseAddress = new Uri($"{Constants.BaseAddress}"),
-                    Timeout = TimeSpan.FromSeconds(40)
-                };
-
-                var request = new HttpRequestMessage(HttpMethod.Post, $"{Constants.FormsAuthentication}");
-                request.Content = new FormUrlEncodedContent(new[]
-                {
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{Constants.FormsAuthentication}");
+            request.Content = new FormUrlEncodedContent(new[]
+            {
                     new KeyValuePair<string, string>("grant_type", "password"),
                     new KeyValuePair<string, string>("username",username),
                     new KeyValuePair<string, string>("password",isEncrypted ?
@@ -57,33 +55,27 @@ namespace IcatuzinhoApp.UITests
                                                      password)
                 });
 
-                var response = await client.SendAsync(request);
+            var response = await client.SendAsync(request);
 
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    var authenticationToken = JsonConvert.DeserializeObject<AuthenticationToken>(jsonString);
-
-                    if (authenticationToken != null)
-                        authenticationToken.SetExpirationTime();
-
-                    client = null;
-                    client = Helpers.ReturnClient(authenticationToken.AccessToken);
-
-                    var result = await client.GetAsync($"icatuzinhoapi/api/weather/weatherAuth");
-
-                    if (result.IsSuccessStatusCode)
-                    {
-                        var stringJson = await result.Content.ReadAsStringAsync();
-                        var weather = JsonConvert.DeserializeObject<Weather>(stringJson);
-                        Assert.Greater(Convert.ToInt32(weather.Temp), 0);
-                    }
-                }
-
-            }
-            catch (Exception ex)
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                throw ex;
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var authenticationToken = JsonConvert.DeserializeObject<AuthenticationToken>(jsonString);
+
+                if (authenticationToken != null)
+                    authenticationToken.SetExpirationTime();
+
+                client = null;
+                client = Helpers.ReturnClient(authenticationToken.AccessToken);
+
+                var result = await client.GetAsync($"icatuzinhoapi/api/weather/weatherAuth");
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var stringJson = await result.Content.ReadAsStringAsync();
+                    var weather = JsonConvert.DeserializeObject<Weather>(stringJson);
+                    Assert.Greater(Convert.ToInt32(weather.Temp), 0);
+                }
             }
         }
     }

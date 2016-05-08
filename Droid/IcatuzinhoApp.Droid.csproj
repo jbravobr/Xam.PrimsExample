@@ -450,6 +450,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable\busstop.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
