@@ -1,10 +1,10 @@
 using Xamarin.Forms;
 using PropertyChanged;
-using Plugin.Toasts;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
 using Acr.UserDialogs;
+using Xamarin;
 
 namespace IcatuzinhoApp
 {
@@ -15,9 +15,9 @@ namespace IcatuzinhoApp
 
         public string Password { get; set; }
 
-        public bool EmailError { get; set; }
+        public bool EmailIsEnabled { get; set; }
 
-        public bool PasswordError { get; set; }
+        public bool PasswordIsEnabled { get; set; }
 
         readonly IUserService _userService;
 
@@ -53,34 +53,63 @@ namespace IcatuzinhoApp
             _itineraryService = itineraryService;
             _authService = authService;
 
-            EmailError = false;
-            PasswordError = false;
+            EmailIsEnabled = true;
+            PasswordIsEnabled = true;
         }
 
         public async override void Init(object initData)
         {
             base.Init(initData);
+            await Logon();
+        }
 
+        public async Task Logon()
+        {
             try
             {
-                if (await GetAuthenticatedUser())
+                _userDialogs.ShowLoading("Verificando conexão");
+
+                if (!await Connectivity.IsNetworkingOK())
                 {
-                    _userDialogs.ShowLoading();
+                    _userDialogs.HideLoading();
+
+                    UIFunctions.ShowErrorForConnectivityMessageToUI();
+                    EmailIsEnabled = false;
+                    PasswordIsEnabled = false;
+                }
+                else if (await GetAuthenticatedUser())
+                {
+                    _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
+
+                    _userDialogs.ShowLoading("Carregando");
+
                     await _weatherService.GetWeather();
 
                     RegisterLocalAuthenticatedUser();
 
-                    var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-                    tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ? string.Empty : "house-full.png", null);
-                    tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ? string.Empty : "bus-full.png", null);
-                    _userDialogs.HideLoading();
+                    ; Insights.Identify(App.UserAuthenticated.Email,
+                                         Insights.Traits.GuestIdentifier,
+                                         App.UserAuthenticated.Email);
 
+                    Tracks.TrackLoginInformation();
+
+                    var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
+                    tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ?
+                                                  string.Empty :
+                                                  "house-full.png", null);
+                    tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
+                                                    string.Empty :
+                                                    "bus-full.png", null);
+                    _userDialogs.HideLoading();
                     CoreMethods.SwitchOutRootNavigation("HomeContainer");
                 }
+                else
+                    _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
             }
             catch (Exception ex)
             {
                 _userDialogs.HideLoading();
+
                 base.SendToInsights(ex);
                 UIFunctions.ShowErrorMessageToUI();
             }
@@ -96,69 +125,53 @@ namespace IcatuzinhoApp
                {
                    try
                    {
-                       _userDialogs.ShowLoading();
-                       if (string.IsNullOrEmpty(Email) && string.IsNullOrEmpty(Password))
+                       _userDialogs.ShowLoading("Carregando");
+
+                       // Com token
+                       //var userAuthenticated = await _authService.DoAuthentication(Email, Password, false);
+
+                       // Sem token
+                       //Gravando user
+                       var userAuthenticated = await _userService.Login(Email, Password);
+
+                       if (userAuthenticated)
                        {
+                           //Gravando user
+                           //await _userService.Login(Email, Password);
+
+                           await _stationService.GetAllStations();
+                           await _scheduleService.GetAllSchedules();
+
+                           await InsertTravels();
+
+                           await _weatherService.GetWeather();
+                           await _itineraryService.GetAllItineraries();
+
+                           var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
+
+                           tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ?
+                                                        string.Empty :
+                                                        "house-full.png", null);
+
+                           tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
+                                                          string.Empty :
+                                                          "bus-full.png", null);
+
+                           RegisterLocalAuthenticatedUser();
+
                            _userDialogs.HideLoading();
-                           EmailError = true;
-                           PasswordError = true;
-                           return;
-                       }
-                       else if (string.IsNullOrEmpty(Email))
-                       {
-                           _userDialogs.HideLoading();
-                           EmailError = true;
-                           return;
-                       }
-                       else if (string.IsNullOrEmpty(Password))
-                       {
-                           _userDialogs.HideLoading();
-                           PasswordError = true;
-                           return;
+                           CoreMethods.SwitchOutRootNavigation("HomeContainer");
                        }
                        else
                        {
-                           EmailError = false;
-                           PasswordError = false;
-
-                           // Com token
-                           //var userAuthenticated = await _authService.DoAuthentication(Email, Password, false);
-
-                           // Sem token
-                           //Gravando user
-                           var userAuthenticated = await _userService.Login(Email, Password);
-
-                           if (userAuthenticated)
-                           {
-                               //Gravando user
-                               //await _userService.Login(Email, Password);
-
-                               await _stationService.GetAllStations();
-                               await _scheduleService.GetAllSchedules();
-                               await InsertTravels();
-                               await _weatherService.GetWeather();
-                               await _itineraryService.GetAllItineraries();
-
-                               var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-                               tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ? string.Empty : "house-full.png", null);
-                               tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ? string.Empty : "bus-full.png", null);
-
-                               RegisterLocalAuthenticatedUser();
-
-                               _userDialogs.HideLoading();
-                               CoreMethods.SwitchOutRootNavigation("HomeContainer");
-                           }
-                           else if (!userAuthenticated)
-                           {
-                               _userDialogs.HideLoading();
-                               await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error,
-                                   "Usuário/Senha inválidos", string.Empty, TimeSpan.FromSeconds(4));
-                           }
+                           _userDialogs.HideLoading();
+                           UIFunctions.ShowToastErrorMessageToUI("Usuário/Senha inválidos");
                        }
                    }
                    catch (Exception ex)
                    {
                        _userDialogs.HideLoading();
+
                        base.SendToInsights(ex);
                        UIFunctions.ShowErrorMessageToUI();
                    }
@@ -187,10 +200,6 @@ namespace IcatuzinhoApp
                 }
             }
         }
-
-        public void TextChangedEmail() => EmailError = false;
-
-        public void TextChangedPassword() => PasswordError = false;
     }
 }
 

@@ -45,58 +45,6 @@ namespace IcatuzinhoApp
                 return null;
             }
         }
-
-        public async Task<AuthenticationToken> AuthenticationWithFormUrlEncoded(string username, string password, bool isEncrypted)
-        {
-            try
-            {
-                var client = new HttpClient
-                {
-                    BaseAddress = new Uri($"{Constants.BaseAddress}"),
-                    Timeout = TimeSpan.FromSeconds(40)
-                };
-
-                var request = new HttpRequestMessage(HttpMethod.Post, $"{Constants.FormsAuthentication}");
-                request.Content = new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("grant_type", "password"),
-                    new KeyValuePair<string, string>("username",username),
-                    new KeyValuePair<string, string>("password",isEncrypted ?
-                                                     Crypto.EncryptStringAES(password,Constants.SharedSecret) :
-                                                     password)
-                });
-
-                var response = await client.SendAsync(request);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    var authenticationToken = JsonConvert.DeserializeObject<AuthenticationToken>(jsonString);
-
-                    return authenticationToken;
-                }
-
-                if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
-                {
-                    _userDialogs.Prompt(new PromptConfig
-                    {
-                        Message = "Ops! Parece que você não está autorizado a usar este aplicativo.",
-                        OkText = "OK",
-                        Title = "Aviso"
-                    });
-
-                    _log.SubmitToInsights(new ArgumentException($"Erro na autorização para o email: {username}"));
-                }
-
-                return null;
-            } 
-            catch (Exception ex) 
-            {
-                _log.SubmitToInsights(ex);
-                UIFunctions.ShowErrorMessageToUI();
-                return null;
-            }
-        }
     }
 }
 

@@ -39,7 +39,6 @@ namespace IcatuzinhoApp
                     conn.CreateTable<LogException>();
                     conn.CreateTable<Schedule>();
                     conn.CreateTable<Station>();
-                    conn.CreateTable<Transaction>();
                     conn.CreateTable<Travel>();
                     conn.CreateTable<User>();
                     conn.CreateTable<Vehicle>();

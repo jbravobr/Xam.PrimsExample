@@ -8,7 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace IcatuzinhoApp
 {
-    public class Utils<T> where T : class
+    public class DTO<T> where T : class
     {
         public async Task<T> ConvertSingleObjectFromJson(HttpContent content)
         {

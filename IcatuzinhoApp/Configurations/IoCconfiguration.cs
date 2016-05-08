@@ -1,5 +1,7 @@
 ﻿using System;
 using Acr.UserDialogs;
+using Plugin.DeviceInfo;
+using Plugin.Connectivity;
 
 namespace IcatuzinhoApp
 {
@@ -24,7 +26,9 @@ namespace IcatuzinhoApp
             FreshMvvm.FreshIOC.Container.Register<IWeatherService, WeatherService>();
 
             //3rd Party Controlls
-            FreshMvvm.FreshIOC.Container.Register<IUserDialogs>(UserDialogs.Instance);
+            FreshMvvm.FreshIOC.Container.Register(UserDialogs.Instance);
+            FreshMvvm.FreshIOC.Container.Register(CrossDeviceInfo.Current);
+            FreshMvvm.FreshIOC.Container.Register(CrossConnectivity.Current);
         }
     }
 }

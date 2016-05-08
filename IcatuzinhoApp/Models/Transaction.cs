@@ -1,18 +1,16 @@
 ﻿using System;
 using PropertyChanged;
 using SQLite.Net.Attributes;
+using System.Collections.Generic;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
     public class Transaction
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
-        public string TransactionDetails { get; set; }
+        public Dictionary<string,string> Details { get; set; }
     }
 }
 

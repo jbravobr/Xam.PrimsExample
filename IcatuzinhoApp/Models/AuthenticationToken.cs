@@ -28,6 +28,11 @@ namespace IcatuzinhoApp
         {
             ExpiresIn = TimeSpan.FromTicks(Expires);
         }
+
+        public bool IsTokeExpired()
+        {
+            return DateTime.Now.Ticks < ExpiresIn.Ticks;
+        }
     }
 }
 

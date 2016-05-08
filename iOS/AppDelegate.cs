@@ -14,10 +14,15 @@ namespace IcatuzinhoApp.iOS
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            DependencyService.Register<ToastNotificatorImplementation>();
-            ToastNotificatorImplementation.Init();
+            //DependencyService.Register<ToastNotificatorImplementation>();
+            //ToastNotificatorImplementation.Init();
             Xamarin.FormsMaps.Init();
-            Xamarin.Insights.Initialize("af422595c1a35c1ad1a77863b9852f80f7d7542c");
+
+#if DEBUG
+            Xamarin.Insights.Initialize(Xamarin.Insights.DebugModeKey);
+#else
+            Xamarin.Insights.Initialize("af73d7945c2d65a46435cb2f6441453f416e9b43");
+#endif
 
             global::Xamarin.Forms.Forms.Init();
 

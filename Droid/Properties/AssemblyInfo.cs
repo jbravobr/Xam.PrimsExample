@@ -15,6 +15,7 @@ using Xamarin.Forms;
 [assembly: AssemblyCopyright("ramaral")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: UsesFeature("android.hardware.wifi", Required = false)]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,

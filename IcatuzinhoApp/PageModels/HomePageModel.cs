@@ -2,13 +2,14 @@
 using PropertyChanged;
 using Acr.UserDialogs;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
     public class HomePageModel : BasePageModel
     {
-        public string CurrentDate { get; } = $"{DateTime.Now.Day.ToString()}/{DateTime.Now.Month.ToString()}";
+        public string CurrentDate { get; set; }
 
         public string SeatsAvailable { get; set; }
 
@@ -52,23 +53,45 @@ namespace IcatuzinhoApp
             isCheckOut = false;
         }
 
-        public async override void Init(object initData)
+        public override void Init(object initData)
         {
             base.Init(initData);
+            Task.Factory.StartNew(() => GetInfos()).ContinueWith((obj) => ScheduleGetInfoForUI());
+        }
 
+        public void GetInfos()
+        {
             try
             {
-                _userDialogs.ShowLoading();
+                _userDialogs.ShowLoading("Carregando");
+
                 _travel = GetNextTravel();
 
                 if (_travel != null)
                 {
-                    SeatsAvailable = _travel.Vehicle.SeatsAvailable.ToString();
+                    var currentDay = DateTime.Now.Day < 10 ?
+                                             $"0{DateTime.Now.Day.ToString()}" :
+                                             DateTime.Now.Day.ToString();
+
+                    var currentMonth = DateTime.Now.Month < 10 ?
+                                               $"0{DateTime.Now.Month.ToString()}" :
+                                               DateTime.Now.Month.ToString();
+
+                    CurrentDate = $"{currentDay}/{currentMonth}";
+
+                    if (string.IsNullOrEmpty(SeatsAvailable))
+                        SeatsAvailable = _travel.Vehicle.SeatsAvailable.ToString();
+
                     SeatsTotal = _travel.Vehicle.SeatsTotal.ToString();
                     Description = _travel.Schedule.Message;
 
-                    var _hours = _travel.Schedule.StartSchedule.Hour == 0 ? ZeroHours : _travel.Schedule.StartSchedule.Hour.ToString();
-                    var _minutes = _travel.Schedule.StartSchedule.Minute == 0 ? Minutes : _travel.Schedule.StartSchedule.Minute.ToString();
+                    var _hours = _travel.Schedule.StartSchedule.Hour == 0 ?
+                                        ZeroHours :
+                                        _travel.Schedule.StartSchedule.Hour.ToString();
+
+                    var _minutes = _travel.Schedule.StartSchedule.Minute == 0 ?
+                                          Minutes :
+                                          _travel.Schedule.StartSchedule.Minute.ToString();
 
                     Time = $"{_hours}:{_minutes}";
 
@@ -86,10 +109,29 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                base.SendToInsights(ex);
                 _userDialogs.HideLoading();
+
+                base.SendToInsights(ex);
                 UIFunctions.ShowErrorMessageToUI();
             }
+        }
+
+        public void ScheduleGetInfoForUI()
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(5), () =>
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        GetInfos();
+                        await UpdateSeats();
+                        ScheduleGetInfoForUI();
+                    });
+                });
+
+                return false;
+            });
         }
 
         public Command CheckIn
@@ -100,22 +142,37 @@ namespace IcatuzinhoApp
                 {
                     try
                     {
-                        _userDialogs.ShowLoading();
+                        if (!await Connectivity.IsNetworkingOK())
+                        {
+                            UIFunctions.ShowErrorForConnectivityMessageToUI();
+                            return;
+                        }
+
+                        _userDialogs.ShowLoading("Carregando");
+
                         var result = await _travelService.DoCheckIn(_travel.Schedule.Id, App.UserAuthenticated.Id);
 
                         if (result)
                         {
                             isCheckIn = false;
                             isCheckOut = true;
+                            await UpdateSeats();
 
-                            UpdateSeats();
                             _userDialogs.HideLoading();
+                            Tracks.TrackCheckInInformation();
+                            UIFunctions.ShowToastSuccessMessageToUI("Checkin efetuado!");
+                        }
+                        else
+                        {
+                            _userDialogs.HideLoading();
+                            UIFunctions.ShowToastErrorMessageToUI("Erro ao fazer o Checkin, tente novamente");
                         }
                     }
                     catch (Exception ex)
                     {
-                        base.SendToInsights(ex);
                         _userDialogs.HideLoading();
+
+                        base.SendToInsights(ex);
                         UIFunctions.ShowErrorMessageToUI();
                     }
                 });
@@ -130,34 +187,50 @@ namespace IcatuzinhoApp
                 {
                     try
                     {
-                        var confirm = await _userDialogs.ConfirmAsync("Deseja realmente desistir da sua viagem?",
-                                                                      "CheckOut", "Sim", "Não");
+                        if (!await Connectivity.IsNetworkingOK())
+                        {
+                            UIFunctions.ShowErrorForConnectivityMessageToUI();
+                            return;
+                        }
+
+                        var confirm = await _userDialogs.ConfirmAsync("Deseja realmente cancelar a sua viagem?",
+                                                                      "Checkout", "Sim", "Não");
 
                         if (confirm)
                         {
-                            _userDialogs.ShowLoading();
+                            _userDialogs.ShowLoading("Carregando");
+
                             var result = await _travelService.DoCheckOut(_travel.Schedule.Id, App.UserAuthenticated.Id);
 
                             if (result)
                             {
                                 isCheckIn = true;
                                 isCheckOut = false;
-                                UpdateSeats();
+                                await UpdateSeats();
+
                                 _userDialogs.HideLoading();
+                                Tracks.TrackCheckOutInformation();
+                                UIFunctions.ShowToastSuccessMessageToUI("Checkout efetuado!");
+                            }
+                            else
+                            {
+                                _userDialogs.HideLoading();
+                                UIFunctions.ShowToastErrorMessageToUI("Erro ao fazer o Checkout, tente novamente");
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        base.SendToInsights(ex);
                         _userDialogs.HideLoading();
+
+                        base.SendToInsights(ex);
                         UIFunctions.ShowErrorMessageToUI();
                     }
                 });
             }
         }
 
-        public async void UpdateSeats()
+        public async Task UpdateSeats()
         {
             var result = await _travelService.GetAvailableSeats(_travel.Id);
 

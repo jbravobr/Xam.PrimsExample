@@ -8,7 +8,7 @@ namespace IcatuzinhoApp
         IHttpAccessService _httpService;
         ILogExceptionService _log;
         IAuthenticationService _auth;
-        Utils<Weather> _utils;
+        DTO<Weather> _utils;
 
         public WeatherService(IHttpAccessService httpService, 
                               ILogExceptionService log,
@@ -30,7 +30,7 @@ namespace IcatuzinhoApp
 
                 if (data != null && data.IsSuccessStatusCode)
                 {
-                    _utils = new Utils<Weather>();
+                    _utils = new DTO<Weather>();
                     var weather = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (weather != null)

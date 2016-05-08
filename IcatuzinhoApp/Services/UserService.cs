@@ -11,7 +11,7 @@ namespace IcatuzinhoApp
         IHttpAccessService _httpService;
         ILogExceptionService _log;
         IAuthenticationService _auth;
-        Utils<User> _utils;
+        DTO<User> _utils;
 
         public UserService(IHttpAccessService httpService, 
                            ILogExceptionService log,
@@ -56,7 +56,7 @@ namespace IcatuzinhoApp
 
                 if (data != null && data.IsSuccessStatusCode)
                 {
-                    _utils = new Utils<User>();
+                    _utils = new DTO<User>();
                     var user = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (user != null)

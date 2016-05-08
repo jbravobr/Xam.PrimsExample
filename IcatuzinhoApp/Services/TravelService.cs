@@ -10,7 +10,7 @@ namespace IcatuzinhoApp
         IHttpAccessService _httpService;
         ILogExceptionService _log;
         IAuthenticationService _auth;
-        Utils<Travel> _utils;
+        DTO<Travel> _utils;
 
         public TravelService(IHttpAccessService httpService, 
                              ILogExceptionService log,
@@ -32,7 +32,7 @@ namespace IcatuzinhoApp
 
                 if (data != null && data.IsSuccessStatusCode)
                 {
-                    _utils = new Utils<Travel>();
+                    _utils = new DTO<Travel>();
                     var travel = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (travel != null)
@@ -58,7 +58,7 @@ namespace IcatuzinhoApp
 
                 if (data != null && data.IsSuccessStatusCode)
                 {
-                    _utils = new Utils<Travel>();
+                    _utils = new DTO<Travel>();
                     var result = await _utils.ConvertSingleObjectFromJsonToBolean(data.Content);
 
                     return await Task.FromResult(result);
@@ -85,7 +85,7 @@ namespace IcatuzinhoApp
 
                 if (data != null && data.IsSuccessStatusCode)
                 {
-                    _utils = new Utils<Travel>();
+                    _utils = new DTO<Travel>();
                     var result = await _utils.ConvertSingleObjectFromJsonToBolean(data.Content);
 
                     return await Task.FromResult(result);

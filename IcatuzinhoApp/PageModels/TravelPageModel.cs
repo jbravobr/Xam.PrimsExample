@@ -15,6 +15,13 @@ namespace IcatuzinhoApp
             _itineraryService = itineraryService;
         }
 
+        public override void Init(object initData)
+        {
+            Tracks.TrackWhoSawMapsInformation();
+
+            base.Init(initData);
+        }
+
         public List<Itinerary> Get()
         {
             try

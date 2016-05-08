@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace IcatuzinhoApp
 {
@@ -14,24 +17,38 @@ namespace IcatuzinhoApp
             _log = log;
         }
 
-        public async Task<bool> DoAuthentication(string username, string password, bool isEncrypted)
+        public async Task<bool> AuthenticationWithFormUrlEncoded(string username, string password, bool isEncrypted)
         {
             try
             {
-                if (!string.IsNullOrEmpty(username) &&
-                   !string.IsNullOrEmpty(password))
-                {
-                    var auth = await _httpClient.AuthenticationWithFormUrlEncoded(username, password, isEncrypted);
+                var client =_httpClient.Init();
 
-                    if (auth != null)
-                    {
-                        base.InsertOrReplaceWithChildren(auth);
-                        return await Task.FromResult(true);
-                    }
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{Constants.FormsAuthentication}");
+                request.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("username",username),
+                    new KeyValuePair<string, string>("password",isEncrypted ?
+                                                     Crypto.EncryptStringAES(password,Constants.SharedSecret) :
+                                                     password)
+                });
+
+                var response = await client.SendAsync(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var authenticationToken = JsonConvert.DeserializeObject<AuthenticationToken>(jsonString);
+
+                    base.InsertOrReplaceWithChildren(authenticationToken);
+
+                    return await Task.FromResult(true);
                 }
 
-                return await Task.FromResult(false);
+                if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    _log.SubmitToInsights(new ArgumentException($"Erro na autorização para o email: {username}"));
 
+                return await Task.FromResult(false);
             }
             catch (Exception ex)
             {

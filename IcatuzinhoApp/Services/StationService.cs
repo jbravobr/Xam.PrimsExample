@@ -10,7 +10,7 @@ namespace IcatuzinhoApp
         IHttpAccessService _httpService;
         ILogExceptionService _log;
         IAuthenticationService _auth;
-        Utils<List<Station>> _utils;
+        DTO<List<Station>> _utils;
 
         public StationService(IHttpAccessService httpService, 
                               ILogExceptionService log,
@@ -32,7 +32,7 @@ namespace IcatuzinhoApp
 
                 if (data != null && data.IsSuccessStatusCode)
                 {
-                    _utils = new Utils<List<Station>>();
+                    _utils = new DTO<List<Station>>();
                     var stations = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (stations != null && stations.Any())

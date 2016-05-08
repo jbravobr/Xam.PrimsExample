@@ -10,7 +10,7 @@ namespace IcatuzinhoApp
         IHttpAccessService _httpService;
         ILogExceptionService _log;
         IAuthenticationService _auth;
-        Utils<List<Schedule>> _utils;
+        DTO<List<Schedule>> _utils;
 
         public ScheduleService(IHttpAccessService httpService,
                                IAuthenticationService auth)
@@ -30,7 +30,7 @@ namespace IcatuzinhoApp
 
                 if (data != null && data.IsSuccessStatusCode)
                 {
-                    _utils = new Utils<List<Schedule>>();
+                    _utils = new DTO<List<Schedule>>();
                     var schedules = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (schedules != null && schedules.Any())

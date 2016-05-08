@@ -25,13 +25,10 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                Insights.Report(ex);
             }
         }
 
-        public static Page GetMainPage()
-        {
-            return FreshMvvm.FreshPageModelResolver.ResolvePageModel<LoginPageModel>();
-        }
+        public static Page GetMainPage() => FreshMvvm.FreshPageModelResolver.ResolvePageModel<LoginPageModel>();
     }
 }

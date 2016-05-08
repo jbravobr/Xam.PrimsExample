@@ -1,16 +1,8 @@
-﻿using System;
-
-using Android.App;
-using Android.Content;
-using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using Android.App;
 using Android.OS;
-using Android.Graphics.Drawables;
 using Xamarin.Forms.Platform.Android;
-using Xamarin.Forms;
-using Plugin.Toasts;
+using Acr.UserDialogs;
+using Xamarin;
 
 namespace IcatuzinhoApp.Droid
 {
@@ -18,6 +10,7 @@ namespace IcatuzinhoApp.Droid
         Label = "Icatuzinho",
         Theme = "@style/AppTheme",
         Icon = "@drawable/ic_launcher",
+        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait,
         MainLauncher = true)
     ]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
@@ -30,10 +23,18 @@ namespace IcatuzinhoApp.Droid
             base.OnCreate(bundle);
 
             Xamarin.FormsMaps.Init(this, bundle);
-            Xamarin.Insights.Initialize("af422595c1a35c1ad1a77863b9852f80f7d7542c", this);
 
-            DependencyService.Register<ToastNotificatorImplementation>(); // Register your dependency
-            ToastNotificatorImplementation.Init(this); // In Android ([this] is the current Android Activity)
+            Xamarin.Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
+                {
+                    if (isStartupCrash)
+                        Xamarin.Insights.PurgePendingCrashReports().Wait();
+                };
+#if DEBUG
+            Xamarin.Insights.Initialize(Insights.DebugModeKey, this);
+#else
+            Xamarin.Insights.Initialize("af73d7945c2d65a46435cb2f6441453f416e9b43", this);
+#endif
+            UserDialogs.Init(this);
 
             Xamarin.Forms.Forms.Init(this, bundle);
 

@@ -9,7 +9,7 @@ namespace IcatuzinhoApp
         IHttpAccessService _httpService;
         ILogExceptionService _log;
         IAuthenticationService _auth;
-        Utils<Itinerary> _utils;
+        DTO<Itinerary> _utils;
 
         public ItineraryService(IHttpAccessService httpService, 
                                 ILogExceptionService log,
@@ -31,7 +31,7 @@ namespace IcatuzinhoApp
 
                 if (data != null && data.IsSuccessStatusCode)
                 {
-                    _utils = new Utils<Itinerary>();
+                    _utils = new DTO<Itinerary>();
                     var itineraries = await _utils.ConvertCollectionObjectFromJson(data.Content);
 
                     if (itineraries != null && itineraries.Any())
