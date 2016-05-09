@@ -10,7 +10,7 @@ namespace IcatuzinhoApp
         IAuthenticationService _auth;
         DTO<Weather> _utils;
 
-        public WeatherService(IHttpAccessService httpService, 
+        public WeatherService(IHttpAccessService httpService,
                               ILogExceptionService log,
                               IAuthenticationService auth)
         {
@@ -36,6 +36,12 @@ namespace IcatuzinhoApp
                     if (weather != null)
                         InsertOrReplaceWithChildren(weather);
                 }
+
+                if (data != null && data.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    UIFunctions.ShowErrorMessageToUI(Constants.MessageErroAuthentication);
+
+                if (data == null)
+                    UIFunctions.ShowErrorMessageToUI();
             }
             catch (Exception ex)
             {

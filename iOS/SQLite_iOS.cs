@@ -1,7 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.IO;
-using SQLite.Net.Async;
 using SQLite.Net;
 
 [assembly: Dependency(typeof(IcatuzinhoApp.iOS.SQLite_iOS))]

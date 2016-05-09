@@ -42,7 +42,7 @@ namespace IcatuzinhoApp.UITests
                     new KeyValuePair<string, string>("grant_type", "password"),
                     new KeyValuePair<string, string>("username",username),
                     new KeyValuePair<string, string>("password",isEncrypted ?
-                                                     Crypto.EncryptStringAES(password,Constants.SharedSecret) :
+                                                     Crypto.EncryptStringAES(password) :
                                                      password)
                 });
 
@@ -114,7 +114,7 @@ namespace IcatuzinhoApp.UITests
         [Test]
         public void PopulateUserTable()
         {
-            var user = new User { Id = 1, Email = "teste@icatuseguros.com.br", Name = "Usuário Teste"};
+            var user = new User { Id = 1, Email = "teste@icatuseguros.com.br", Name = "Usuário Teste" };
 
             mockService.Setup(m => m.InsertOrReplaceWithChildren(It.IsAny<User>())).Returns(true);
 

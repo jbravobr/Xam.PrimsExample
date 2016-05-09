@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using ModernHttpClient;
 
 namespace IcatuzinhoApp
 {
@@ -21,7 +22,7 @@ namespace IcatuzinhoApp
         {
             try
             {
-                var client =_httpClient.Init();
+                var client = _httpClient.Init();
 
                 var request = new HttpRequestMessage(HttpMethod.Post, $"{Constants.FormsAuthentication}");
                 request.Content = new FormUrlEncodedContent(new[]
@@ -29,7 +30,7 @@ namespace IcatuzinhoApp
                     new KeyValuePair<string, string>("grant_type", "password"),
                     new KeyValuePair<string, string>("username",username),
                     new KeyValuePair<string, string>("password",isEncrypted ?
-                                                     Crypto.EncryptStringAES(password,Constants.SharedSecret) :
+                                                     Crypto.EncryptStringAES(password):
                                                      password)
                 });
 
@@ -45,8 +46,14 @@ namespace IcatuzinhoApp
                     return await Task.FromResult(true);
                 }
 
-                if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    UIFunctions.ShowErrorMessageToUI(Constants.MessageErroAuthentication);
                     _log.SubmitToInsights(new ArgumentException($"Erro na autorização para o email: {username}"));
+                }
+
+                if (response == null)
+                    UIFunctions.ShowErrorMessageToUI();
 
                 return await Task.FromResult(false);
             }

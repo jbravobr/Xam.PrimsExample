@@ -12,7 +12,7 @@ namespace IcatuzinhoApp
         IAuthenticationService _auth;
         DTO<List<Station>> _utils;
 
-        public StationService(IHttpAccessService httpService, 
+        public StationService(IHttpAccessService httpService,
                               ILogExceptionService log,
                               IAuthenticationService auth)
         {
@@ -38,6 +38,12 @@ namespace IcatuzinhoApp
                     if (stations != null && stations.Any())
                         InsertOrReplaceAllWithChildren(stations);
                 }
+
+                if (data != null && data.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    UIFunctions.ShowErrorMessageToUI(Constants.MessageErroAuthentication);
+
+                if (data == null)
+                    UIFunctions.ShowErrorMessageToUI();
 
             }
             catch (Exception ex)

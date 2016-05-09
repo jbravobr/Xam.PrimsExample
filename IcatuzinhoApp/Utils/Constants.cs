@@ -17,6 +17,8 @@ namespace IcatuzinhoApp
 
         public const string BaseAddress = "http://labdev.labdevmobile.com.br/";
         public const string SharedSecret = "KjivxQBiLwz9QorEWMAW";
+
+        public const string MessageErroAuthentication = "Ops! Parece que você está com problemas na autorização de acesso tente novamente";
     }
 }
 

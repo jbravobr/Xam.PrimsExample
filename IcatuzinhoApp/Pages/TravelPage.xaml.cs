@@ -55,6 +55,12 @@ namespace IcatuzinhoApp
                             MapaTravel.Pins.Add(p);
                         }
 
+                        if (Device.OS == TargetPlatform.iOS)
+                        {
+                            if (MapaTravel.RouteCoordinates != null && MapaTravel.RouteCoordinates.Any())
+                                MapaTravel.RouteCoordinates = new List<Position>();
+                        }
+
                         if (routes != null && routes.Any())
                         {
                             foreach (var route in routes.OrderBy(c => c.Order))

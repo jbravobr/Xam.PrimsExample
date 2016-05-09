@@ -31,7 +31,7 @@ namespace IcatuzinhoApp
 
         readonly IWeatherService _weatherService;
 
-        readonly IUserDialogs _userDialogs;
+        IUserDialogs _userDialogs { get; set; }
 
         readonly IItineraryService _itineraryService;
 
@@ -40,14 +40,15 @@ namespace IcatuzinhoApp
                               IStationService stationService,
                               ITravelService travelService,
                               IWeatherService weatherService,
-                              IUserDialogs userDialogs,
                               IItineraryService itineraryService,
                               IAuthenticationService authService)
         {
             _userService = userService;
             _scheduleService = scheduleService;
             _stationService = stationService;
-            _userDialogs = userDialogs;
+
+            _userDialogs = FreshMvvm.FreshIOC.Container.Resolve<IUserDialogs>();
+
             _travelService = travelService;
             _weatherService = weatherService;
             _itineraryService = itineraryService;
@@ -67,11 +68,13 @@ namespace IcatuzinhoApp
         {
             try
             {
-                _userDialogs.ShowLoading("Verificando conexão");
+                if (Device.OS == TargetPlatform.Android)
+                    _userDialogs.ShowLoading("Verificando conexão");
 
                 if (!await Connectivity.IsNetworkingOK())
                 {
-                    _userDialogs.HideLoading();
+                    if (Device.OS == TargetPlatform.Android)
+                        _userDialogs.HideLoading();
 
                     UIFunctions.ShowErrorForConnectivityMessageToUI();
                     EmailIsEnabled = false;
@@ -79,13 +82,15 @@ namespace IcatuzinhoApp
                 }
                 else if (await GetAuthenticatedUser())
                 {
-                    _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
-
-                    _userDialogs.ShowLoading("Carregando");
-
-                    await _weatherService.GetWeather();
+                    if (Device.OS == TargetPlatform.Android)
+                        _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
 
                     RegisterLocalAuthenticatedUser();
+
+                    if (Device.OS == TargetPlatform.Android)
+                        _userDialogs.ShowLoading("Carregando");
+
+                    await _weatherService.GetWeather();
 
                     Insights.Identify(App.UserAuthenticated.Email,
                                          Insights.Traits.GuestIdentifier,
@@ -98,24 +103,30 @@ namespace IcatuzinhoApp
                     tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ?
                                                   string.Empty :
                                                   "house-full.png", null);
-                    
+
                     tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
                                                     string.Empty :
                                                     "bus-full.png", null);
-                    
+
                     tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
-                                                          string.Empty :
-                                                          "bus-full.png", null);
-                    
-                    _userDialogs.HideLoading();
+                                                       string.Empty :
+                                                       "calendar.png", null);
+
+                    if (Device.OS == TargetPlatform.Android)
+                        _userDialogs.HideLoading();
+
                     CoreMethods.SwitchOutRootNavigation("HomeContainer");
                 }
                 else
-                    _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
+                {
+                    if (Device.OS == TargetPlatform.Android)
+                        _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
+                }
             }
             catch (Exception ex)
             {
-                _userDialogs.HideLoading();
+                if (Device.OS == TargetPlatform.Android)
+                    _userDialogs.HideLoading();
 
                 base.SendToInsights(ex);
                 UIFunctions.ShowErrorMessageToUI();
@@ -135,16 +146,18 @@ namespace IcatuzinhoApp
                        _userDialogs.ShowLoading("Carregando");
 
                        // Com token
-                       //var userAuthenticated = await _authService.DoAuthentication(Email, Password, false);
+                       var userAuthenticated = await _authService.AuthenticationWithFormUrlEncoded(Email, Password, false);
 
                        // Sem token
                        //Gravando user
-                       var userAuthenticated = await _userService.Login(Email, Password);
+                       //var userAuthenticated = await _userService.Login(Email, Password);
 
                        if (userAuthenticated)
                        {
                            //Gravando user
-                           //await _userService.Login(Email, Password);
+                           await _userService.Login(Email, Password);
+
+                           RegisterLocalAuthenticatedUser();
 
                            await _stationService.GetAllStations();
                            await _scheduleService.GetAllSchedules();
@@ -164,9 +177,9 @@ namespace IcatuzinhoApp
                                                           string.Empty :
                                                           "bus-full.png", null);
 
-                            tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
-                                                          string.Empty :
-                                                          "bus-full.png", null);
+                           tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
+                                                       string.Empty :
+                                                       "calendar.png", null);
 
                            RegisterLocalAuthenticatedUser();
 

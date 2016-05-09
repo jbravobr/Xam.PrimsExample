@@ -5,26 +5,24 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Acr.UserDialogs;
+using ModernHttpClient;
 
 namespace IcatuzinhoApp
 {
     public class HttpAccessService : IHttpAccessService
     {
         readonly ILogExceptionService _log;
-        readonly IUserDialogs _userDialogs;
 
-        public HttpAccessService(ILogExceptionService log,
-                                 IUserDialogs userDialogs)
+        public HttpAccessService(ILogExceptionService log)
         {
             _log = log;
-            _userDialogs = userDialogs;
         }
 
         public HttpClient Init(string accessToken = null)
         {
             try
             {
-                var httpClient = new HttpClient
+                var httpClient = new HttpClient(new NativeMessageHandler())
                 {
                     BaseAddress = new Uri($"{Constants.BaseAddress}"),
                     Timeout = TimeSpan.FromSeconds(40)

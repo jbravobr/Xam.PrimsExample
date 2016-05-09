@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿
 using Foundation;
-using Plugin.Toasts;
 using UIKit;
-using Xamarin.Forms;
+using Acr.UserDialogs;
 
 namespace IcatuzinhoApp.iOS
 {
@@ -14,9 +10,11 @@ namespace IcatuzinhoApp.iOS
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            //DependencyService.Register<ToastNotificatorImplementation>();
-            //ToastNotificatorImplementation.Init();
-            Xamarin.FormsMaps.Init();
+            Xamarin.Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
+                {
+                    if (isStartupCrash)
+                        Xamarin.Insights.PurgePendingCrashReports().Wait();
+                };
 
 #if DEBUG
             Xamarin.Insights.Initialize(Xamarin.Insights.DebugModeKey);
@@ -24,12 +22,12 @@ namespace IcatuzinhoApp.iOS
             Xamarin.Insights.Initialize("af73d7945c2d65a46435cb2f6441453f416e9b43");
 #endif
 
-            global::Xamarin.Forms.Forms.Init();
-
+#if ENABLE_TEST_CLOUD
             Xamarin.Calabash.Start();
-
+#endif
+            global::Xamarin.Forms.Forms.Init();
+            Xamarin.FormsMaps.Init();
             Appearance.Configure();
-
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

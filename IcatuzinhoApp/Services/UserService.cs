@@ -13,7 +13,7 @@ namespace IcatuzinhoApp
         IAuthenticationService _auth;
         DTO<User> _utils;
 
-        public UserService(IHttpAccessService httpService, 
+        public UserService(IHttpAccessService httpService,
                            ILogExceptionService log,
                            IAuthenticationService auth)
         {
@@ -60,10 +60,19 @@ namespace IcatuzinhoApp
                     var user = await _utils.ConvertSingleObjectFromJson(data.Content);
 
                     if (user != null)
-                        resultDB = InsertOrReplaceWithChildren(user);
+                    {
+                        var _user = new User { Email = email, Password = Crypto.EncryptStringAES(password), Id = user.Id };
+                        resultDB = InsertOrReplaceWithChildren(_user);
+                    }
 
                     return resultDB;
                 }
+
+                if (data != null && data.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    UIFunctions.ShowErrorMessageToUI(Constants.MessageErroAuthentication);
+
+                if (data == null)
+                    UIFunctions.ShowErrorMessageToUI();
 
             }
             catch (Exception ex)

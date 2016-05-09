@@ -5,7 +5,8 @@
 		x:Class="IcatuzinhoApp.SchedulePage"
 		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
         xmlns:templates="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp"
-        BackgroundColor="Black">
+        BackgroundColor="Black"
+		Title="Horários">
 	
     <ContentPage.Content>
 

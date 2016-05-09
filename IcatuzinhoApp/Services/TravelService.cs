@@ -12,7 +12,7 @@ namespace IcatuzinhoApp
         IAuthenticationService _auth;
         DTO<Travel> _utils;
 
-        public TravelService(IHttpAccessService httpService, 
+        public TravelService(IHttpAccessService httpService,
                              ILogExceptionService log,
                              IAuthenticationService auth)
         {
@@ -39,6 +39,12 @@ namespace IcatuzinhoApp
                         InsertOrReplaceWithChildren(travel);
                 }
 
+                if (data != null && data.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    UIFunctions.ShowErrorMessageToUI(Constants.MessageErroAuthentication);
+
+                if (data == null)
+                    UIFunctions.ShowErrorMessageToUI();
+
             }
             catch (Exception ex)
             {
@@ -63,6 +69,12 @@ namespace IcatuzinhoApp
 
                     return await Task.FromResult(result);
                 }
+
+                if (data != null && data.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    UIFunctions.ShowErrorMessageToUI(Constants.MessageErroAuthentication);
+
+                if (data == null)
+                    UIFunctions.ShowErrorMessageToUI();
 
                 return await Task.FromResult(false);
             }
@@ -91,6 +103,12 @@ namespace IcatuzinhoApp
                     return await Task.FromResult(result);
                 }
 
+                if (data != null && data.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    UIFunctions.ShowErrorMessageToUI(Constants.MessageErroAuthentication);
+
+                if (data == null)
+                    UIFunctions.ShowErrorMessageToUI();
+
                 return await Task.FromResult(false);
             }
             catch (Exception ex)
@@ -117,6 +135,12 @@ namespace IcatuzinhoApp
 
                     return result;
                 }
+
+                if (data != null && data.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    UIFunctions.ShowErrorMessageToUI(Constants.MessageErroAuthentication);
+
+                if (data == null)
+                    UIFunctions.ShowErrorMessageToUI();
 
                 return await Task.FromResult(0);
             }

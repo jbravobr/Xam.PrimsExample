@@ -11,7 +11,7 @@ namespace IcatuzinhoApp
         IAuthenticationService _auth;
         DTO<Itinerary> _utils;
 
-        public ItineraryService(IHttpAccessService httpService, 
+        public ItineraryService(IHttpAccessService httpService,
                                 ILogExceptionService log,
                                 IAuthenticationService auth)
         {
@@ -37,6 +37,12 @@ namespace IcatuzinhoApp
                     if (itineraries != null && itineraries.Any())
                         InsertOrReplaceAllWithChildren(itineraries);
                 }
+
+                if (data != null && data.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    UIFunctions.ShowErrorMessageToUI(Constants.MessageErroAuthentication);
+
+                if (data == null)
+                    UIFunctions.ShowErrorMessageToUI();
 
             }
             catch (Exception ex)

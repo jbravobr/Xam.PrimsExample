@@ -37,6 +37,12 @@ namespace IcatuzinhoApp
                         InsertOrReplaceAllWithChildren(schedules);
                 }
 
+                if (data != null && data.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    UIFunctions.ShowErrorMessageToUI(Constants.MessageErroAuthentication);
+
+                if (data == null)
+                    UIFunctions.ShowErrorMessageToUI();
+
             }
             catch (Exception ex)
             {

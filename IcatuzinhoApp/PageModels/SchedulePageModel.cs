@@ -10,15 +10,14 @@ namespace IcatuzinhoApp
     public class SchedulePageModel : BasePageModel
     {
         readonly IScheduleService _scheduleService;
-        readonly IUserDialogs _userDialogs;
+        IUserDialogs _userDialogs { get; set; }
 
         public IList<Schedule> Schedules { get; set; }
 
-        public SchedulePageModel(IScheduleService scheduleService,
-                                 IUserDialogs userDialogs)
+        public SchedulePageModel(IScheduleService scheduleService)
         {
             _scheduleService = scheduleService;
-            _userDialogs = userDialogs;
+            _userDialogs = FreshMvvm.FreshIOC.Container.Resolve<IUserDialogs>();
         }
 
         public override void Init(object initData)
@@ -48,7 +47,7 @@ namespace IcatuzinhoApp
             for (int i = 0; i < 3; i++)
             {
                 collection[i].StatusAvatar = "offline.png";
-                collection[i].StatusDescription = "Indisponível";    
+                collection[i].StatusDescription = "Indisponível";
             }
 
             for (int i = 3; i < collection.Count; i++)

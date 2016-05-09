@@ -6,6 +6,8 @@ namespace IcatuzinhoApp
 {
     public static class Tracks
     {
+        const string UnknownUser = "Usuário não capturado";
+
         public static void SendTrackToInsights(Transaction transaction)
         {
             Insights.Track(transaction.Name, transaction.Details);
@@ -17,7 +19,7 @@ namespace IcatuzinhoApp
 
             Insights.Track("Login concluído", new System.Collections.Generic.Dictionary<string, string>
                         {
-                            {"Usuário", App.UserAuthenticated.Email},
+                            {"Usuário", App.UserAuthenticated.Email ?? UnknownUser},
                             {"Data", DateTime.Now.ToString()},
                             {"OS", _deviceInfo.Platform.ToString()},
                             {"Version", _deviceInfo.Version}
@@ -30,7 +32,7 @@ namespace IcatuzinhoApp
 
             Insights.Track("CheckIn concluído", new System.Collections.Generic.Dictionary<string, string>
                         {
-                            {"Usuário", App.UserAuthenticated.Email},
+                            {"Usuário", App.UserAuthenticated.Email ?? UnknownUser},
                             {"Data", DateTime.Now.ToString()},
                             {"OS", _deviceInfo.Platform.ToString()},
                             {"Version", _deviceInfo.Version}
@@ -43,7 +45,7 @@ namespace IcatuzinhoApp
 
             Insights.Track("CheckOut concluído", new System.Collections.Generic.Dictionary<string, string>
                         {
-                            {"Usuário", App.UserAuthenticated.Email},
+                            {"Usuário", App.UserAuthenticated.Email ?? UnknownUser},
                             {"Data", DateTime.Now.ToString()},
                             {"OS", _deviceInfo.Platform.ToString()},
                             {"Version", _deviceInfo.Version}
@@ -56,7 +58,7 @@ namespace IcatuzinhoApp
 
             Insights.Track("Mapa acessado por", new System.Collections.Generic.Dictionary<string, string>
                         {
-                            {"Usuário", App.UserAuthenticated.Email},
+                            {"Usuário", App.UserAuthenticated.Email ?? UnknownUser},
                             {"Data", DateTime.Now.ToString()},
                             {"OS", _deviceInfo.Platform.ToString()},
                             {"Version", _deviceInfo.Version}

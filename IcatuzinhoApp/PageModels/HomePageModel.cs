@@ -39,15 +39,14 @@ namespace IcatuzinhoApp
 
         readonly IWeatherService _weatherService;
 
-        readonly IUserDialogs _userDialogs;
+        IUserDialogs _userDialogs { get; set; }
 
         public HomePageModel(ITravelService travelService,
-                             IWeatherService weatherService,
-                             IUserDialogs userDialogs)
+                             IWeatherService weatherService)
         {
             _travelService = travelService;
             _weatherService = weatherService;
-            _userDialogs = userDialogs;
+            _userDialogs = FreshMvvm.FreshIOC.Container.Resolve<IUserDialogs>();
 
             isCheckIn = true;
             isCheckOut = false;
@@ -56,7 +55,10 @@ namespace IcatuzinhoApp
         public override void Init(object initData)
         {
             base.Init(initData);
-            Task.Factory.StartNew(() => GetInfos()).ContinueWith((obj) => ScheduleGetInfoForUI());
+            GetInfos();
+
+            // Repetição da chamada para atualização dos dados.
+            //Task.Factory.StartNew(() => GetInfos()).ContinueWith((obj) => ScheduleGetInfoForUI());
         }
 
         public void GetInfos()

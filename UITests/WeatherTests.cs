@@ -51,7 +51,7 @@ namespace IcatuzinhoApp.UITests
                     new KeyValuePair<string, string>("grant_type", "password"),
                     new KeyValuePair<string, string>("username",username),
                     new KeyValuePair<string, string>("password",isEncrypted ?
-                                                     Crypto.EncryptStringAES(password,Constants.SharedSecret) :
+                                                     Crypto.EncryptStringAES(password):
                                                      password)
                 });
 

@@ -3,10 +3,6 @@
 using UXDivers.Artina;
 using Xamarin.Forms;
 
-
-
-
-
 [assembly: AssemblyTitle(AssemblyGlobal.ProductLine)]
 [assembly: AssemblyConfiguration(AssemblyGlobal.Configuration)]
 [assembly: AssemblyCompany(AssemblyGlobal.Company)]

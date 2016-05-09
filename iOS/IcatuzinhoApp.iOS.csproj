@@ -27,6 +27,7 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -134,14 +135,29 @@
     <Reference Include="Xamarin.Forms.Maps.iOS">
       <HintPath>..\packages\Xamarin.Forms.Maps.2.2.0.31\lib\Xamarin.iOS10\Xamarin.Forms.Maps.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Acr.Support.iOS">
-      <HintPath>..\packages\Acr.Support.2.0.2\lib\Xamarin.iOS10\Acr.Support.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="BTProgressHUD">
       <HintPath>..\packages\BTProgressHUD.1.2.0.2\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
     </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.1.6.2\lib\Xamarin.iOS10\Splat.dll</HintPath>
+    </Reference>
+    <Reference Include="Validation">
+      <HintPath>..\packages\Validation.2.2.8\lib\dotnet\Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.DeviceInfo.Abstractions">
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.2.0.2\lib\Xamarin.iOS10\Plugin.DeviceInfo.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.DeviceInfo">
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.2.0.2\lib\Xamarin.iOS10\Plugin.DeviceInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Connectivity.Abstractions">
+      <HintPath>..\packages\Xam.Plugin.Connectivity.2.1.2\lib\Xamarin.iOS10\Plugin.Connectivity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Connectivity">
+      <HintPath>..\packages\Xam.Plugin.Connectivity.2.1.2\lib\Xamarin.iOS10\Plugin.Connectivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.Support.iOS">
+      <HintPath>..\packages\Acr.Support.2.0.2\lib\Xamarin.iOS10\Acr.Support.iOS.dll</HintPath>
     </Reference>
     <Reference Include="Acr.UserDialogs">
       <HintPath>..\packages\Acr.UserDialogs.5.1.0\lib\Xamarin.iOS10\Acr.UserDialogs.dll</HintPath>
@@ -191,6 +207,12 @@
     <BundleResource Include="Resources\logo.png" />
     <BundleResource Include="Resources\logo%402x.png" />
     <BundleResource Include="Resources\social_header_bg_0.png" />
+    <BundleResource Include="Resources\calendar.png" />
+    <BundleResource Include="Resources\calendar%402x.png" />
+    <BundleResource Include="Resources\calendar%403x.png" />
+    <BundleResource Include="Resources\busstop.png" />
+    <BundleResource Include="Resources\offline.png" />
+    <BundleResource Include="Resources\online.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
