@@ -10,6 +10,11 @@ namespace IcatuzinhoApp
         public SchedulePage()
         {
             InitializeComponent();
+
+            listViewSchedules.ItemSelected += (sender, e) =>
+            {
+                ((ListView)sender).SelectedItem = null;
+            };
         }
     }
 }

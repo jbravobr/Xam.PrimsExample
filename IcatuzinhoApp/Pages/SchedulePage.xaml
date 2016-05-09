@@ -13,7 +13,8 @@
 				<ListView 
                     ItemsSource="{Binding Schedules}"
                     RowHeight="66"
-				    CachingStrategy="RecycleElement">
+				    CachingStrategy="RecycleElement"
+					x:Name="listViewSchedules">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>

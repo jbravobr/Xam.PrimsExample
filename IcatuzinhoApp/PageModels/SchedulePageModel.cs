@@ -1,7 +1,6 @@
 ﻿using System;
 using PropertyChanged;
 using Acr.UserDialogs;
-using Xamarin.Forms;
 using System.Collections.Generic;
 
 
