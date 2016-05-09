@@ -112,7 +112,7 @@
     <Compile Include="Pages\SchedulePage.xaml.cs">
       <DependentUpon>SchedulePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Templates\FriendItemTemplate.xaml.cs">
+    <Compile Include="Pages\Templates\ScheduleItemTemplate.xaml.cs">
       <DependentUpon>ScheduleItemTemplate.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -250,7 +250,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\Templates\ScheduleItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <LogicalName>FriendItemTemplate.xaml</LogicalName>
+      <LogicalName>ScheduleItemTemplate.xaml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
