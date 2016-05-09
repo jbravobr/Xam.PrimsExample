@@ -113,7 +113,7 @@
       <DependentUpon>SchedulePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Templates\FriendItemTemplate.xaml.cs">
-      <DependentUpon>FriendItemTemplate.xaml</DependentUpon>
+      <DependentUpon>ScheduleItemTemplate.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
@@ -248,7 +248,7 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <LogicalName>SchedulePage.xaml</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\Templates\FriendItemTemplate.xaml">
+    <EmbeddedResource Include="Pages\Templates\ScheduleItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <LogicalName>FriendItemTemplate.xaml</LogicalName>
     </EmbeddedResource>
