@@ -9,12 +9,11 @@
 	
     <ContentPage.Content>
 
-		<ScrollView>
-
             <StackLayout Padding="0">
 				<ListView 
                     ItemsSource="{Binding Schedules}"
-                    RowHeight="66">
+                    RowHeight="66"
+				    CachingStrategy="RecycleElement">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -26,8 +25,6 @@
 					
                 </ListView>
 			</StackLayout>
-			
-		</ScrollView>
-		
+					
     </ContentPage.Content>
 </ContentPage>

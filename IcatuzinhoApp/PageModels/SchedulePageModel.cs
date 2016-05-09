@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using PropertyChanged;
 using Acr.UserDialogs;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 
 namespace IcatuzinhoApp
@@ -13,7 +13,7 @@ namespace IcatuzinhoApp
         readonly IScheduleService _scheduleService;
         readonly IUserDialogs _userDialogs;
 
-        public ObservableCollection<Schedule> Schedules { get; set; }
+        public IList<Schedule> Schedules { get; set; }
 
         public SchedulePageModel(IScheduleService scheduleService,
                                  IUserDialogs userDialogs)
@@ -42,9 +42,9 @@ namespace IcatuzinhoApp
             }
         }
 
-        public ObservableCollection<Schedule> GetAll()
+        public IList<Schedule> GetAll()
         {
-            return new ObservableCollection<Schedule>(_scheduleService.GetAll());
+            return _scheduleService.GetAll();
         }
     }
 }
