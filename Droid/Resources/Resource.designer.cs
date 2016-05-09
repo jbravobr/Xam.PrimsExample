@@ -67,6 +67,7 @@ namespace IcatuzinhoApp.Droid
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::IcatuzinhoApp.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::IcatuzinhoApp.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
 			global::Splat.Resource.String.library_name = global::IcatuzinhoApp.Droid.Resource.String.library_name;
+			global::ModernHttpClient.Resource.String.library_name = global::IcatuzinhoApp.Droid.Resource.String.library_name;
 		}
 		
 		public partial class Animation
