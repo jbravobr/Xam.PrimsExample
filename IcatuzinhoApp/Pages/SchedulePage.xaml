@@ -5,7 +5,7 @@
 		x:Class="IcatuzinhoApp.SchedulePage"
 		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
         xmlns:templates="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp"
-        BackgroundColor="White">
+        BackgroundColor="Black">
 	
     <ContentPage.Content>
 
@@ -14,12 +14,13 @@
                     ItemsSource="{Binding Schedules}"
                     RowHeight="66"
 				    CachingStrategy="RecycleElement"
-					x:Name="listViewSchedules">
+					x:Name="listViewSchedules"
+					SeparatorColor="Black">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <templates:FriendItemTemplate />
+                                <templates:ScheduleItemTemplate />
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>

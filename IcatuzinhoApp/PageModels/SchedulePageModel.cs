@@ -43,7 +43,21 @@ namespace IcatuzinhoApp
 
         public IList<Schedule> GetAll()
         {
-            return _scheduleService.GetAll();
+            var collection = _scheduleService.GetAll();
+
+            for (int i = 0; i < 3; i++)
+            {
+                collection[i].StatusAvatar = "offline.png";
+                collection[i].StatusDescription = "Indisponível";    
+            }
+
+            for (int i = 3; i < collection.Count; i++)
+            {
+                collection[i].StatusAvatar = "online.png";
+                collection[i].StatusDescription = "Disponível";
+            }
+
+            return collection;
         }
     }
 }

@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace IcatuzinhoApp
 {
-    public partial class FriendItemTemplate : ContentView
+    public partial class ScheduleItemTemplate : ContentView
     {
-        public FriendItemTemplate()
+        public ScheduleItemTemplate()
         {
             InitializeComponent();
         }
