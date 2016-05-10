@@ -1,7 +1,9 @@
 ﻿using System;
+using Prism.Mvvm;
+
 namespace IcatuzinhoApp
 {
-    public class BasePageModel : FreshMvvm.FreshBasePageModel
+    public class BasePageViewModel : BindableBase
     {
         ILogExceptionService _logExceptionService;
 

@@ -45,6 +45,9 @@ namespace IcatuzinhoApp.UITests
                 Timeout = TimeSpan.FromSeconds(40)
             };
 
+            //grant_type, refresh_token
+            //refresh_token, token
+
             var request = new HttpRequestMessage(HttpMethod.Post, $"{Constants.FormsAuthentication}");
             request.Content = new FormUrlEncodedContent(new[]
             {

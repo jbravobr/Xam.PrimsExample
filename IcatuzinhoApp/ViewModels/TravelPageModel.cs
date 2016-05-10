@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace IcatuzinhoApp
 {
-    public class TravelPageModel : BasePageModel
+    public class TravelPageModel : BasePageViewModel
     {
         IItineraryService _itineraryService;
 
@@ -15,12 +15,12 @@ namespace IcatuzinhoApp
             _itineraryService = itineraryService;
         }
 
-        public override void Init(object initData)
-        {
-            Tracks.TrackWhoSawMapsInformation();
+        //public override void Init(object initData)
+        //{
+        //    Tracks.TrackWhoSawMapsInformation();
 
-            base.Init(initData);
-        }
+        //    base.Init(initData);
+        //}
 
         public List<Itinerary> Get()
         {

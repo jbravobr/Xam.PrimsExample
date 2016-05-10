@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class SchedulePageModel : BasePageModel
+    public class SchedulePageModel : BasePageViewModel
     {
         readonly IScheduleService _scheduleService;
         IUserDialogs _userDialogs { get; set; }
@@ -18,11 +18,6 @@ namespace IcatuzinhoApp
         {
             _scheduleService = scheduleService;
             _userDialogs = FreshMvvm.FreshIOC.Container.Resolve<IUserDialogs>();
-        }
-
-        public override void Init(object initData)
-        {
-            base.Init(initData);
 
             try
             {
@@ -39,6 +34,26 @@ namespace IcatuzinhoApp
                 UIFunctions.ShowErrorMessageToUI();
             }
         }
+
+        //public override void Init(object initData)
+        //{
+        //    base.Init(initData);
+
+        //    try
+        //    {
+        //        _userDialogs.ShowLoading("Carregando");
+
+        //        Schedules = GetAll();
+
+        //        _userDialogs.HideLoading();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _userDialogs.HideLoading();
+        //        base.SendToInsights(ex);
+        //        UIFunctions.ShowErrorMessageToUI();
+        //    }
+        //}
 
         public IList<Schedule> GetAll()
         {

@@ -1,34 +1,58 @@
-using System;
-using System.Collections.Generic;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using Xamarin;
+﻿
+using Prism.Unity;
+using Microsoft.Practices.Unity;
 
 namespace IcatuzinhoApp
 {
-    [XamlCompilation(XamlCompilationOptions.Skip)]
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
         public static User UserAuthenticated { get; set; }
 
-        public App()
+        protected override void OnInitialized()
         {
             try
             {
                 InitializeComponent();
-
-                IoCconfiguration.Init();
-
-                MainPage = GetMainPage();
-                MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
+                NavigationService.Navigate("LoginPage");
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
-                Insights.Report(ex);
+                throw ex;
             }
         }
 
-        public static Page GetMainPage() => FreshMvvm.FreshPageModelResolver.ResolvePageModel<LoginPageModel>();
+        protected override void RegisterTypes()
+        {
+            try
+            {
+                // Registrando Serviços e dependências.
+                Container.RegisterType<IUserService, UserService>();
+                Container.RegisterType<IHttpAccessService, HttpAccessService>();
+                Container.RegisterType<IAuthenticationCodeService, AuthenticationCodeService>();
+                Container.RegisterType<IAuthenticationService, AuthenticationService>();
+                Container.RegisterType<IDriveService, DriverService>();
+                Container.RegisterType<ILogExceptionService, LogExceptionService>();
+                Container.RegisterType<IScheduleService, ScheduleService>();
+                Container.RegisterType<IStationService, StationService>();
+                Container.RegisterType<IItineraryService, ItineraryService>();
+                Container.RegisterType<ITransactionService, TransactionService>();
+                Container.RegisterType<ITravelService, TravelService>();
+                Container.RegisterType<IUserService, UserService>();
+                Container.RegisterType<IVehicleService, VehicleService>();
+                Container.RegisterType<IWeatherService, WeatherService>();
+
+                // Registrando Views para Navegação
+                Container.RegisterTypeForNavigation<LoginPage>();
+
+                // 3rd Party Controlls
+                Container.RegisterInstance(Acr.UserDialogs.UserDialogs.Instance);
+                Container.RegisterInstance(Plugin.DeviceInfo.CrossDeviceInfo.Current);
+                Container.RegisterInstance(Plugin.Connectivity.CrossConnectivity.Current);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

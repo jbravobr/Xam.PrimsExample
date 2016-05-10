@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using System.Linq;
 using Acr.UserDialogs;
 using Xamarin;
+using Microsoft.Practices.Unity;
+using Prism.Unity;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class LoginPageModel : BasePageModel
+    public class LoginPageViewModel : BasePageViewModel
     {
         public string Email { get; set; }
 
@@ -31,24 +33,23 @@ namespace IcatuzinhoApp
 
         readonly IWeatherService _weatherService;
 
-        IUserDialogs _userDialogs { get; set; }
+        readonly IUserDialogs _userDialogs;
 
         readonly IItineraryService _itineraryService;
 
-        public LoginPageModel(IUserService userService,
+        public LoginPageViewModel(IUserService userService,
                               IScheduleService scheduleService,
                               IStationService stationService,
                               ITravelService travelService,
                               IWeatherService weatherService,
                               IItineraryService itineraryService,
-                              IAuthenticationService authService)
+                              IAuthenticationService authService,
+                              IUserDialogs userDialogs)
         {
             _userService = userService;
             _scheduleService = scheduleService;
             _stationService = stationService;
-
-            _userDialogs = FreshMvvm.FreshIOC.Container.Resolve<IUserDialogs>();
-
+            _userDialogs = userDialogs;
             _travelService = travelService;
             _weatherService = weatherService;
             _itineraryService = itineraryService;
@@ -56,13 +57,15 @@ namespace IcatuzinhoApp
 
             EmailIsEnabled = true;
             PasswordIsEnabled = true;
+
+            Task.Factory.StartNew(async () => await Logon());
         }
 
-        public async override void Init(object initData)
-        {
-            base.Init(initData);
-            await Logon();
-        }
+        //public async override void Init(object initData)
+        //{
+        //    base.Init(initData);
+        //    await Logon();
+        //}
 
         public async Task Logon()
         {
@@ -98,24 +101,24 @@ namespace IcatuzinhoApp
 
                     Tracks.TrackLoginInformation();
 
-                    var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
+                    //var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
 
-                    tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ?
-                                                  string.Empty :
-                                                  "house-full.png", null);
+                    //tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ?
+                    //                              string.Empty :
+                    //                              "house-full.png", null);
 
-                    tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
-                                                    string.Empty :
-                                                    "bus-full.png", null);
+                    //tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
+                    //                                string.Empty :
+                    //                                "bus-full.png", null);
 
-                    tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
-                                                       string.Empty :
-                                                       "calendar.png", null);
+                    //tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
+                    //                                   string.Empty :
+                    //                                   "calendar.png", null);
 
                     if (Device.OS == TargetPlatform.Android)
                         _userDialogs.HideLoading();
 
-                    CoreMethods.SwitchOutRootNavigation("HomeContainer");
+                    //CoreMethods.SwitchOutRootNavigation("HomeContainer");
                 }
                 else
                 {
@@ -167,24 +170,24 @@ namespace IcatuzinhoApp
                            await _weatherService.GetWeather();
                            await _itineraryService.GetAllItineraries();
 
-                           var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
+                           //var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
 
-                           tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ?
-                                                        string.Empty :
-                                                        "house-full.png", null);
+                           //tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ?
+                           //                             string.Empty :
+                           //                             "house-full.png", null);
 
-                           tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
-                                                          string.Empty :
-                                                          "bus-full.png", null);
+                           //tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
+                           //                               string.Empty :
+                           //                               "bus-full.png", null);
 
-                           tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
-                                                       string.Empty :
-                                                       "calendar.png", null);
+                           //tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
+                           //                            string.Empty :
+                           //                            "calendar.png", null);
 
                            RegisterLocalAuthenticatedUser();
 
                            _userDialogs.HideLoading();
-                           CoreMethods.SwitchOutRootNavigation("HomeContainer");
+                           //CoreMethods.SwitchOutRootNavigation("HomeContainer");
                        }
                        else
                        {

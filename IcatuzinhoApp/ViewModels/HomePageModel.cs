@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class HomePageModel : BasePageModel
+    public class HomePageModel : BasePageViewModel
     {
         public string CurrentDate { get; set; }
 
@@ -50,16 +50,19 @@ namespace IcatuzinhoApp
 
             isCheckIn = true;
             isCheckOut = false;
-        }
 
-        public override void Init(object initData)
-        {
-            base.Init(initData);
             GetInfos();
 
-            // Repetição da chamada para atualização dos dados.
-            //Task.Factory.StartNew(() => GetInfos()).ContinueWith((obj) => ScheduleGetInfoForUI());
         }
+
+        //public override void Init(object initData)
+        //{
+        //    base.Init(initData);
+        //    GetInfos();
+
+        //    // Repetição da chamada para atualização dos dados.
+        //    //Task.Factory.StartNew(() => GetInfos()).ContinueWith((obj) => ScheduleGetInfoForUI());
+        //}
 
         public void GetInfos()
         {
