@@ -4,7 +4,15 @@
 		x:Class="IcatuzinhoApp.ScheduleItemTemplate"
 		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared">
 
-       <Grid Padding="0" TranslationX="10" VerticalOptions="FillAndExpand">
+       <Grid Padding="0" VerticalOptions="FillAndExpand">
+
+		<Grid.TranslationX>
+			<OnIdiom x:TypeArguments="x:Double">
+				<OnIdiom.Tablet>30</OnIdiom.Tablet>
+				<OnIdiom.Phone>10</OnIdiom.Phone>
+			</OnIdiom>
+		</Grid.TranslationX>
+		
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
