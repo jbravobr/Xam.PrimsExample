@@ -5,6 +5,8 @@
 		xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
 		xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp"
 		x:Class="IcatuzinhoApp.TravelPage"
+		xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+        prism:ViewModelLocator.AutowireViewModel="True"
 		Title="Itinerário">
 	<ContentPage.Content>
 		<StackLayout VerticalOptions="FillAndExpand" Padding="0">

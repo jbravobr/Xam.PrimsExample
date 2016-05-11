@@ -7,6 +7,8 @@ using Acr.UserDialogs;
 using Xamarin;
 using Microsoft.Practices.Unity;
 using Prism.Unity;
+using Prism.Navigation;
+using Prism.Commands;
 
 namespace IcatuzinhoApp
 {
@@ -37,6 +39,10 @@ namespace IcatuzinhoApp
 
         readonly IItineraryService _itineraryService;
 
+        readonly INavigationService _navigationService;
+
+        public DelegateCommand NavigateCommand { get; set; }
+
         public LoginPageViewModel(IUserService userService,
                               IScheduleService scheduleService,
                               IStationService stationService,
@@ -44,7 +50,8 @@ namespace IcatuzinhoApp
                               IWeatherService weatherService,
                               IItineraryService itineraryService,
                               IAuthenticationService authService,
-                              IUserDialogs userDialogs)
+                              IUserDialogs userDialogs,
+                              INavigationService navigationService)
         {
             _userService = userService;
             _scheduleService = scheduleService;
@@ -54,18 +61,15 @@ namespace IcatuzinhoApp
             _weatherService = weatherService;
             _itineraryService = itineraryService;
             _authService = authService;
+            _navigationService = navigationService;
 
             EmailIsEnabled = true;
             PasswordIsEnabled = true;
 
-            Task.Factory.StartNew(async () => await Logon());
-        }
+            NavigateCommand = new DelegateCommand(Navigate);
 
-        //public async override void Init(object initData)
-        //{
-        //    base.Init(initData);
-        //    await Logon();
-        //}
+            Logon().ConfigureAwait(false);
+        }
 
         public async Task Logon()
         {
@@ -101,24 +105,10 @@ namespace IcatuzinhoApp
 
                     Tracks.TrackLoginInformation();
 
-                    //var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-
-                    //tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ?
-                    //                              string.Empty :
-                    //                              "house-full.png", null);
-
-                    //tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
-                    //                                string.Empty :
-                    //                                "bus-full.png", null);
-
-                    //tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
-                    //                                   string.Empty :
-                    //                                   "calendar.png", null);
-
                     if (Device.OS == TargetPlatform.Android)
                         _userDialogs.HideLoading();
 
-                    //CoreMethods.SwitchOutRootNavigation("HomeContainer");
+                    await NavigateCommand.Execute();
                 }
                 else
                 {
@@ -170,24 +160,10 @@ namespace IcatuzinhoApp
                            await _weatherService.GetWeather();
                            await _itineraryService.GetAllItineraries();
 
-                           //var tabPage = new FreshMvvm.FreshTabbedNavigationContainer("HomeContainer");
-
-                           //tabPage.AddTab<HomePageModel>("Home", Device.OS == TargetPlatform.Android ?
-                           //                             string.Empty :
-                           //                             "house-full.png", null);
-
-                           //tabPage.AddTab<TravelPageModel>("Itinerário", Device.OS == TargetPlatform.Android ?
-                           //                               string.Empty :
-                           //                               "bus-full.png", null);
-
-                           //tabPage.AddTab<SchedulePageModel>("Horários", Device.OS == TargetPlatform.Android ?
-                           //                            string.Empty :
-                           //                            "calendar.png", null);
-
                            RegisterLocalAuthenticatedUser();
 
                            _userDialogs.HideLoading();
-                           //CoreMethods.SwitchOutRootNavigation("HomeContainer");
+                           await NavigateCommand.Execute();
                        }
                        else
                        {
@@ -225,6 +201,18 @@ namespace IcatuzinhoApp
                     if (schedule != null)
                         await _travelService.GetTravelByScheduleId(schedule.Id);
                 }
+            }
+        }
+
+        async void Navigate()
+        {
+            try
+            {
+                await _navigationService.Navigate("SelectionPage");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

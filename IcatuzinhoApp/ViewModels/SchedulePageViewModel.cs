@@ -2,22 +2,23 @@
 using PropertyChanged;
 using Acr.UserDialogs;
 using System.Collections.Generic;
+using Microsoft.Practices.Unity;
 
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class SchedulePageModel : BasePageViewModel
+    public class SchedulePageViewModel : BasePageViewModel
     {
         readonly IScheduleService _scheduleService;
         IUserDialogs _userDialogs { get; set; }
 
         public IList<Schedule> Schedules { get; set; }
 
-        public SchedulePageModel(IScheduleService scheduleService)
+        public SchedulePageViewModel(IScheduleService scheduleService)
         {
             _scheduleService = scheduleService;
-            _userDialogs = FreshMvvm.FreshIOC.Container.Resolve<IUserDialogs>();
+            _userDialogs = App._container.Resolve<IUserDialogs>();
 
             try
             {
@@ -58,6 +59,11 @@ namespace IcatuzinhoApp
         public IList<Schedule> GetAll()
         {
             var collection = _scheduleService.GetAll();
+
+            foreach (var item in collection)
+            {
+                item.TimeSchedule = Convert.ToDateTime(item.StartSchedule);
+            }
 
             for (int i = 0; i < 3; i++)
             {

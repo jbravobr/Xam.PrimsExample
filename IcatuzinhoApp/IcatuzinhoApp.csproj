@@ -73,7 +73,7 @@
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\HomePageModel.cs" />
+    <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="Colors.cs">
       <DependentUpon>Colors.tt</DependentUpon>
     </Compile>
@@ -99,12 +99,12 @@
     <Compile Include="Services\AuthenticationService .cs" />
     <Compile Include="Utils\UIFunctions.cs" />
     <Compile Include="ValueConverters\BooleanTriggerConverter.cs" />
-    <Compile Include="ViewModels\BasePageModel.cs" />
+    <Compile Include="ViewModels\BasePageViewModel.cs" />
     <Compile Include="Utils\Tracks.cs" />
     <Compile Include="Utils\Connectivity.cs" />
     <Compile Include="Models\DeveloperSettings.cs" />
     <Compile Include="TriggerActions\LabelScaleTriggerAction.cs" />
-    <Compile Include="ViewModels\SchedulePageModel.cs" />
+    <Compile Include="ViewModels\SchedulePageViewModel.cs" />
     <Compile Include="Views\SchedulePage.xaml.cs">
       <DependentUpon>SchedulePage.xaml</DependentUpon>
     </Compile>
@@ -115,13 +115,17 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
+    <Compile Include="Views\SelectionPage.xaml.cs">
+      <DependentUpon>SelectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\SelectionPageViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets')" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
-  <Import Project="..\packages\Xamarin.Forms.2.3.0.34-pre1\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.0.34-pre1\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\Xamarin.Forms.2.2.0.31\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.2.0.31\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Data\Interfaces\" />
@@ -165,12 +169,6 @@
     <Reference Include="PropertyChanged">
       <HintPath>..\packages\PropertyChanged.Fody.1.51.0\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
     </Reference>
-    <Reference Include="FreshIOC">
-      <HintPath>..\packages\FreshMvvm.2.0.1\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\FreshIOC.dll</HintPath>
-    </Reference>
-    <Reference Include="FreshMvvm">
-      <HintPath>..\packages\FreshMvvm.2.0.1\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\FreshMvvm.dll</HintPath>
-    </Reference>
     <Reference Include="ModernHttpClient">
       <HintPath>..\packages\modernhttpclient.2.4.2\lib\Portable-Net45+WinRT45+WP8+WPA81\ModernHttpClient.dll</HintPath>
     </Reference>
@@ -195,12 +193,6 @@
     <Reference Include="Xamarin.Forms.Maps">
       <HintPath>..\packages\Xamarin.Forms.Maps.2.2.0.31\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Maps.dll</HintPath>
     </Reference>
-    <Reference Include="Acr.UserDialogs">
-      <HintPath>..\packages\Acr.UserDialogs.5.1.0\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.dll</HintPath>
-    </Reference>
-    <Reference Include="Acr.UserDialogs.Interface">
-      <HintPath>..\packages\Acr.UserDialogs.5.1.0\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.Interface.dll</HintPath>
-    </Reference>
     <Reference Include="Plugin.DeviceInfo.Abstractions">
       <HintPath>..\packages\Xam.Plugin.DeviceInfo.2.0.2\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+UAP10\Plugin.DeviceInfo.Abstractions.dll</HintPath>
     </Reference>
@@ -219,15 +211,6 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Forms.Core">
-      <HintPath>..\packages\Xamarin.Forms.2.3.0.34-pre1\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Platform">
-      <HintPath>..\packages\Xamarin.Forms.2.3.0.34-pre1\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Xaml">
-      <HintPath>..\packages\Xamarin.Forms.2.3.0.34-pre1\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
-    </Reference>
     <Reference Include="Prism">
       <HintPath>..\packages\Prism.Core.6.1.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Prism.dll</HintPath>
     </Reference>
@@ -239,6 +222,21 @@
     </Reference>
     <Reference Include="Prism.Unity.Forms">
       <HintPath>..\packages\Prism.Unity.Forms.6.2.0-pre3\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Prism.Unity.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs">
+      <HintPath>..\packages\Acr.UserDialogs.5.1.1\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs.Interface">
+      <HintPath>..\packages\Acr.UserDialogs.5.1.1\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\packages\Xamarin.Forms.2.2.0.31\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform">
+      <HintPath>..\packages\Xamarin.Forms.2.2.0.31\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\packages\Xamarin.Forms.2.2.0.31\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +267,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="App.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SelectionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <LogicalName>SelectionPage.xaml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

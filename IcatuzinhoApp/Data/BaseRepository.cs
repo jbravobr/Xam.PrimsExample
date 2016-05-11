@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using SQLite.Net;
 using System.Linq;
-using Acr.UserDialogs;
+using Microsoft.Practices.Unity;
 
 namespace IcatuzinhoApp
 {
@@ -19,7 +19,7 @@ namespace IcatuzinhoApp
         public BaseRepository()
         {
             if(_log == null)
-                _log = FreshMvvm.FreshIOC.Container.Resolve<ILogExceptionService>();
+                _log = App._container.Resolve<ILogExceptionService>();
 
             conn = DependencyService.Get<ISQLite>().GetConnection();
             CreateDataBase();

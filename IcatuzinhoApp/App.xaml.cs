@@ -1,22 +1,27 @@
 ﻿
 using Prism.Unity;
 using Microsoft.Practices.Unity;
+using Xamarin;
 
 namespace IcatuzinhoApp
 {
     public partial class App : PrismApplication
     {
         public static User UserAuthenticated { get; set; }
+        public static UnityContainer _container { get; private set;}
 
         protected override void OnInitialized()
         {
             try
             {
                 InitializeComponent();
+                _container = IoCconfiguration.Init();
+
                 NavigationService.Navigate("LoginPage");
             }
             catch (System.Exception ex)
             {
+                Insights.Report(ex);
                 throw ex;
             }
         }
@@ -43,6 +48,7 @@ namespace IcatuzinhoApp
 
                 // Registrando Views para Navegação
                 Container.RegisterTypeForNavigation<LoginPage>();
+                Container.RegisterTypeForNavigation<SelectionPage>();
 
                 // 3rd Party Controlls
                 Container.RegisterInstance(Acr.UserDialogs.UserDialogs.Instance);
@@ -51,6 +57,7 @@ namespace IcatuzinhoApp
             }
             catch (System.Exception ex)
             {
+                Insights.Report(ex);
                 throw ex;
             }
         }

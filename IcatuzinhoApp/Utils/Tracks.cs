@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin;
 using Plugin.DeviceInfo.Abstractions;
+using Microsoft.Practices.Unity;
 
 namespace IcatuzinhoApp
 {
@@ -15,7 +16,7 @@ namespace IcatuzinhoApp
 
         public static void TrackLoginInformation()
         {
-            var _deviceInfo = FreshMvvm.FreshIOC.Container.Resolve<IDeviceInfo>();
+            var _deviceInfo = App._container.Resolve<IDeviceInfo>();
 
             Insights.Track("Login concluído", new System.Collections.Generic.Dictionary<string, string>
                         {
@@ -28,7 +29,7 @@ namespace IcatuzinhoApp
 
         public static void TrackCheckInInformation()
         {
-            var _deviceInfo = FreshMvvm.FreshIOC.Container.Resolve<IDeviceInfo>();
+            var _deviceInfo = App._container.Resolve<IDeviceInfo>();
 
             Insights.Track("CheckIn concluído", new System.Collections.Generic.Dictionary<string, string>
                         {
@@ -41,7 +42,7 @@ namespace IcatuzinhoApp
 
         public static void TrackCheckOutInformation()
         {
-            var _deviceInfo = FreshMvvm.FreshIOC.Container.Resolve<IDeviceInfo>();
+            var _deviceInfo = App._container.Resolve<IDeviceInfo>();
 
             Insights.Track("CheckOut concluído", new System.Collections.Generic.Dictionary<string, string>
                         {
@@ -54,7 +55,7 @@ namespace IcatuzinhoApp
 
         public static void TrackWhoSawMapsInformation()
         {
-            var _deviceInfo = FreshMvvm.FreshIOC.Container.Resolve<IDeviceInfo>();
+            var _deviceInfo = App._container.Resolve<IDeviceInfo>();
 
             Insights.Track("Mapa acessado por", new System.Collections.Generic.Dictionary<string, string>
                         {

@@ -3,11 +3,12 @@ using PropertyChanged;
 using Acr.UserDialogs;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class HomePageModel : BasePageViewModel
+    public class HomePageViewModel : BasePageViewModel
     {
         public string CurrentDate { get; set; }
 
@@ -41,12 +42,12 @@ namespace IcatuzinhoApp
 
         IUserDialogs _userDialogs { get; set; }
 
-        public HomePageModel(ITravelService travelService,
+        public HomePageViewModel(ITravelService travelService,
                              IWeatherService weatherService)
         {
             _travelService = travelService;
             _weatherService = weatherService;
-            _userDialogs = FreshMvvm.FreshIOC.Container.Resolve<IUserDialogs>();
+            _userDialogs = App._container.Resolve<IUserDialogs>();
 
             isCheckIn = true;
             isCheckOut = false;
@@ -90,13 +91,13 @@ namespace IcatuzinhoApp
                     SeatsTotal = _travel.Vehicle.SeatsTotal.ToString();
                     Description = _travel.Schedule.Message;
 
-                    var _hours = _travel.Schedule.StartSchedule.Hour == 0 ?
+                    var _hours = Convert.ToDateTime(_travel.Schedule.StartSchedule).Hour == 0 ?
                                         ZeroHours :
-                                        _travel.Schedule.StartSchedule.Hour.ToString();
+                                        Convert.ToDateTime(_travel.Schedule.StartSchedule).Hour.ToString();
 
-                    var _minutes = _travel.Schedule.StartSchedule.Minute == 0 ?
+                    var _minutes = Convert.ToDateTime(_travel.Schedule.StartSchedule).Minute == 0 ?
                                           Minutes :
-                                          _travel.Schedule.StartSchedule.Minute.ToString();
+                                          Convert.ToDateTime(_travel.Schedule.StartSchedule).Minute.ToString();
 
                     Time = $"{_hours}:{_minutes}";
 

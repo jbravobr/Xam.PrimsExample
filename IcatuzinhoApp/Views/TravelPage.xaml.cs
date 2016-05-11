@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using System.Linq;
 using Acr.UserDialogs;
+using Microsoft.Practices.Unity;
 
 namespace IcatuzinhoApp
 {
@@ -19,7 +20,7 @@ namespace IcatuzinhoApp
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            var _userDialogsService = FreshMvvm.FreshIOC.Container.Resolve<IUserDialogs>();
+            var _userDialogsService = App._container.Resolve<IUserDialogs>();
 
             try
             {
@@ -28,17 +29,16 @@ namespace IcatuzinhoApp
                 if (Device.OS == TargetPlatform.iOS)
                     iosMap = new CustomMap();
 
-                var model = BindingContext as TravelPageModel;
+                var model = BindingContext as TravelPageViewModel;
                 var routes = model.Get();
 
-                var _stationService = FreshMvvm.FreshIOC.Container.Resolve<IStationService>();
+                _stations = model.GetStations();
 
                 if (_logExceptionService == null)
-                    _logExceptionService = FreshMvvm.FreshIOC.Container.Resolve<ILogExceptionService>();
+                    _logExceptionService = App._container.Resolve<ILogExceptionService>();
 
-                if (_stationService != null)
+                if (_stations != null)
                 {
-                    _stations = _stationService.GetAllWithChildren();
                     _userDialogsService.ShowLoading();
 
                     if (_stations != null && _stations.Any())
@@ -103,7 +103,7 @@ namespace IcatuzinhoApp
             InitializeComponent();
 
             if (_logExceptionService == null)
-                _logExceptionService = FreshMvvm.FreshIOC.Container.Resolve<ILogExceptionService>();
+                _logExceptionService = App._container.Resolve<ILogExceptionService>();
 
             try
             {

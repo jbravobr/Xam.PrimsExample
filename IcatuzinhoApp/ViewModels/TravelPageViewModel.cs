@@ -6,13 +6,16 @@ using Xamarin.Forms;
 
 namespace IcatuzinhoApp
 {
-    public class TravelPageModel : BasePageViewModel
+    public class TravelPageViewModel : BasePageViewModel
     {
         IItineraryService _itineraryService;
+        IStationService _stationService;
 
-        public TravelPageModel(IItineraryService itineraryService)
+        public TravelPageViewModel(IItineraryService itineraryService, 
+                                   IStationService stationService)
         {
             _itineraryService = itineraryService;
+            _stationService = stationService;
         }
 
         //public override void Init(object initData)
@@ -38,6 +41,16 @@ namespace IcatuzinhoApp
                 base.SendToInsights(ex);
                 return null;
             }
+        }
+
+        public List<Station> GetStations()
+        {
+            var stations = _stationService.GetAllWithChildren();
+
+            if (stations != null && stations.Any())
+                return stations;
+
+            return null;
         }
     }
 }
