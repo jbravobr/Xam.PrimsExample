@@ -11,19 +11,12 @@ namespace IcatuzinhoApp
         IItineraryService _itineraryService;
         IStationService _stationService;
 
-        public TravelPageViewModel(IItineraryService itineraryService, 
+        public TravelPageViewModel(IItineraryService itineraryService,
                                    IStationService stationService)
         {
             _itineraryService = itineraryService;
             _stationService = stationService;
         }
-
-        //public override void Init(object initData)
-        //{
-        //    Tracks.TrackWhoSawMapsInformation();
-
-        //    base.Init(initData);
-        //}
 
         public List<Itinerary> Get()
         {

@@ -36,26 +36,6 @@ namespace IcatuzinhoApp
             }
         }
 
-        //public override void Init(object initData)
-        //{
-        //    base.Init(initData);
-
-        //    try
-        //    {
-        //        _userDialogs.ShowLoading("Carregando");
-
-        //        Schedules = GetAll();
-
-        //        _userDialogs.HideLoading();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _userDialogs.HideLoading();
-        //        base.SendToInsights(ex);
-        //        UIFunctions.ShowErrorMessageToUI();
-        //    }
-        //}
-
         public IList<Schedule> GetAll()
         {
             var collection = _scheduleService.GetAll();

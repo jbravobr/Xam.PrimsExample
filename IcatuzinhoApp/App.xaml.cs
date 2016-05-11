@@ -8,7 +8,8 @@ namespace IcatuzinhoApp
     public partial class App : PrismApplication
     {
         public static User UserAuthenticated { get; set; }
-        public static UnityContainer _container { get; private set;}
+        public static UnityContainer _container { get; private set; }
+        public static bool MapLoaded { get; set; }
 
         protected override void OnInitialized()
         {
@@ -16,6 +17,7 @@ namespace IcatuzinhoApp
             {
                 InitializeComponent();
                 _container = IoCconfiguration.Init();
+                MapLoaded = false;
 
                 NavigationService.Navigate("LoginPage");
             }

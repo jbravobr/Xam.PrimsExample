@@ -56,15 +56,6 @@ namespace IcatuzinhoApp
 
         }
 
-        //public override void Init(object initData)
-        //{
-        //    base.Init(initData);
-        //    GetInfos();
-
-        //    // Repetição da chamada para atualização dos dados.
-        //    //Task.Factory.StartNew(() => GetInfos()).ContinueWith((obj) => ScheduleGetInfoForUI());
-        //}
-
         public void GetInfos()
         {
             try

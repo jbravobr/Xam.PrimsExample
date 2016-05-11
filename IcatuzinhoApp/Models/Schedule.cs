@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using PropertyChanged;
 using SQLite.Net.Attributes;
-using SQLiteNetExtensions.Attributes;
 
 namespace IcatuzinhoApp
 {

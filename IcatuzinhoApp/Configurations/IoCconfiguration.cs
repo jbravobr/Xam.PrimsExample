@@ -11,7 +11,7 @@ namespace IcatuzinhoApp
             var _c = new UnityContainer();
 
             _c.RegisterType<ILogExceptionService, LogExceptionService>();
-            _c.RegisterType<IStationService, StationService>();
+
             _c.RegisterInstance(Acr.UserDialogs.UserDialogs.Instance);
             _c.RegisterInstance(Plugin.DeviceInfo.CrossDeviceInfo.Current);
             _c.RegisterInstance(Plugin.Connectivity.CrossConnectivity.Current);
