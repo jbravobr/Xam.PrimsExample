@@ -7,16 +7,9 @@
 		xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
         prism:ViewModelLocator.AutowireViewModel="True"
 		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
-		BackgroundColor="Black">
+		BackgroundColor="Black"
+		Title="Próxima Partida">
 
-	<ContentPage.Icon>
-		<OnPlatform x:TypeArguments="FileImageSource">
-			<OnPlatform.iOS>
-				house-full.png
-			</OnPlatform.iOS>
-		</OnPlatform>
-	</ContentPage.Icon>
-	
 	<ContentPage.Content>
 		<Grid Padding="0">
 
@@ -135,7 +128,15 @@
 					Command="{Binding CheckOut}" 
 					IsVisible="{Binding isCheckOut}" 
 					VerticalOptions="End" 
-					Text="CHECK OUT" />
+					Text="CHECK OUT">
+
+					<Button.WidthRequest>
+						<OnIdiom x:TypeArguments="x:Double">
+						<OnIdiom.Tablet>400</OnIdiom.Tablet>
+					</OnIdiom>
+					</Button.WidthRequest>
+					
+				</Button>
 			</StackLayout>
 
 		</Grid>

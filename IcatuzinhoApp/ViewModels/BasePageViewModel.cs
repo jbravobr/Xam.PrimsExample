@@ -16,7 +16,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                throw ex;
+                SendToInsights(ex);
             }
         }
 

@@ -168,7 +168,9 @@ namespace IcatuzinhoApp
                        else
                        {
                            _userDialogs.HideLoading();
-                           UIFunctions.ShowToastErrorMessageToUI("Usuário/Senha inválidos");
+                           UIFunctions.ShowToastErrorMessageToUI("Usuário/Senha inválidos",
+                                                                   Device.OS == TargetPlatform.iOS ?
+                                                                   6000 : 3000);
                        }
                    }
                    catch (Exception ex)
@@ -212,7 +214,8 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                throw ex;
+                UIFunctions.ShowErrorMessageToUI();
+                base.SendToInsights(ex);
             }
         }
     }

@@ -8,12 +8,9 @@
 		xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
         prism:ViewModelLocator.AutowireViewModel="True"
 		Title="Itinerário">
+	
 	<ContentPage.Content>
 		<StackLayout VerticalOptions="FillAndExpand" Padding="0">
-        <!--<maps:Map x:Name="MapaTravel" WidthRequest="320" HeightRequest="200"
-				HasZoomEnabled="true"
-				IsShowingUser="true"
-				MapType ="Street" />-->
 		<local:CustomMap x:Name="MapaTravel" 
 					WidthRequest="320" 
 					HeightRequest="200"
@@ -22,4 +19,5 @@
 					MapType ="Street" />
     </StackLayout>
 	</ContentPage.Content>
+	
 </ContentPage>

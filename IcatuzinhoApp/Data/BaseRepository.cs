@@ -14,11 +14,11 @@ namespace IcatuzinhoApp
         readonly SQLiteConnection conn;
         object _lock = new object();
 
-        readonly ILogExceptionService _log; 
+        readonly ILogExceptionService _log;
 
         public BaseRepository()
         {
-            if(_log == null)
+            if (_log == null)
                 _log = App._container.Resolve<ILogExceptionService>();
 
             conn = DependencyService.Get<ISQLite>().GetConnection();
@@ -268,7 +268,7 @@ namespace IcatuzinhoApp
 
                 }
             }
-                catch (Exception ex)
+            catch (Exception ex)
             {
                 _log.SubmitToInsights(ex);
                 return false;

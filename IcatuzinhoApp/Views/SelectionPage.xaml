@@ -6,7 +6,18 @@
 		xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
         prism:ViewModelLocator.AutowireViewModel="True"
 		xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp">
-    <local:HomePage />
+	<NavigationPage>
+		<x:Arguments>
+    		<local:HomePage />
+		</x:Arguments>
+		<NavigationPage.Icon>
+			<OnPlatform x:TypeArguments="FileImageSource">
+				<OnPlatform.iOS>
+					house-full.png
+				</OnPlatform.iOS>
+			</OnPlatform>
+		</NavigationPage.Icon>      
+	</NavigationPage>
 	<NavigationPage>
 		<x:Arguments>
 			<local:TravelPage />

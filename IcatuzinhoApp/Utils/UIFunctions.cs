@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Acr.UserDialogs;
+using Softweb.Controls;
 
 namespace IcatuzinhoApp
 {
@@ -41,8 +42,7 @@ namespace IcatuzinhoApp
 
         public static void ShowToastErrorMessageToUI(string message, int timeout = 3000)
         {
-            _userDialogs = App._container.Resolve<IUserDialogs>();
-            _userDialogs.ErrorToast(message, string.Empty, timeout);
+            //UIMessage.ShowToast(message,
         }
 
         public static void ShowToastWarningMessageToUI(string message, int timeout = 3000)

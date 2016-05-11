@@ -157,12 +157,16 @@ namespace IcatuzinhoApp
 
                             _userDialogs.HideLoading();
                             Tracks.TrackCheckInInformation();
-                            UIFunctions.ShowToastSuccessMessageToUI("Checkin efetuado!");
+                            UIFunctions.ShowToastSuccessMessageToUI("Checkin efetuado!",
+                                                                   Device.OS == TargetPlatform.iOS ?
+                                                                   6000 : 3000);
                         }
                         else
                         {
                             _userDialogs.HideLoading();
-                            UIFunctions.ShowToastErrorMessageToUI("Erro ao fazer o Checkin, tente novamente");
+                            UIFunctions.ShowToastErrorMessageToUI("Erro ao fazer o Checkin, tente novamente",
+                                                                   Device.OS == TargetPlatform.iOS ?
+                                                                   6000 : 3000);
                         }
                     }
                     catch (Exception ex)
@@ -207,12 +211,16 @@ namespace IcatuzinhoApp
 
                                 _userDialogs.HideLoading();
                                 Tracks.TrackCheckOutInformation();
-                                UIFunctions.ShowToastSuccessMessageToUI("Checkout efetuado!");
+                                UIFunctions.ShowToastSuccessMessageToUI("Checkout efetuado!",
+                                                                   Device.OS == TargetPlatform.iOS ?
+                                                                   6000 : 3000);
                             }
                             else
                             {
                                 _userDialogs.HideLoading();
-                                UIFunctions.ShowToastErrorMessageToUI("Erro ao fazer o Checkout, tente novamente");
+                                UIFunctions.ShowToastErrorMessageToUI("Erro ao fazer o Checkout, tente novamente",
+                                                                   Device.OS == TargetPlatform.iOS ?
+                                                                   6000 : 3000);
                             }
                         }
                     }

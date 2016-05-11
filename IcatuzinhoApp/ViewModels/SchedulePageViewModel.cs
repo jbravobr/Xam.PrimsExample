@@ -43,21 +43,17 @@ namespace IcatuzinhoApp
             foreach (var item in collection)
             {
                 item.TimeSchedule = Convert.ToDateTime(item.StartSchedule);
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                collection[i].StatusAvatar = "offline.png";
-                collection[i].StatusDescription = "Indisponível";
-            }
-
-            for (int i = 3; i < collection.Count; i++)
-            {
-                collection[i].StatusAvatar = "online.png";
-                collection[i].StatusDescription = "Disponível";
+                item.StatusAvatar = DateTime.Now <= item.TimeSchedule ?
+                    SetScheduleAvailable(true) :
+                    SetScheduleAvailable(false);
             }
 
             return collection;
+        }
+
+        string SetScheduleAvailable(bool available)
+        {
+            return available ? "online.png" : "offline.png";
         }
     }
 }
