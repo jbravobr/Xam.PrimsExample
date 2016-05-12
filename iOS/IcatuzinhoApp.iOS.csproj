@@ -25,10 +25,10 @@
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer: Bruno Camilo (MD435G6QAW)</CodesignKey>
+    <CodesignKey>iPhone Developer: jbravo.br@icloud.com (S64P5CTBTF)</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
-    <CodesignProvision>b29989ba-53fd-4929-8d92-ffacdf37c0b2</CodesignProvision>
+    <CodesignProvision></CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>

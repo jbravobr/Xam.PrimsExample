@@ -46,6 +46,9 @@ namespace IcatuzinhoApp
                 item.StatusAvatar = DateTime.Now <= item.TimeSchedule ?
                     SetScheduleAvailable(true) :
                     SetScheduleAvailable(false);
+                item.StatusDescription = DateTime.Now <= item.TimeSchedule ?
+                    "Disponível" :
+                    "Indisponível";
             }
 
             return collection;
