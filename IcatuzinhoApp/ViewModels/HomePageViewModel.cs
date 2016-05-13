@@ -44,7 +44,7 @@ namespace IcatuzinhoApp
         IUserDialogs _userDialogs { get; set; }
 
         public HomePageViewModel(ITravelService travelService,
-                             IWeatherService weatherService)
+                                 IWeatherService weatherService)
         {
             _travelService = travelService;
             _weatherService = weatherService;
@@ -54,7 +54,6 @@ namespace IcatuzinhoApp
             isCheckOut = false;
 
             GetInfos();
-
         }
 
         public void GetInfos()
@@ -78,7 +77,7 @@ namespace IcatuzinhoApp
                     CurrentDate = $"{currentDay}/{currentMonth}";
 
                     if (string.IsNullOrEmpty(SeatsAvailable))
-                        SeatsAvailable = _travel.Vehicle.SeatsAvailable.ToString();
+                        SeatsAvailable = (_travel.Vehicle.SeatsTotal - _travel.Vehicle.SeatsAvailable).ToString();
 
                     SeatsTotal = _travel.Vehicle.SeatsTotal.ToString();
                     Description = _travel.Schedule.Message;
@@ -122,7 +121,7 @@ namespace IcatuzinhoApp
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        GetInfos();
+                        //GetInfos();
                         await UpdateSeats();
                         ScheduleGetInfoForUI();
                     });

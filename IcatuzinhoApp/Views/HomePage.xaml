@@ -10,6 +10,12 @@
 		BackgroundColor="Black"
 		Title="Próxima Partida">
 
+	<ContentPage.Resources>
+		 <ResourceDictionary>
+            <local:BooleanTriggerConverter x:Key="checkAvailableSeats" />
+        </ResourceDictionary>
+	</ContentPage.Resources>
+
 	<ContentPage.Content>
 		<Grid Padding="0">
 
@@ -92,7 +98,9 @@
 				</Label>
 				
 			</Grid>
-			
+
+			<Label Text="{Binding SeatsAvailable}" IsVisible="false" x:Name="labelSeatsAvailable" >
+			</Label>
 
 			<!-- CHECK IN AND CHECK OUT BUTTON -->
 			<StackLayout Padding="20">
@@ -109,6 +117,18 @@
 						<OnIdiom.Phone>Fill</OnIdiom.Phone>
 					</OnIdiom>
 				</StackLayout.HorizontalOptions>
+
+				<!--<StackLayout.Triggers>
+					<MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding Source={x:Reference labelSeatsAvailable},
+                                                       Path=Text,
+										               Converter={StaticResource checkAvailableSeats}}"
+                                                   Value="true" />
+                        </MultiTrigger.Conditions>
+        			<Setter Property="IsVisible" Value="True" />
+                    </MultiTrigger>
+				</StackLayout.Triggers>-->
 
 				<Button Style="{DynamicResource SecondaryActionButtonStyle}" 
 					Command="{Binding CheckIn}" 

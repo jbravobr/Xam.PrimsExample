@@ -1,28 +1,23 @@
-﻿using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using System.Runtime.InteropServices;
-using System.Security;
 
 namespace IcatuzinhoApp.UITests
 {
     [TestFixture]
     public class CheckinTests
     {
-        HttpClient _httpClient = Helpers.ReturnClient();
+        HttpClient _httpClient;
 
         [Test]
-        public async Task Try_Make_Checkin()
+        public async Task TestDoCheckIn()
         {
             var checkinDone = false;
+            var token = await Helpers.GenerateTokenAuthentication();
+            _httpClient = Helpers.ReturnClient(token);
 
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var result = await _httpClient.GetAsync($"icatuzinhoapi/api/travel/checkin/1/1");
+            var result = await _httpClient.GetAsync(Constants.TravelServiceCheckInAddress);
 
             if (result.IsSuccessStatusCode)
             {
@@ -34,14 +29,13 @@ namespace IcatuzinhoApp.UITests
         }
 
         [Test]
-        public async Task Try_Make_Checkout()
+        public async Task TestDoCheckOut()
         {
             var checkoutDone = false;
+            var token = await Helpers.GenerateTokenAuthentication();
+            _httpClient = Helpers.ReturnClient(token);
 
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var result = await _httpClient.GetAsync($"icatuzinhoapi/api/travel/checkout/1/1");
+            var result = await _httpClient.GetAsync(Constants.TravelServiceCheckOutAddress);
 
             if (result.IsSuccessStatusCode)
             {

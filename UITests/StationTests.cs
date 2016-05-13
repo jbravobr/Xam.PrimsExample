@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json;
@@ -12,8 +10,8 @@ namespace IcatuzinhoApp.UITests
     [TestFixture]
     public class StationTests
     {
-        HttpClient _httpClient = Helpers.ReturnClient();
-        private Mock<IStationService> mockService;
+        HttpClient _httpClient;
+        Mock<IStationService> mockService;
 
         [SetUp]
         public void SetUp()
@@ -25,11 +23,11 @@ namespace IcatuzinhoApp.UITests
         public async Task ReturnListStationsFromAPI()
         {
             var listStation = new List<Station>();
+            var token = await Helpers.GenerateTokenAuthentication();
 
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient = Helpers.ReturnClient(token);
 
-            var result = await _httpClient.GetAsync($"icatuzinhoapi/api/station/");
+            var result = await _httpClient.GetAsync(Constants.StationServiceAddress);
 
             if (result.IsSuccessStatusCode)
             {
@@ -37,7 +35,6 @@ namespace IcatuzinhoApp.UITests
                 listStation = JsonConvert.DeserializeObject<List<Station>>(stringJson);
             }
 
-            CollectionAssert.AllItemsAreInstancesOfType(listStation, typeof(Station));
             CollectionAssert.IsNotEmpty(listStation);
             CollectionAssert.AllItemsAreNotNull(listStation);
         }

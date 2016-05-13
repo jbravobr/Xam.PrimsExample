@@ -12,7 +12,7 @@ namespace IcatuzinhoApp.UITests
     [TestFixture]
     public class ItineraryTests
     {
-        HttpClient _httpClient = Helpers.ReturnClient();
+        HttpClient _httpClient;
         private Mock<IItineraryService> mock;
 
         [SetUp]
@@ -25,11 +25,11 @@ namespace IcatuzinhoApp.UITests
         public async Task GetItinerariesFromAPI()
         {
             var listItineraries = new List<Itinerary>();
+            var token = await Helpers.GenerateTokenAuthentication();
 
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient = Helpers.ReturnClient(token);
 
-            var result = await _httpClient.GetAsync($"icatuzinhoapi/api/itinerary/");
+            var result = await _httpClient.GetAsync(Constants.ItineraryServiceAddress);
 
             if (result.IsSuccessStatusCode)
             {
@@ -37,7 +37,6 @@ namespace IcatuzinhoApp.UITests
                 listItineraries = JsonConvert.DeserializeObject<List<Itinerary>>(stringJson);
             }
 
-            CollectionAssert.AllItemsAreInstancesOfType(listItineraries, typeof(Itinerary));
             CollectionAssert.IsNotEmpty(listItineraries);
             CollectionAssert.AllItemsAreNotNull(listItineraries);
         }

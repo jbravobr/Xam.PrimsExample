@@ -1,47 +1,63 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace IcatuzinhoApp.UITests
 {
     public static class Helpers
     {
-        public static HttpClient ReturnClient()
+        public static HttpClient ReturnClient(string accessToken)
         {
-            var baseAddress = new Uri("http://labdev.labdevmobile.com.br/");
-
             var httpClient = new HttpClient
             {
-                BaseAddress = baseAddress,
+                BaseAddress = new Uri(Constants.BaseAddress),
                 Timeout = TimeSpan.FromSeconds(40)
             };
 
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             return httpClient;
         }
 
-        public static HttpClient ReturnClient(string accessToken)
+        public static async Task<string> GenerateTokenAuthentication()
         {
-            try
-            {
-                var httpClient = new HttpClient
-                {
-                    BaseAddress = new Uri("http://labdev.labdevmobile.com.br/"),
-                    Timeout = TimeSpan.FromSeconds(40)
-                };
+            var username = "teste@icatuseguros.com.br";
+            var password = "Icatu123!";
 
-                httpClient.DefaultRequestHeaders.Accept.Clear();
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                return httpClient;
-            }
-            catch (Exception ex)
+            var client = new HttpClient
             {
-                throw ex;
+                BaseAddress = new Uri(Constants.BaseAddress),
+                Timeout = TimeSpan.FromSeconds(40)
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Post, Constants.FormsAuthentication);
+
+            request.Content = new FormUrlEncodedContent(new[]
+            {
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("username",username),
+                    new KeyValuePair<string, string>("password",password)
+            });
+
+            var response = await client.SendAsync(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var authenticationToken = JsonConvert.DeserializeObject<AuthenticationToken>(jsonString);
+
+                if (authenticationToken != null)
+                    authenticationToken.SetExpirationTime();
+
+                return authenticationToken.AccessToken;
             }
+
+            return string.Empty;
         }
     }
 }

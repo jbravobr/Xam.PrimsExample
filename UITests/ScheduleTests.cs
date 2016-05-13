@@ -12,8 +12,8 @@ namespace IcatuzinhoApp.UITests
     [TestFixture]
     public class ScheduleTests
     {
-        HttpClient _httpClient = Helpers.ReturnClient();
-        private Mock<IScheduleService> mock;
+        HttpClient _httpClient;
+        Mock<IScheduleService> mock;
 
         [SetUp]
         public void SetUp()
@@ -25,11 +25,11 @@ namespace IcatuzinhoApp.UITests
         public async Task ReturnListSchedulesFromAPI()
         {
             var listSchedule = new List<Schedule>();
+            var token = await Helpers.GenerateTokenAuthentication();
 
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient = Helpers.ReturnClient(token);
 
-            var result = await _httpClient.GetAsync($"icatuzinhoapi/api/schedule");
+            var result = await _httpClient.GetAsync(Constants.ScheduleServiceAddress);
 
             if (result.IsSuccessStatusCode)
             {
@@ -37,7 +37,6 @@ namespace IcatuzinhoApp.UITests
                 listSchedule = JsonConvert.DeserializeObject<List<Schedule>>(stringJson);
             }
 
-            CollectionAssert.AllItemsAreInstancesOfType(listSchedule, typeof(Schedule));
             CollectionAssert.IsNotEmpty(listSchedule);
             CollectionAssert.AllItemsAreNotNull(listSchedule);
         }
@@ -47,11 +46,11 @@ namespace IcatuzinhoApp.UITests
         {
             var schedules = new List<Schedule>
             {
-                new Schedule{StartSchedule = DateTime.Now,Id = 1, Message = "Teste 1"},
-                new Schedule{StartSchedule = DateTime.Now.AddHours(1),Id = 2, Message = "Teste 2"},
-                new Schedule{StartSchedule = DateTime.Now.AddHours(2),Id = 3, Message = "Teste 3"},
-                new Schedule{StartSchedule = DateTime.Now.AddHours(3),Id = 4, Message = "Teste 4"},
-                new Schedule{StartSchedule = DateTime.Now.AddHours(4),Id = 5, Message = "Teste 5"}
+                new Schedule{StartSchedule = DateTime.Now.ToShortTimeString(),Id = 1, Message = "Teste 1"},
+                new Schedule{StartSchedule = DateTime.Now.AddHours(1).ToShortTimeString(),Id = 2, Message = "Teste 2"},
+                new Schedule{StartSchedule = DateTime.Now.AddHours(2).ToShortTimeString(),Id = 3, Message = "Teste 3"},
+                new Schedule{StartSchedule = DateTime.Now.AddHours(3).ToShortTimeString(),Id = 4, Message = "Teste 4"},
+                new Schedule{StartSchedule = DateTime.Now.AddHours(4).ToShortTimeString(),Id = 5, Message = "Teste 5"}
             };
 
             mock.Setup(m => m.GetAll()).Returns(schedules);

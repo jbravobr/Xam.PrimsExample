@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -12,8 +11,8 @@ namespace IcatuzinhoApp.UITests
     [TestFixture]
     public class TravelTest
     {
-        HttpClient _httpClient = Helpers.ReturnClient();
-        private Mock<ITravelService> mockService;
+        HttpClient _httpClient;
+        Mock<ITravelService> mockService;
 
         [SetUp]
         public void SetUp()
@@ -25,11 +24,12 @@ namespace IcatuzinhoApp.UITests
         public async Task ReturnTravelsFromAPI()
         {
             var travel = new Travel();
+            var token = await Helpers.GenerateTokenAuthentication();
+            var travelId = 1;
 
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient = Helpers.ReturnClient(token);
 
-            var result = await _httpClient.GetAsync($"icatuzinhoapi/api/travel/1");
+            var result = await _httpClient.GetAsync($"{Constants.TravelServiceAddress}{travelId}");
 
             if (result.IsSuccessStatusCode)
             {
@@ -55,7 +55,7 @@ namespace IcatuzinhoApp.UITests
                     {
                         Id = 1,
                         Message = "Mensagem Teste 1",
-                        StartSchedule = DateTime.Now
+                        StartSchedule = DateTime.Now.ToShortDateString()
                     }, Vehicle = new Vehicle
                     {
                         Id =1,

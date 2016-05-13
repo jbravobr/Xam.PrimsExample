@@ -3,7 +3,7 @@ using Microsoft.Practices.Unity;
 
 namespace IcatuzinhoApp
 {
-    public class BasePageViewModel : Prism.Mvvm.BindableBase
+    public abstract class BasePageViewModel : Prism.Mvvm.BindableBase
     {
         ILogExceptionService _logExceptionService;
 
@@ -18,6 +18,13 @@ namespace IcatuzinhoApp
             {
                 SendToInsights(ex);
             }
+
+            Init();
+        }
+
+        protected virtual async void Init()
+        {
+
         }
 
         public void SendToInsights(Exception ex) => _logExceptionService.SubmitToInsights(ex);
