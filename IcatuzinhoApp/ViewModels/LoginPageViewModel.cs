@@ -118,7 +118,6 @@ namespace IcatuzinhoApp
                     {
                         if (Device.OS == TargetPlatform.Android)
                             _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
-
                         UIFunctions.ShowErrorMessageToUI("Sua sessão não pode ser renovada, efetue logoff e logue novamente");
                     }
                 }

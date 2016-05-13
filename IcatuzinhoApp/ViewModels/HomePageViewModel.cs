@@ -4,6 +4,7 @@ using Acr.UserDialogs;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
+using System.Linq;
 
 namespace IcatuzinhoApp
 {
@@ -157,16 +158,11 @@ namespace IcatuzinhoApp
 
                             _userDialogs.HideLoading();
                             Tracks.TrackCheckInInformation();
-                            UIFunctions.ShowToastSuccessMessageToUI("Checkin efetuado!",
-                                                                   Device.OS == TargetPlatform.iOS ?
-                                                                   6000 : 3000);
                         }
                         else
                         {
                             _userDialogs.HideLoading();
-                            UIFunctions.ShowToastErrorMessageToUI("Erro ao fazer o Checkin, tente novamente",
-                                                                   Device.OS == TargetPlatform.iOS ?
-                                                                   6000 : 3000);
+                            UIFunctions.ShowErrorMessageToUI("Erro ao fazer o Checkin, tente novamente");
                         }
                     }
                     catch (Exception ex)
@@ -211,16 +207,11 @@ namespace IcatuzinhoApp
 
                                 _userDialogs.HideLoading();
                                 Tracks.TrackCheckOutInformation();
-                                UIFunctions.ShowToastSuccessMessageToUI("Checkout efetuado!",
-                                                                   Device.OS == TargetPlatform.iOS ?
-                                                                   6000 : 3000);
                             }
                             else
                             {
                                 _userDialogs.HideLoading();
-                                UIFunctions.ShowToastErrorMessageToUI("Erro ao fazer o Checkout, tente novamente",
-                                                                   Device.OS == TargetPlatform.iOS ?
-                                                                   6000 : 3000);
+                                UIFunctions.ShowErrorMessageToUI("Erro ao fazer o Checkout, tente novamente");
                             }
                         }
                     }
@@ -245,14 +236,23 @@ namespace IcatuzinhoApp
 
         public Travel GetNextTravel()
         {
-            //Expression<Func<Travel, bool>> bySchedule = (x) => x.Schedule.StartSchedule <= DateTime.Now;
-            //var travel = await _travelService.GetWithChildrenAsync(bySchedule);
-            var travel = _travelService.GetWithChildrenById(1);
+            var travels = _travelService.GetAllWithChildren();
+            Travel travel;
+
+            if (travels != null && travels.Any())
+            {
+                foreach (var t in travels)
+                {
+                    t.Schedule.TimeSchedule = Convert.ToDateTime(t.Schedule.StartSchedule);
+                }
+            }
+
+            travel = travels.FirstOrDefault(c => c.Schedule.TimeSchedule.Hour <= DateTime.Now.Hour);
 
             if (travel != null)
                 return travel;
 
-            return null;
+            return travel ?? travels.First();
         }
 
         public Weather GetWeather()
