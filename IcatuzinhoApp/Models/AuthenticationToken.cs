@@ -9,15 +9,18 @@ namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
     public class AuthenticationToken : EntityBase
-    { 
-        [JsonProperty(PropertyName="access_token")]
+    {
+        [JsonProperty(PropertyName = "access_token")]
         public string AccessToken { get; set; }
 
-        [JsonProperty(PropertyName="token_type")]
+        [JsonProperty(PropertyName = "token_refresh")]
+        public string RefreshToken { get; set; }
+
+        [JsonProperty(PropertyName = "token_type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public TokenType TokenType { get; set; }
 
-        [JsonProperty(PropertyName="expires_in")]
+        [JsonProperty(PropertyName = "expires_in")]
         [Ignore]
         public int Expires { get; set; }
 

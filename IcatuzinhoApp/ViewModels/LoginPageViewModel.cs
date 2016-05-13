@@ -89,26 +89,38 @@ namespace IcatuzinhoApp
                 }
                 else if (await GetAuthenticatedUser())
                 {
-                    if (Device.OS == TargetPlatform.Android)
-                        _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
+                    var isRefreshToken = await _authService.RefreshToken();
 
-                    RegisterLocalAuthenticatedUser();
+                    if (isRefreshToken)
+                    {
+                        if (Device.OS == TargetPlatform.Android)
+                            _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
 
-                    if (Device.OS == TargetPlatform.Android)
-                        _userDialogs.ShowLoading("Carregando");
+                        RegisterLocalAuthenticatedUser();
 
-                    await _weatherService.GetWeather();
+                        if (Device.OS == TargetPlatform.Android)
+                            _userDialogs.ShowLoading("Carregando");
 
-                    Insights.Identify(App.UserAuthenticated.Email,
-                                         Insights.Traits.GuestIdentifier,
-                                         App.UserAuthenticated.Email);
+                        await _weatherService.GetWeather();
 
-                    Tracks.TrackLoginInformation();
+                        Insights.Identify(App.UserAuthenticated.Email,
+                                             Insights.Traits.GuestIdentifier,
+                                             App.UserAuthenticated.Email);
 
-                    if (Device.OS == TargetPlatform.Android)
-                        _userDialogs.HideLoading();
+                        Tracks.TrackLoginInformation();
 
-                    await NavigateCommand.Execute();
+                        if (Device.OS == TargetPlatform.Android)
+                            _userDialogs.HideLoading();
+
+                        await NavigateCommand.Execute();
+                    }
+                    else
+                    {
+                        if (Device.OS == TargetPlatform.Android)
+                            _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
+
+                        UIFunctions.ShowErrorMessageToUI("Sua sessão não pode ser renovada, efetue logoff e logue novamente");
+                    }
                 }
                 else
                 {
