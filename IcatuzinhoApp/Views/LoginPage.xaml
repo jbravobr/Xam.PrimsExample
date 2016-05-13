@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-		x:Class="IcatuzinhoApp.LoginPage" 
+		x:Class="IcatuzinhoApp.LoginPage"
 		xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-		prism:ViewModelLocator.AutowireViewModel="True"
+        prism:ViewModelLocator.AutowireViewModel="True"
         xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp"
 		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
 		BackgroundColor="Black">
-
+	
     <ContentPage.Resources>
 		 <ResourceDictionary>
             <local:BooleanTriggerConverter x:Key="dataHasBeenEntered" />
@@ -27,7 +27,7 @@
 			<ScrollView Orientation="Vertical">
 				<Grid>
 					<Grid.RowDefinitions>
-						<RowDefinition Height="400" />
+						<RowDefinition Height="350" />
 						<RowDefinition Height="100" />
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
@@ -38,9 +38,8 @@
 							Grid.Row="0">
 						<StackLayout.Padding>
 							<OnPlatform x:TypeArguments="Thickness">
-								<OnPlatform.iOS>20, 120, 20, 20</OnPlatform.iOS>
-								<OnPlatform.Android>20, 100, 20, 20</OnPlatform.Android>
-								<OnPlatform.WinPhone>20, 50, 20, 20</OnPlatform.WinPhone>
+								<OnPlatform.iOS>20, 100, 20, 20</OnPlatform.iOS>
+								<OnPlatform.Android>20, 80, 20, 20</OnPlatform.Android>
 							</OnPlatform>
 						</StackLayout.Padding>
 						<Image Source="{StaticResource BrandImage}" VerticalOptions="Start" />
@@ -104,6 +103,7 @@
                                              <Setter Property="IsEnabled" Value="True" />
                                     </MultiTrigger>
 							</Button.Triggers>
+							
 					    </Button>
 					</StackLayout>
 			

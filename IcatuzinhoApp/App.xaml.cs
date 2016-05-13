@@ -2,6 +2,7 @@
 using Prism.Unity;
 using Microsoft.Practices.Unity;
 using Xamarin;
+using Xamarin.Forms;
 
 namespace IcatuzinhoApp
 {
