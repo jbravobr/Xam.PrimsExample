@@ -27,7 +27,7 @@
 			<ScrollView Orientation="Vertical">
 				<Grid>
 					<Grid.RowDefinitions>
-						<RowDefinition Height="350" />
+						<RowDefinition Height="360" />
 						<RowDefinition Height="100" />
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
@@ -103,8 +103,21 @@
                                              <Setter Property="IsEnabled" Value="True" />
                                     </MultiTrigger>
 							</Button.Triggers>
-							
-					    </Button>
+
+							<Button.WidthRequest>
+								<OnIdiom x:TypeArguments="x:Double">
+									<OnIdiom.Tablet>400</OnIdiom.Tablet>
+								</OnIdiom>
+							</Button.WidthRequest>
+
+							<Button.HeightRequest>
+								<OnIdiom x:TypeArguments="x:Double">
+									<OnIdiom.Tablet>70</OnIdiom.Tablet>
+									<OnIdiom.Phone>50</OnIdiom.Phone>
+								</OnIdiom>
+							</Button.HeightRequest>
+								
+						    </Button>
 					</StackLayout>
 			
 				</Grid>

@@ -124,7 +124,7 @@
 					
 					<Button.HeightRequest>
 						<OnIdiom x:TypeArguments="x:Double">
-							<OnIdiom.Tablet>100</OnIdiom.Tablet>
+							<OnIdiom.Tablet>70</OnIdiom.Tablet>
 							<OnIdiom.Phone>50</OnIdiom.Phone>
 						</OnIdiom>
 					</Button.HeightRequest>
@@ -145,7 +145,7 @@
 
 					<Button.HeightRequest>
 						<OnIdiom x:TypeArguments="x:Double">
-							<OnIdiom.Tablet>100</OnIdiom.Tablet>
+							<OnIdiom.Tablet>70</OnIdiom.Tablet>
 							<OnIdiom.Phone>50</OnIdiom.Phone>
 						</OnIdiom>
 					</Button.HeightRequest>
