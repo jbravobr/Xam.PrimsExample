@@ -223,6 +223,8 @@
     <AndroidResource Include="Resources\drawable\social_header_bg_0.png" />
     <AndroidResource Include="Resources\drawable\social_header_bg_1.png" />
     <AndroidResource Include="Resources\drawable\signup_bg.png" />
+    <AndroidResource Include="Resources\drawable\more.png" />
+    <AndroidResource Include="Resources\drawable\exit.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

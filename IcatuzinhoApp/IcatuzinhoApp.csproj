@@ -77,7 +77,6 @@
     <Compile Include="Colors.cs">
       <DependentUpon>Colors.tt</DependentUpon>
     </Compile>
-    <Compile Include="Services\HttpAccess.cs" />
     <Compile Include="Services\Interfaces\IHttpAccessService.cs" />
     <Compile Include="Views\TravelPage.xaml.cs">
       <DependentUpon>TravelPage.xaml</DependentUpon>
@@ -120,6 +119,7 @@
     <Compile Include="ViewModels\SelectionPageViewModel.cs" />
     <Compile Include="ViewModels\TravelPageViewModel.cs" />
     <Compile Include="Utils\ToastEventType\EnumToastEventType.cs" />
+    <Compile Include="Services\HttpAccessService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

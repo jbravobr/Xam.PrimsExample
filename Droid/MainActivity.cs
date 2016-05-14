@@ -22,8 +22,6 @@ namespace IcatuzinhoApp.Droid
 
             base.OnCreate(bundle);
 
-            Xamarin.FormsMaps.Init(this, bundle);
-
             Xamarin.Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
                 {
                     if (isStartupCrash)
@@ -37,6 +35,7 @@ namespace IcatuzinhoApp.Droid
             UserDialogs.Init(this);
 
             Xamarin.Forms.Forms.Init(this, bundle);
+            Xamarin.FormsMaps.Init(this, bundle);
 
             /*
 

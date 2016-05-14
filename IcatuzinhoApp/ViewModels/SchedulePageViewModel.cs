@@ -2,38 +2,35 @@
 using PropertyChanged;
 using Acr.UserDialogs;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Linq;
+using Xamarin.Forms;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
     public class SchedulePageViewModel : BasePageViewModel
     {
-        readonly IScheduleService _scheduleService;
         readonly ITravelService _travelService;
         IUserDialogs _userDialogs { get; set; }
 
-        public IList<Schedule> Schedules { get; set; }
+        public List<Travel> Travels { get; set; }
+        public bool IsRefreshing { get; set; }
 
         public SchedulePageViewModel(IScheduleService scheduleService,
                                      ITravelService travelService)
         {
-            _scheduleService = scheduleService;
             _travelService = travelService;
+            Init();
+
+            IsRefreshing = false;
         }
 
-        protected async override void Init()
+        public void Init()
         {
             try
             {
-                _userDialogs = App._container.Resolve<IUserDialogs>();
-                _userDialogs.ShowLoading("Carregando");
-
-                Schedules = await GetAll();
-
-                _userDialogs.HideLoading();
+                Travels = GetAll();
             }
             catch (Exception ex)
             {
@@ -41,33 +38,95 @@ namespace IcatuzinhoApp
                 base.SendToInsights(ex);
                 UIFunctions.ShowErrorMessageToUI();
             }
-
-            base.Init();
         }
 
-        public async Task<IList<Schedule>> GetAll()
+        public List<Travel> GetAll()
         {
-            var collection = _scheduleService.GetAll();
+            var collection = _travelService.GetAllWithChildren();
 
             foreach (var item in collection)
             {
-                Expression<Func<Travel, bool>> byTravelId = (t) => t.ScheduleId == item.Id;
-                var travel = _travelService.GetWithChildren(byTravelId);
-                var seatsAvailabe = await _travelService.GetAvailableSeats(travel.Id);
+                item.Schedule.TimeSchedule = Convert.ToDateTime(item.Schedule.StartSchedule);
 
-                item.TimeSchedule = Convert.ToDateTime(item.StartSchedule);
-
-                item.StatusAvatar = DateTime.Now.Hour <= item.TimeSchedule.Hour ?
+                item.Schedule.StatusAvatar = TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.TimeSchedule.TimeOfDay) <= 0 ?
                                     SetScheduleAvailable(true) :
                                     SetScheduleAvailable(false);
 
-                item.StatusDescription = DateTime.Now.Hour < item.TimeSchedule.Hour &&
-                                         seatsAvailabe > 0 ?
+                item.Schedule.StatusDescription = TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.TimeSchedule.TimeOfDay) <= 0 &&
+                                        item.Vehicle.SeatsAvailable > 0 ?
                                         "Disponível" :
                                         "Indisponível";
             }
 
             return collection;
+        }
+
+        public async Task GetUpdatedSeatsAvailableBySchedule()
+        {
+            if (Travels == null && !Travels.Any())
+                return;
+
+            foreach (var item in Travels)
+            {
+                item.Vehicle.SeatsAvailable = (int)await _travelService.GetSeatsAvailableByTravel(item.ScheduleId);
+            }
+        }
+
+        public void ScheduleGetInfoForUI()
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(10), () =>
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await GetUpdatedSeatsAvailableBySchedule();
+                        ScheduleGetInfoForUI();
+                    });
+                });
+
+                return false;
+            });
+        }
+
+        public Command Refresh
+        {
+            get 
+            {
+                return new Command(async () =>
+                {
+                    try
+                    {
+                        IsRefreshing = true;
+                        var ids = Travels.Select(x => x.Id).ToList();
+
+                        foreach (var id in ids)
+                        {
+                            var availableSeats = await _travelService.GetAvailableSeats(id);
+
+                            Travels.First(x => x.Id == id).Vehicle.SeatsAvailable = availableSeats;
+
+                            Travels.First(x => x.Id == id).Schedule.StatusAvatar = TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.TimeSchedule.TimeOfDay) <= 0 ?
+                                    SetScheduleAvailable(true) :
+                                    SetScheduleAvailable(false);
+
+                            Travels.First(x => x.Id == id).Schedule.StatusDescription = TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.TimeSchedule.TimeOfDay) <= 0 &&
+                                                    Travels.First(x => x.Id == id).Vehicle.SeatsAvailable > 0 ?
+                                                    "Disponível" :
+                                                    "Indisponível";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        SendToInsights(ex);
+                        UIFunctions.ShowErrorMessageToUI("Erro ao atualizar as viagens, por favor tente novamente");
+                    }
+                    finally
+                    {
+                        IsRefreshing = false;
+                    }
+                });
+            }
         }
 
         string SetScheduleAvailable(bool available)

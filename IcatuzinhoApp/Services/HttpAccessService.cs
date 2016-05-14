@@ -36,6 +36,12 @@ namespace IcatuzinhoApp
 
                 return httpClient;
             }
+            catch (TimeoutException tEx)
+            {
+                _log.SubmitToInsights(tEx);
+                UIFunctions.ShowErrorMessageToUI("Ops, algum problema com nossos servidores, por favor tente novamente.");
+                return null;
+            }
             catch (Exception ex)
             {
                 _log.SubmitToInsights(ex);

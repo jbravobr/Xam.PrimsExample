@@ -6,6 +6,7 @@
 		xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
         prism:ViewModelLocator.AutowireViewModel="True"
 		xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp">
+	
 	<NavigationPage>
 		<x:Arguments>
     		<local:HomePage />

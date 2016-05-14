@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using System.Linq;
+using Prism.Navigation;
 
 namespace IcatuzinhoApp
 {
@@ -41,19 +42,25 @@ namespace IcatuzinhoApp
 
         readonly IWeatherService _weatherService;
 
+        readonly INavigationService _navigationService;
+
         IUserDialogs _userDialogs { get; set; }
 
         public HomePageViewModel(ITravelService travelService,
-                                 IWeatherService weatherService)
+                                 IWeatherService weatherService,
+                                 INavigationService navigationService)
         {
             _travelService = travelService;
             _weatherService = weatherService;
+            _navigationService = navigationService;
+
             _userDialogs = App._container.Resolve<IUserDialogs>();
 
             isCheckIn = true;
             isCheckOut = false;
 
             GetInfos();
+            ScheduleGetInfoForUI();
         }
 
         public void GetInfos()
@@ -115,13 +122,12 @@ namespace IcatuzinhoApp
 
         public void ScheduleGetInfoForUI()
         {
-            Device.StartTimer(TimeSpan.FromSeconds(5), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(10), () =>
             {
                 Task.Factory.StartNew(() =>
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        //GetInfos();
                         await UpdateSeats();
                         ScheduleGetInfoForUI();
                     });
@@ -129,6 +135,18 @@ namespace IcatuzinhoApp
 
                 return false;
             });
+        }
+
+        public Command Logout
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    App.UserAuthenticated = null;
+                    await _navigationService.Navigate("LoginPage", null, true, true);
+                });;
+            }
         }
 
         public Command CheckIn
@@ -227,10 +245,24 @@ namespace IcatuzinhoApp
 
         public async Task UpdateSeats()
         {
-            var result = await _travelService.GetAvailableSeats(_travel.Id);
+            try
+            {
+                var result = await _travelService.GetAvailableSeats(_travel.Id);
 
-            if (result > 0)
-                SeatsAvailable = result.ToString();
+                if (result > 0)
+                    SeatsAvailable = (Convert.ToInt32(SeatsTotal) - result).ToString();
+
+                if (SeatsAvailable == SeatsTotal)
+                {
+                    isCheckIn = false;
+                    isCheckOut = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                SendToInsights(ex);
+                UIFunctions.ShowErrorMessageToUI("Ops, houve um erro ao atualizar a disponibilidade de acentos");
+            }
         }
 
         public Travel GetNextTravel()
@@ -246,7 +278,9 @@ namespace IcatuzinhoApp
                 }
             }
 
-            travel = travels.FirstOrDefault(c => c.Schedule.TimeSchedule.Hour <= DateTime.Now.Hour);
+            travel = travels.Where(c => TimeSpan.Compare(DateTime.Now.TimeOfDay, c.Schedule.TimeSchedule.TimeOfDay) <= 0)
+                            .OrderBy(c => c.Schedule.TimeSchedule)
+                            .FirstOrDefault();
 
             if (travel != null)
                 return travel;

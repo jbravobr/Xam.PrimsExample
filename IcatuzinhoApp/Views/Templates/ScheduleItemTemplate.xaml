@@ -37,7 +37,7 @@
 			    </Grid.RowDefinitions>
 
 			    <Label
-                        Text="{ Binding TimeSchedule, StringFormat='{0:HH:mm}'}" 
+                        Text="{ Binding Schedule.TimeSchedule, StringFormat='{0:HH:mm}'}" 
                         HorizontalOptions="StartAndExpand"
                         TextColor="White"
                         FontSize="18"
@@ -51,7 +51,7 @@
 				    </Grid.ColumnDefinitions>
 
 				      <Image 
-						Source="{Binding StatusAvatar}"
+						Source="{Binding Schedule.StatusAvatar}"
 						Aspect="AspectFill"
 						HorizontalOptions="Center"
 						VerticalOptions="Center"
@@ -59,7 +59,7 @@
 						WidthRequest="10"
 					    Grid.Column="0"/>
 				
-                      <Label Text="{Binding StatusDescription}"
+                      <Label Text="{Binding Schedule.StatusDescription}"
                         HorizontalOptions="Center"
                         TextColor="White"
                         FontSize="12"
