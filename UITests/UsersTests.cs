@@ -71,10 +71,10 @@ namespace IcatuzinhoApp.UITests
         {
             var user = new User { Id = 1, Email = "teste@icatuseguros.com.br", Name = "Usuário Teste" };
 
-            mockService.Setup(m => m.InsertOrReplaceWithChildren(It.IsAny<User>())).Returns(true);
+            mockService.Setup(m => m.Insert(It.IsIn<User>())).Returns(true);
 
             var service = mockService.Object;
-            var insert = service.InsertOrReplaceWithChildren(user);
+            var insert = service.Insert(user);
 
             Assert.IsTrue(insert);
         }

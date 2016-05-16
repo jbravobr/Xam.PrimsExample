@@ -1,26 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using ModernHttpClient;
 
 namespace IcatuzinhoApp
 {
-    public class AuthenticationService : BaseService<AuthenticationToken>, IAuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         IHttpAccessService _httpClient;
         ILogExceptionService _log;
+        IAuthenticationRepository _repo;
 
-        public AuthenticationService(IHttpAccessService httpClient, ILogExceptionService log)
+        public AuthenticationService(IHttpAccessService httpClient, 
+                                     ILogExceptionService log,
+                                     IAuthenticationRepository repo)
         {
             _httpClient = httpClient;
             _log = log;
+            _repo = repo;
         }
 
         public async Task<bool> RefreshToken()
         {
-            var token = base.Get();
+            var token = _repo.Get();
 
             if (token != null)
             {
@@ -42,7 +46,7 @@ namespace IcatuzinhoApp
                         var jsonString = await response.Content.ReadAsStringAsync();
                         var authenticationToken = JsonConvert.DeserializeObject<AuthenticationToken>(jsonString);
 
-                        base.InsertOrReplaceWithChildren(authenticationToken);
+                        Insert(authenticationToken);
 
                         return await Task.FromResult(true);
                     }
@@ -81,7 +85,7 @@ namespace IcatuzinhoApp
                     var jsonString = await response.Content.ReadAsStringAsync();
                     var authenticationToken = JsonConvert.DeserializeObject<AuthenticationToken>(jsonString);
 
-                    base.InsertOrReplaceWithChildren(authenticationToken);
+                    Insert(authenticationToken);
 
                     return await Task.FromResult(true);
                 }
@@ -103,6 +107,56 @@ namespace IcatuzinhoApp
                 UIFunctions.ShowErrorMessageToUI();
                 return await Task.FromResult(false);
             }
+        }
+
+        public bool Insert(AuthenticationToken entity)
+        {
+            return _repo.Insert(entity);
+        }
+
+        public bool Insert(List<AuthenticationToken> entities)
+        {
+            return _repo.Insert(entities);
+        }
+
+        public bool Delete(AuthenticationToken entity)
+        {
+            return _repo.Delete(entity);
+        }
+
+        public bool Update(AuthenticationToken entity)
+        {
+            return _repo.Update(entity);
+        }
+
+        public bool Any()
+        {
+            return _repo.Any();
+        }
+
+        public List<AuthenticationToken> GetAll(Expression<Func<AuthenticationToken, bool>> predicate)
+        {
+            return _repo.GetAll(predicate);
+        }
+
+        public List<AuthenticationToken> GetAll()
+        {
+            return _repo.GetAll();
+        }
+
+        public AuthenticationToken Get(Expression<Func<AuthenticationToken, bool>> predicate)
+        {
+            return _repo.Get(predicate);
+        }
+
+        public AuthenticationToken Get()
+        {
+            return _repo.Get();
+        }
+
+        public AuthenticationToken GetById(int pkId)
+        {
+            return _repo.GetById(pkId);
         }
     }
 }

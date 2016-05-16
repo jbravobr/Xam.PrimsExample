@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
-using Xamarin.Forms;
 
 namespace IcatuzinhoApp
 {
@@ -22,7 +20,7 @@ namespace IcatuzinhoApp
         {
             try
             {
-                var itens = _itineraryService.GetAllWithChildren();
+                var itens = _itineraryService.GetAll();
 
                 if (itens != null && itens.Any())
                     return itens;
@@ -38,7 +36,7 @@ namespace IcatuzinhoApp
 
         public List<Station> GetStations()
         {
-            var stations = _stationService.GetAllWithChildren();
+            var stations = _stationService.GetAll();
 
             if (stations != null && stations.Any())
                 return stations;

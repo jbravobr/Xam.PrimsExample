@@ -1,6 +1,4 @@
-﻿using System;
-using PropertyChanged;
-using SQLiteNetExtensions.Attributes;
+﻿using PropertyChanged;
 
 namespace IcatuzinhoApp
 {

@@ -51,9 +51,6 @@ namespace IcatuzinhoApp.UITests
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var authenticationToken = JsonConvert.DeserializeObject<AuthenticationToken>(jsonString);
 
-                if (authenticationToken != null)
-                    authenticationToken.SetExpirationTime();
-
                 return authenticationToken.AccessToken;
             }
 

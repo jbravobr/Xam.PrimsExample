@@ -1,16 +1,17 @@
-﻿using System;
-using PropertyChanged;
-using SQLite.Net.Attributes;
-using System.Collections.Generic;
+﻿using PropertyChanged;
+using Realms;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class Transaction
+    public class Transaction : EntityBase
     {
+        [Indexed]
         public string Name { get; set; }
 
-        public Dictionary<string,string> Details { get; set; }
+        public string DetailKey { get; set; }
+
+        public string DetailName { get; set; }
     }
 }
 

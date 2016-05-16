@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using Acr.UserDialogs;
 using Xamarin;
-using Microsoft.Practices.Unity;
-using Prism.Unity;
 using Prism.Navigation;
 using Prism.Commands;
 
@@ -68,7 +66,7 @@ namespace IcatuzinhoApp
 
             NavigateCommand = new DelegateCommand(Navigate);
 
-            Logon().ConfigureAwait(false);
+            //Logon().ConfigureAwait(true);
         }
 
         public async Task Logon()
@@ -152,10 +150,6 @@ namespace IcatuzinhoApp
                        // Com token
                        var userAuthenticated = await _authService.AuthenticationWithFormUrlEncoded(Email, Password, false);
 
-                       // Sem token
-                       //Gravando user
-                       //var userAuthenticated = await _userService.Login(Email, Password);
-
                        if (userAuthenticated)
                        {
                            //Gravando user
@@ -205,7 +199,7 @@ namespace IcatuzinhoApp
 
         public async Task InsertTravels()
         {
-            var schedules = _scheduleService.GetAllWithChildren();
+            var schedules = _scheduleService.GetAll();
 
             if (schedules != null && schedules.Any())
             {

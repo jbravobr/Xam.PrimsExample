@@ -53,11 +53,11 @@ namespace IcatuzinhoApp.UITests
                 new Itinerary{Id = 5, Latitude = -5, Longitude = 5, Order = 5 }
             };
 
-            mock.Setup(m => m.InsertOrReplaceAllWithChildren(It.IsAny<List<Itinerary>>())).Returns(true);
+            mock.Setup(m => m.Insert(It.IsAny<List<Itinerary>>())).Returns(true);
             var service = mock.Object;
-            var insert = service.InsertOrReplaceAllWithChildren(itineraries);
+            var insert = service.Insert(itineraries);
 
-            mock.Verify(m => m.InsertOrReplaceAllWithChildren(It.IsAny<List<Itinerary>>()), Times.Once);
+            mock.Verify(m => m.Insert(It.IsAny<List<Itinerary>>()), Times.Once);
 
             Assert.IsTrue(insert);
         }

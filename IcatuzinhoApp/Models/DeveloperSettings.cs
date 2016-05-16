@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IcatuzinhoApp
+﻿namespace IcatuzinhoApp
 {
     public class DeveloperSettings : EntityBase
     {

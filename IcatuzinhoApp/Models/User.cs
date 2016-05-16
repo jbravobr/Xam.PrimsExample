@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using PropertyChanged;
-using SQLite.Net.Attributes;
+﻿using PropertyChanged;
 
 namespace IcatuzinhoApp
 {
@@ -12,7 +9,6 @@ namespace IcatuzinhoApp
 
         public string Name { get; set; }
 
-        [NotNull]
         public string Password { get; set; }
     }
 }

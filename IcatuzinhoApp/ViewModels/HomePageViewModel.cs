@@ -267,19 +267,11 @@ namespace IcatuzinhoApp
 
         public Travel GetNextTravel()
         {
-            var travels = _travelService.GetAllWithChildren();
+            var travels = _travelService.GetAll();
             Travel travel;
 
-            if (travels != null && travels.Any())
-            {
-                foreach (var t in travels)
-                {
-                    t.Schedule.TimeSchedule = Convert.ToDateTime(t.Schedule.StartSchedule);
-                }
-            }
-
-            travel = travels.Where(c => TimeSpan.Compare(DateTime.Now.TimeOfDay, c.Schedule.TimeSchedule.TimeOfDay) <= 0)
-                            .OrderBy(c => c.Schedule.TimeSchedule)
+            travel = travels.Where(c => TimeSpan.Compare(DateTime.Now.TimeOfDay, c.Schedule.StartSchedule.TimeOfDay) <= 0)
+                            .OrderBy(c => c.Schedule.StartSchedule)
                             .FirstOrDefault();
 
             if (travel != null)

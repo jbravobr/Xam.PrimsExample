@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Acr.UserDialogs;
-using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.Practices.Unity;
 
 namespace IcatuzinhoApp
 {
-    public class DTO<T> where T : class
+    public  class DTO<T> where T : class
     {
+        ILogExceptionService _log;
+
+        void ConfigureLogService()
+        {
+            _log = App._container.Resolve<ILogExceptionService>();
+        }
+
         public async Task<T> ConvertSingleObjectFromJson(HttpContent content)
         {
             try
@@ -19,7 +25,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
                 return null;
             }
         }
@@ -33,7 +39,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
                 return null;
             }
         }
@@ -47,7 +53,7 @@ namespace IcatuzinhoApp
             }
             catch (Exception ex)
             {
-                new LogExceptionService().SubmitToInsights(ex);
+                _log.SubmitToInsights(ex);
                 return false;
             }
         }

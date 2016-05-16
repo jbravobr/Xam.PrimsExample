@@ -55,7 +55,7 @@ namespace IcatuzinhoApp.UITests
                     {
                         Id = 1,
                         Message = "Mensagem Teste 1",
-                        StartSchedule = DateTime.Now.ToShortDateString()
+                        StartSchedule = DateTime.Now
                     }, Vehicle = new Vehicle
                     {
                         Id =1,
@@ -66,12 +66,12 @@ namespace IcatuzinhoApp.UITests
                 }
             };
 
-            mockService.Setup(m => m.InsertOrReplaceAllWithChildren(It.IsAny<List<Travel>>())).Returns(true);
+            mockService.Setup(m => m.Insert(It.IsAny<List<Travel>>())).Returns(true);
 
             var service = mockService.Object;
-            var insert = service.InsertOrReplaceAllWithChildren(travels);
+            var insert = service.Insert(travels);
 
-            mockService.Verify(m => m.InsertOrReplaceAllWithChildren(It.IsAny<List<Travel>>()), Times.Once);
+            mockService.Verify(m => m.Insert(It.IsAny<List<Travel>>()), Times.Once);
 
             Assert.IsTrue(insert);
         }

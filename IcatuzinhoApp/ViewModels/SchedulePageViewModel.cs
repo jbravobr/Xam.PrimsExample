@@ -42,17 +42,15 @@ namespace IcatuzinhoApp
 
         public List<Travel> GetAll()
         {
-            var collection = _travelService.GetAllWithChildren();
+            var collection = _travelService.GetAll();
 
             foreach (var item in collection)
             {
-                item.Schedule.TimeSchedule = Convert.ToDateTime(item.Schedule.StartSchedule);
-
-                item.Schedule.StatusAvatar = TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.TimeSchedule.TimeOfDay) <= 0 ?
+                item.Schedule.StatusAvatar = TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.StartSchedule.TimeOfDay) <= 0 ?
                                     SetScheduleAvailable(true) :
                                     SetScheduleAvailable(false);
 
-                item.Schedule.StatusDescription = TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.TimeSchedule.TimeOfDay) <= 0 &&
+                item.Schedule.StatusDescription = TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.StartSchedule.TimeOfDay) <= 0 &&
                                         item.Vehicle.SeatsAvailable > 0 ?
                                         "Disponível" :
                                         "Indisponível";
@@ -68,7 +66,7 @@ namespace IcatuzinhoApp
 
             foreach (var item in Travels)
             {
-                item.Vehicle.SeatsAvailable = (int)await _travelService.GetSeatsAvailableByTravel(item.ScheduleId);
+                item.Vehicle.SeatsAvailable = (int)await _travelService.GetSeatsAvailableByTravel(item.Schedule.Id);
             }
         }
 
@@ -106,11 +104,11 @@ namespace IcatuzinhoApp
 
                             Travels.First(x => x.Id == id).Vehicle.SeatsAvailable = availableSeats;
 
-                            Travels.First(x => x.Id == id).Schedule.StatusAvatar = TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.TimeSchedule.TimeOfDay) <= 0 ?
+                            Travels.First(x => x.Id == id).Schedule.StatusAvatar = TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.TimeOfDay) <= 0 ?
                                     SetScheduleAvailable(true) :
                                     SetScheduleAvailable(false);
 
-                            Travels.First(x => x.Id == id).Schedule.StatusDescription = TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.TimeSchedule.TimeOfDay) <= 0 &&
+                            Travels.First(x => x.Id == id).Schedule.StatusDescription = TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.TimeOfDay) <= 0 &&
                                                     Travels.First(x => x.Id == id).Vehicle.SeatsAvailable > 0 ?
                                                     "Disponível" :
                                                     "Indisponível";
