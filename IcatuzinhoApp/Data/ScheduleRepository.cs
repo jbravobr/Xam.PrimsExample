@@ -30,10 +30,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -60,10 +57,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -80,10 +74,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return null;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -101,10 +92,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return null;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -121,10 +109,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return null;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -142,10 +127,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return null;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -155,17 +137,14 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _schedule.FirstOrDefault(x=>x.Id == pkId);
+                return _schedule.FirstOrDefault(x => x.Id == pkId);
             }
             catch (Exception ex)
             {
                 Log(ex);
                 return null;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -173,26 +152,27 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(Schedule entity)
         {
-            try
+            using (var tran = _realm.BeginWrite())
             {
-                using (var tran = _realm.BeginWrite())
+                try
                 {
                     var obj = _realm.CreateObject<Schedule>();
                     obj = entity;
 
                     tran.Commit();
                 }
+                catch (RealmException rEx)
+                {
+                    Log(rEx);
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Log(ex);
+                    return false;
+                }
 
                 return true;
-            }
-            catch (Exception ex)
-            {
-                Log(ex);
-                return false;
-            }
-            finally
-            {
-                _realm.Dispose();
             }
         }
 
@@ -201,9 +181,9 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(List<Schedule> entities)
         {
-            try
+            using (var tran = _realm.BeginWrite())
             {
-                using (var tran = _realm.BeginWrite())
+                try
                 {
                     var obj = _realm.CreateObject<Schedule>();
 
@@ -213,17 +193,17 @@ namespace IcatuzinhoApp
                         tran.Commit();
                     }
                 }
-
+                catch (RealmException rEx)
+                {
+                    Log(rEx);
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Log(ex);
+                    return false;
+                }
                 return true;
-            }
-            catch (Exception ex)
-            {
-                Log(ex);
-                return false;
-            }
-            finally
-            {
-                _realm.Dispose();
             }
         }
 
@@ -249,10 +229,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
     }
 }

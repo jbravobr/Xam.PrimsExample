@@ -7,7 +7,7 @@ using Microsoft.Practices.Unity;
 
 namespace IcatuzinhoApp
 {
-    public  class DTO<T> where T : class
+    public class DTO<T> where T : class
     {
         ILogExceptionService _log;
 

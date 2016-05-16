@@ -1,13 +1,17 @@
 ﻿using System;
 using Newtonsoft.Json;
 using PropertyChanged;
+using Realms;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class Schedule : EntityBase
+    public class Schedule : RealmObject
     {
-        public DateTime StartSchedule { get; set; }
+        [ObjectId]
+        public int Id { get; set; }
+
+        public DateTimeOffset StartSchedule { get; set; }
 
         public string Message { get; set; }
 

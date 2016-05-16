@@ -29,6 +29,8 @@ namespace IcatuzinhoApp
         }
 
         public void Log(Exception ex) => _log.SubmitToInsights(ex);
+
+        public Realm SetRealm() => _realm ?? Realm.GetInstance();
     }
 }
 

@@ -4,8 +4,11 @@ using Realms;
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class Transaction : EntityBase
+    public class Transaction : RealmObject
     {
+        [ObjectId]
+        public int Id { get; set; }
+
         [Indexed]
         public string Name { get; set; }
 

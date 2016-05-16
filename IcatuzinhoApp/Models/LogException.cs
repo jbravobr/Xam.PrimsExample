@@ -1,9 +1,15 @@
 ﻿using System;
+using PropertyChanged;
+using Realms;
 
 namespace IcatuzinhoApp
 {
-    public class LogException : EntityBase
+    [ImplementPropertyChanged]
+    public class LogException : RealmObject
     {
+        [ObjectId]
+        public int Id { get; set; }
+
         public DateTimeOffset DtCreation { get; set; }
 
         public string Exception { get; set; }

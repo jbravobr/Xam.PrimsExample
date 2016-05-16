@@ -5,6 +5,7 @@ using Realms;
 
 namespace IcatuzinhoApp
 {
+    [ImplementPropertyChanged]
     public class AuthenticationToken : RealmObject
     {
         [ObjectId]

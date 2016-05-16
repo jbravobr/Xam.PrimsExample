@@ -30,10 +30,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -60,10 +57,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -80,10 +74,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return null;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -101,10 +92,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return null;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -121,10 +109,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return null;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -142,10 +127,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return null;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -155,17 +137,14 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _authToken.FirstOrDefault(x=>x.Id == pkId);
+                return _authToken.FirstOrDefault(x => x.Id == pkId);
             }
             catch (Exception ex)
             {
                 Log(ex);
                 return null;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
 
         /// <summary>
@@ -173,27 +152,28 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(AuthenticationToken entity)
         {
-            try
+            using (var tran = _realm.BeginWrite())
             {
-                using (var tran = _realm.BeginWrite())
+                try
                 {
                     var obj = _realm.CreateObject<AuthenticationToken>();
-                    obj.AccessToken = entity.AccessToken;
-                    obj.RefreshToken = entity.RefreshToken;
+                    obj = entity;
 
                     tran.Commit();
+                    var token = Get();
+                }
+                catch (RealmException rEx)
+                {
+                    Log(rEx);
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Log(ex);
+                    return false;
                 }
 
                 return true;
-            }
-            catch (Exception ex)
-            {
-                Log(ex);
-                return false;
-            }
-            finally
-            {
-                _realm.Dispose();
             }
         }
 
@@ -202,9 +182,9 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(List<AuthenticationToken> entities)
         {
-            try
+            using (var tran = _realm.BeginWrite())
             {
-                using (var tran = _realm.BeginWrite())
+                try
                 {
                     var obj = _realm.CreateObject<AuthenticationToken>();
 
@@ -214,17 +194,17 @@ namespace IcatuzinhoApp
                         tran.Commit();
                     }
                 }
-
+                catch (RealmException rEx)
+                {
+                    Log(rEx);
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Log(ex);
+                    return false;
+                }
                 return true;
-            }
-            catch (Exception ex)
-            {
-                Log(ex);
-                return false;
-            }
-            finally
-            {
-                _realm.Dispose();
             }
         }
 
@@ -250,10 +230,7 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-            finally
-            {
-                _realm.Dispose();
-            }
+
         }
     }
 }

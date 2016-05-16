@@ -65,6 +65,9 @@ namespace IcatuzinhoApp
 
                 // Registrando Views para Navegação
                 Container.RegisterTypeForNavigation<LoginPage>();
+                Container.RegisterTypeForNavigation<HomePage>();
+                Container.RegisterTypeForNavigation<SchedulePage>();
+                Container.RegisterTypeForNavigation<TravelPage>();
                 Container.RegisterTypeForNavigation<SelectionPage>();
 
                 // 3rd Party Controlls
