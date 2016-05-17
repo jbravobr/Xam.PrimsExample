@@ -10,10 +10,6 @@
 		BackgroundColor="Black"
 		Title="Próxima Partida">
 
-	<ContentPage.ToolbarItems>
-		<ToolbarItem Icon="exit.png" Command="{Binding Logout}" Order="Default" />
-	</ContentPage.ToolbarItems>
-
 	<ContentPage.Resources>
 		 <ResourceDictionary>
             <local:BooleanTriggerConverter x:Key="checkAvailableSeats" />

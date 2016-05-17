@@ -213,8 +213,8 @@
     <BundleResource Include="Resources\busstop.png" />
     <BundleResource Include="Resources\offline.png" />
     <BundleResource Include="Resources\online.png" />
-    <BundleResource Include="Resources\more.png" />
     <BundleResource Include="Resources\exit.png" />
+    <BundleResource Include="Resources\more-ios.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />

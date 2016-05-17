@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using System.Linq;
 using Prism.Navigation;
+using Prism.Services;
+using Prism.Commands;
 
 namespace IcatuzinhoApp
 {
@@ -36,6 +38,8 @@ namespace IcatuzinhoApp
 
         Travel _travel { get; set; }
 
+        public DelegateCommand NavigateCommand { get; set; }
+
         public string TempIco { get; set; }
 
         readonly ITravelService _travelService;
@@ -61,6 +65,8 @@ namespace IcatuzinhoApp
 
             GetInfos();
             ScheduleGetInfoForUI();
+
+            NavigateCommand = new DelegateCommand(Logout);
         }
 
         public void GetInfos()
@@ -137,16 +143,30 @@ namespace IcatuzinhoApp
             });
         }
 
-        public Command Logout
+        public Command ShowMenuMore
         {
             get
             {
-                return new Command(async () =>
+                return new Command(() =>
                 {
-                    App.UserAuthenticated = null;
-                    await _navigationService.Navigate("LoginPage", null, true, true);
-                }); ;
+                    var cfg = new ActionSheetConfig()
+                            .SetTitle("Deseja sair?");
+
+                    cfg.Add("Sim", async () =>
+                    {
+                        await NavigateCommand.Execute();
+                    });
+                    cfg.SetCancel("Não");
+
+                    _userDialogs.ActionSheet(cfg);
+                });
             }
+        }
+
+        public async void Logout()
+        {
+            App.UserAuthenticated = null;
+            await _navigationService.Navigate("LoginPage", null, true, true);
         }
 
         public Command CheckIn
