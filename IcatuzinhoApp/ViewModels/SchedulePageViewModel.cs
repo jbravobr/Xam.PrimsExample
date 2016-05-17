@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Xamarin.Forms;
+using Realms;
 
 namespace IcatuzinhoApp
 {
@@ -14,7 +15,6 @@ namespace IcatuzinhoApp
         readonly ITravelService _travelService;
         IUserDialogs _userDialogs { get; set; }
 
-        public List<TravelDTO> TravelsDTO { get; set; }
         public List<Travel> Travels { get; set; }
         public bool IsRefreshing { get; set; }
 
@@ -47,7 +47,7 @@ namespace IcatuzinhoApp
 
             foreach (var item in collection)
             {
-                TravelsDTO.Add(new TravelDTO
+                Travels.Add(new Travel
                 {
                     Driver = item.Driver,
                     Id = item.Id,
@@ -56,7 +56,7 @@ namespace IcatuzinhoApp
                 });
             }
 
-            foreach (var item in TravelsDTO)
+            foreach (var item in Travels)
             {
                 if (TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.StartSchedule.TimeOfDay) <= 0)
                     SetScheduleAvatar(true, item);
@@ -68,7 +68,7 @@ namespace IcatuzinhoApp
                     SetScheduleStatusDescription(true, item);
                 else
                     SetScheduleStatusDescription(false, item);
-                                        
+
             }
 
             return collection;
@@ -76,12 +76,27 @@ namespace IcatuzinhoApp
 
         public async Task GetUpdatedSeatsAvailableBySchedule()
         {
+            var realm = Realm.GetInstance();
+
             if (Travels == null && !Travels.Any())
                 return;
 
             foreach (var item in Travels)
             {
-                item.Vehicle.SeatsAvailable = (int)await _travelService.GetSeatsAvailableByTravel(item.Schedule.Id);
+                using (var tran = realm.BeginWrite())
+                {
+                    try
+                    {
+                        item.Vehicle.SeatsAvailable = (int)await _travelService.GetSeatsAvailableByTravel(item.Schedule.Id);
+
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        SendToInsights(ex);
+                        tran.Rollback();
+                    }
+                }
             }
         }
 
@@ -108,27 +123,42 @@ namespace IcatuzinhoApp
             {
                 return new Command(async () =>
                 {
+                    var realm = Realm.GetInstance();
+
                     try
                     {
                         IsRefreshing = true;
-                        var ids = TravelsDTO.Select(x => x.Id).ToList();
+                        var ids = Travels.Select(x => x.Id).ToList();
 
                         foreach (var id in ids)
                         {
                             var availableSeats = await _travelService.GetAvailableSeats(id);
 
-                            TravelsDTO.First(x => x.Id == id).Vehicle.SeatsAvailable = availableSeats;
+                            using (var tran = realm.BeginWrite())
+                            {
+                                try
+                                {
+                                    Travels.First(x => x.Id == id).Vehicle.SeatsAvailable = availableSeats;
+
+                                    tran.Commit();
+                                }
+                                catch (Exception ex)
+                                {
+                                    SendToInsights(ex);
+                                    tran.Rollback();
+                                }
+                            }
 
                             if (TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.TimeOfDay) <= 0)
-                                SetScheduleAvatar(true, TravelsDTO.First(x => x.Id == id));
+                                SetScheduleAvatar(true, Travels.First(x => x.Id == id));
                             else
-                                SetScheduleAvatar(false, TravelsDTO.First(x => x.Id == id));
+                                SetScheduleAvatar(false, Travels.First(x => x.Id == id));
 
                             if (TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.TimeOfDay) <= 0 &&
                                 Travels.First(x => x.Id == id).Vehicle.SeatsAvailable > 0)
-                                SetScheduleStatusDescription(true, TravelsDTO.First(x => x.Id == id));
+                                SetScheduleStatusDescription(true, Travels.First(x => x.Id == id));
                             else
-                                SetScheduleStatusDescription(false, TravelsDTO.First(x => x.Id == id));
+                                SetScheduleStatusDescription(false, Travels.First(x => x.Id == id));
                         }
                     }
                     catch (Exception ex)
@@ -144,26 +174,84 @@ namespace IcatuzinhoApp
             }
         }
 
-        void SetScheduleAvatar(bool available, TravelDTO item)
+        void SetScheduleAvatar(bool available, Travel item)
         {
+            var realm = Realm.GetInstance();
+
             if (available)
             {
-                item.Schedule.StatusAvatar = "online.png";
-                return;
+                using (var tran = realm.BeginWrite())
+                {
+                    try
+                    {
+                        item.Schedule.StatusAvatar = "online.png";
+
+                        tran.Commit();
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        base.SendToInsights(ex);
+                        tran.Rollback();
+                    }
+                }
             }
 
-            item.Schedule.StatusAvatar = "offline.png";
+            using (var tran = realm.BeginWrite())
+            {
+                try
+                {
+                    item.Schedule.StatusAvatar = "offline.png";
+
+                    tran.Commit();
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    base.SendToInsights(ex);
+                    tran.Rollback();
+                }
+            }
         }
 
-        void SetScheduleStatusDescription(bool available, TravelDTO item)
+        void SetScheduleStatusDescription(bool available, Travel item)
         {
+            var realm = Realm.GetInstance();
+
             if (available)
             {
-                item.Schedule.StatusDescription = "Disponível";
-                return;
+                using (var tran = realm.BeginWrite())
+                {
+                    try
+                    {
+                        item.Schedule.StatusAvatar = "Disponível";
+
+                        tran.Commit();
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        base.SendToInsights(ex);
+                        tran.Rollback();
+                    }
+                }
             }
 
-            item.Schedule.StatusAvatar = "Indisponível";
+            using (var tran = realm.BeginWrite())
+            {
+                try
+                {
+                    item.Schedule.StatusAvatar = "Indisponível";
+
+                    tran.Commit();
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    base.SendToInsights(ex);
+                    tran.Rollback();
+                }
+            }
         }
     }
 }
