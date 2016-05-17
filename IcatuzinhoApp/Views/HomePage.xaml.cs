@@ -17,7 +17,7 @@ namespace IcatuzinhoApp
                 {
                     Text = "Sair",
                     Priority = 0,
-                    Command = model.ShowMenuMore,
+                    Command = model.ShowMenuMoreAndroid,
                     Order = ToolbarItemOrder.Secondary
                 });
             }
@@ -26,7 +26,7 @@ namespace IcatuzinhoApp
                 this.ToolbarItems.Add(new ToolbarItem
                 {
                     Icon = "more-ios.png",
-                    Command = model.ShowMenuMore,
+                    Command = model.ShowMenuMoreIOS,
                     Order = ToolbarItemOrder.Primary
                 });
             }

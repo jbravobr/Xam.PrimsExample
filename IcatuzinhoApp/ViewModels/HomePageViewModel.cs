@@ -143,7 +143,26 @@ namespace IcatuzinhoApp
             });
         }
 
-        public Command ShowMenuMore
+        public Command ShowMenuMoreIOS
+        {
+            get
+            {
+                return new Command(() =>
+                {
+                    var cfg = new ActionSheetConfig();
+
+                    cfg.Add("Sair", async () =>
+                    {
+                        await NavigateCommand.Execute();
+                    });
+                    cfg.SetCancel("Cancelar");
+
+                    _userDialogs.ActionSheet(cfg);
+                });
+            }
+        }
+
+        public Command ShowMenuMoreAndroid
         {
             get
             {
