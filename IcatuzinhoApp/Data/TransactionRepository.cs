@@ -8,13 +8,7 @@ namespace IcatuzinhoApp
 {
     public class TransactionRepository : BaseRepository, ITransactionRepository
     {
-        private RealmResults<Transaction> _transaction
-        {
-            get
-            {
-                return _realm.All<Transaction>();
-            }
-        }
+        private Realm _realm;
 
         /// <summary>
         /// Retorna uma instância da entidade principal.
@@ -23,7 +17,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _transaction.Any();
+                _realm = Realm.GetInstance();
+                return _realm.All<Transaction>().Any();
             }
             catch (Exception ex)
             {
@@ -39,13 +34,15 @@ namespace IcatuzinhoApp
         /// <param name="entity">Entity.</param>
         public bool Delete(Transaction entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
-                if (_transaction.Any(x => x.Id == entity.Id))
+                if (_realm.All<Transaction>().Any(x => x.Id == entity.Id))
                 {
                     using (var tran = _realm.BeginWrite())
                     {
-                        _realm.Remove(_transaction.First(x => x.Id == entity.Id));
+                        _realm.Remove(_realm.All<Transaction>().First(x => x.Id == entity.Id));
                         tran.Commit();
                     }
                 }
@@ -67,7 +64,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _transaction.FirstOrDefault();
+                _realm = Realm.GetInstance();
+                return _realm.All<Transaction>().First();
             }
             catch (Exception ex)
             {
@@ -85,7 +83,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _transaction.FirstOrDefault(predicate);
+                _realm = Realm.GetInstance();
+                return _realm.All<Transaction>().First(predicate);
             }
             catch (Exception ex)
             {
@@ -102,7 +101,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _transaction.ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Transaction>().ToList();
             }
             catch (Exception ex)
             {
@@ -120,7 +120,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _transaction.Where(predicate).ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Transaction>().Where(predicate).ToList();
             }
             catch (Exception ex)
             {
@@ -137,7 +138,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _transaction.FirstOrDefault(x => x.Id == pkId);
+                _realm = Realm.GetInstance();
+                return _realm.All<Transaction>().First(x => x.Id == pkId);
             }
             catch (Exception ex)
             {
@@ -152,14 +154,21 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(Transaction entity)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
                     var obj = _realm.CreateObject<Transaction>();
-                    obj = entity;
+
+                    obj.DetailKey = entity.DetailKey;
+                    obj.DetailName = entity.DetailName;
+                    obj.Id = entity.Id;
+                    obj.Name = entity.Name;
 
                     tran.Commit();
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -171,8 +180,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-
-                return true;
             }
         }
 
@@ -181,17 +188,24 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(List<Transaction> entities)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
-                    var obj = _realm.CreateObject<Transaction>();
-
                     foreach (var entity in entities)
                     {
-                        obj = entity;
+                        var obj = _realm.CreateObject<Transaction>();
+
+                        obj.DetailKey = entity.DetailKey;
+                        obj.DetailName = entity.DetailName;
+                        obj.Id = entity.Id;
+                        obj.Name = entity.Name;
+
                         tran.Commit();
                     }
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -203,7 +217,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-                return true;
             }
         }
 
@@ -212,16 +225,21 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Update(Transaction entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
                 using (var tran = _realm.BeginWrite())
                 {
-                    var obj = _transaction.First(x => x.Id == entity.Id);
-                    obj = entity;
+                    var obj = _realm.CreateObject<Transaction>();
+
+                    obj.DetailKey = entity.DetailKey;
+                    obj.DetailName = entity.DetailName;
+                    obj.Id = entity.Id;
+                    obj.Name = entity.Name;
 
                     tran.Commit();
                 }
-
                 return true;
             }
             catch (Exception ex)
@@ -229,7 +247,6 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-
         }
     }
 }

@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
 using Realms;
+using System.Diagnostics;
 
 namespace IcatuzinhoApp
 {
     public class TravelRepository : BaseRepository, ITravelRepository
     {
-        private RealmResults<Travel> _travel
-        {
-            get
-            {
-                return _realm.All<Travel>();
-            }
-        }
+        private Realm _realm;
 
         /// <summary>
         /// Retorna uma instância da entidade principal.
@@ -23,7 +18,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _travel.Any();
+                _realm = Realm.GetInstance();
+                return _realm.All<Travel>().Any();
             }
             catch (Exception ex)
             {
@@ -39,13 +35,15 @@ namespace IcatuzinhoApp
         /// <param name="entity">Entity.</param>
         public bool Delete(Travel entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
-                if (_travel.Any(x => x.Id == entity.Id))
+                if (_realm.All<Travel>().Any(x => x.Id == entity.Id))
                 {
                     using (var tran = _realm.BeginWrite())
                     {
-                        _realm.Remove(_travel.First(x => x.Id == entity.Id));
+                        _realm.Remove(_realm.All<Travel>().First(x => x.Id == entity.Id));
                         tran.Commit();
                     }
                 }
@@ -67,7 +65,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _travel.FirstOrDefault();
+                _realm = Realm.GetInstance();
+                return _realm.All<Travel>().First();
             }
             catch (Exception ex)
             {
@@ -85,7 +84,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _travel.FirstOrDefault(predicate);
+                _realm = Realm.GetInstance();
+                return _realm.All<Travel>().First(predicate);
             }
             catch (Exception ex)
             {
@@ -102,7 +102,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _travel.ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Travel>().ToList();
             }
             catch (Exception ex)
             {
@@ -120,7 +121,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _travel.Where(predicate).ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Travel>().Where(predicate).ToList();
             }
             catch (Exception ex)
             {
@@ -137,7 +139,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _travel.FirstOrDefault(x => x.Id == pkId);
+                _realm = Realm.GetInstance();
+                return _realm.All<Travel>().First(x => x.Id == pkId);
             }
             catch (Exception ex)
             {
@@ -152,14 +155,21 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(Travel entity)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
                     var obj = _realm.CreateObject<Travel>();
-                    obj = entity;
+
+                    obj.Driver = entity.Driver;
+                    obj.Id = entity.Id;
+                    obj.Schedule = entity.Schedule;
+                    obj.Vehicle = entity.Vehicle;
 
                     tran.Commit();
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -171,8 +181,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-
-                return true;
             }
         }
 
@@ -181,17 +189,24 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(List<Travel> entities)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
-                    var obj = _realm.CreateObject<Travel>();
-
                     foreach (var entity in entities)
                     {
-                        obj = entity;
+                        var obj = _realm.CreateObject<Travel>();
+
+                        obj.Driver = entity.Driver;
+                        obj.Id = entity.Id;
+                        obj.Schedule = entity.Schedule;
+                        obj.Vehicle = entity.Vehicle;
+
                         tran.Commit();
                     }
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -203,7 +218,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-                return true;
             }
         }
 
@@ -212,12 +226,18 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Update(Travel entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
                 using (var tran = _realm.BeginWrite())
                 {
-                    var obj = _travel.First(x => x.Id == entity.Id);
-                    obj = entity;
+                    var obj = _realm.All<Travel>().First(x => x.Id == entity.Id);
+
+                    obj.Driver = entity.Driver;
+                    obj.Id = entity.Id;
+                    obj.Schedule = entity.Schedule;
+                    obj.Vehicle = entity.Vehicle;
 
                     tran.Commit();
                 }
@@ -229,7 +249,6 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-
         }
     }
 }

@@ -8,13 +8,7 @@ namespace IcatuzinhoApp
 {
     public class VehicleRepository : BaseRepository, IVehicleRepository
     {
-        private RealmResults<Vehicle> _vehicle
-        {
-            get
-            {
-                return _realm.All<Vehicle>();
-            }
-        }
+        private Realm _realm;
 
         /// <summary>
         /// Retorna uma instância da entidade principal.
@@ -23,7 +17,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _vehicle.Any();
+                _realm = Realm.GetInstance();
+                return _realm.All<Vehicle>().Any();
             }
             catch (Exception ex)
             {
@@ -39,13 +34,15 @@ namespace IcatuzinhoApp
         /// <param name="entity">Entity.</param>
         public bool Delete(Vehicle entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
-                if (_vehicle.Any(x => x.Id == entity.Id))
+                if (_realm.All<Vehicle>().Any(x => x.Id == entity.Id))
                 {
                     using (var tran = _realm.BeginWrite())
                     {
-                        _realm.Remove(_vehicle.First(x => x.Id == entity.Id));
+                        _realm.Remove(_realm.All<Vehicle>().First(x => x.Id == entity.Id));
                         tran.Commit();
                     }
                 }
@@ -67,7 +64,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _vehicle.FirstOrDefault();
+                _realm = Realm.GetInstance();
+                return _realm.All<Vehicle>().First();
             }
             catch (Exception ex)
             {
@@ -85,7 +83,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _vehicle.FirstOrDefault(predicate);
+                _realm = Realm.GetInstance();
+                return _realm.All<Vehicle>().First(predicate);
             }
             catch (Exception ex)
             {
@@ -102,7 +101,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _vehicle.ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Vehicle>().ToList();
             }
             catch (Exception ex)
             {
@@ -120,7 +120,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _vehicle.Where(predicate).ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Vehicle>().Where(predicate).ToList();
             }
             catch (Exception ex)
             {
@@ -137,7 +138,7 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _vehicle.FirstOrDefault(x => x.Id == pkId);
+                return _realm.All<Vehicle>().First(x => x.Id == pkId);
             }
             catch (Exception ex)
             {
@@ -152,14 +153,20 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(Vehicle entity)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
                     var obj = _realm.CreateObject<Vehicle>();
-                    obj = entity;
+                    obj.Id = entity.Id;
+                    obj.Number = entity.Number;
+                    obj.SeatsAvailable = entity.SeatsAvailable;
+                    obj.SeatsTotal = entity.SeatsTotal;
 
                     tran.Commit();
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -171,8 +178,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-
-                return true;
             }
         }
 
@@ -181,17 +186,23 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(List<Vehicle> entities)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
-                    var obj = _realm.CreateObject<Vehicle>();
-
                     foreach (var entity in entities)
                     {
-                        obj = entity;
+                        var obj = _realm.CreateObject<Vehicle>();
+
+                        obj.Id = entity.Id;
+                        obj.Number = entity.Number;
+                        obj.SeatsAvailable = entity.SeatsAvailable;
+                        obj.SeatsTotal = entity.SeatsTotal;
                         tran.Commit();
                     }
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -203,7 +214,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-                return true;
             }
         }
 
@@ -212,16 +222,21 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Update(Vehicle entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
                 using (var tran = _realm.BeginWrite())
                 {
-                    var obj = _vehicle.First(x => x.Id == entity.Id);
-                    obj = entity;
+                    var obj = _realm.All<Vehicle>().First(x => x.Id == entity.Id);
+
+                    obj.Id = entity.Id;
+                    obj.Number = entity.Number;
+                    obj.SeatsAvailable = entity.SeatsAvailable;
+                    obj.SeatsTotal = entity.SeatsTotal;
 
                     tran.Commit();
                 }
-
                 return true;
             }
             catch (Exception ex)
@@ -229,7 +244,6 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-
         }
     }
 }

@@ -36,12 +36,20 @@ namespace IcatuzinhoApp
 
         public List<Station> GetStations()
         {
-            var stations = _stationService.GetAll();
+            try
+            {
+                var stations = _stationService.GetAll();
 
-            if (stations != null && stations.Any())
-                return stations;
+                if (stations != null && stations.Any())
+                    return stations;
 
-            return null;
+                return null;
+            }
+            catch (Exception ex)
+            {
+                base.SendToInsights(ex);
+                return null;
+            }
         }
     }
 }

@@ -8,13 +8,7 @@ namespace IcatuzinhoApp
 {
     public class WeatherRepository : BaseRepository, IWeatherRepository
     {
-        private RealmResults<Weather> _weather
-        {
-            get
-            {
-                return _realm.All<Weather>();
-            }
-        }
+        private Realm _realm;
 
         /// <summary>
         /// Retorna uma instância da entidade principal.
@@ -23,7 +17,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _weather.Any();
+                _realm = Realm.GetInstance();
+                return _realm.All<Weather>().Any();
             }
             catch (Exception ex)
             {
@@ -39,13 +34,15 @@ namespace IcatuzinhoApp
         /// <param name="entity">Entity.</param>
         public bool Delete(Weather entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
-                if (_weather.Any(x => x.Id == entity.Id))
+                if (_realm.All<Weather>().Any(x => x.Id == entity.Id))
                 {
                     using (var tran = _realm.BeginWrite())
                     {
-                        _realm.Remove(_weather.First(x => x.Id == entity.Id));
+                        _realm.Remove(_realm.All<Weather>().First(x => x.Id == entity.Id));
                         tran.Commit();
                     }
                 }
@@ -67,7 +64,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _weather.FirstOrDefault();
+                _realm = Realm.GetInstance();
+                return _realm.All<Weather>().First();
             }
             catch (Exception ex)
             {
@@ -85,7 +83,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _weather.FirstOrDefault(predicate);
+                _realm = Realm.GetInstance();
+                return _realm.All<Weather>().First(predicate);
             }
             catch (Exception ex)
             {
@@ -102,7 +101,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _weather.ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Weather>().ToList();
             }
             catch (Exception ex)
             {
@@ -120,7 +120,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _weather.Where(predicate).ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Weather>().Where(predicate).ToList();
             }
             catch (Exception ex)
             {
@@ -137,7 +138,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _weather.FirstOrDefault(x => x.Id == pkId);
+                _realm = Realm.GetInstance();
+                return _realm.All<Weather>().First(x => x.Id == pkId);
             }
             catch (Exception ex)
             {
@@ -152,14 +154,20 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(Weather entity)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
                     var obj = _realm.CreateObject<Weather>();
-                    obj = entity;
+                    obj.Ico = entity.Ico;
+                    obj.Id = entity.Id;
+                    obj.Temp = entity.Temp;
+                    obj.WeatherDesc = entity.WeatherDesc;
 
                     tran.Commit();
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -171,8 +179,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-
-                return true;
             }
         }
 
@@ -181,17 +187,24 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(List<Weather> entities)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
-                    var obj = _realm.CreateObject<Weather>();
-
                     foreach (var entity in entities)
                     {
-                        obj = entity;
+                        var obj = _realm.CreateObject<Weather>();
+
+                        obj.Ico = entity.Ico;
+                        obj.Id = entity.Id;
+                        obj.Temp = entity.Temp;
+                        obj.WeatherDesc = entity.WeatherDesc;
+
                         tran.Commit();
                     }
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -203,7 +216,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-                return true;
             }
         }
 
@@ -212,16 +224,21 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Update(Weather entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
                 using (var tran = _realm.BeginWrite())
                 {
-                    var obj = _weather.First(x => x.Id == entity.Id);
-                    obj = entity;
+                    var obj = _realm.All<Weather>().First(x => x.Id == entity.Id);
+
+                    obj.Ico = entity.Ico;
+                    obj.Id = entity.Id;
+                    obj.Temp = entity.Temp;
+                    obj.WeatherDesc = entity.WeatherDesc;
 
                     tran.Commit();
                 }
-
                 return true;
             }
             catch (Exception ex)
@@ -229,7 +246,6 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-
         }
     }
 }

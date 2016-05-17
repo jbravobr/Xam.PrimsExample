@@ -8,13 +8,7 @@ namespace IcatuzinhoApp
 {
     public class DriverRepository : BaseRepository, IDriverRepository
     {
-        private RealmResults<Driver> _driver
-        {
-            get
-            {
-                return _realm.All<Driver>();
-            }
-        }
+        private Realm _realm;
 
         /// <summary>
         /// Retorna uma instância da entidade principal.
@@ -23,7 +17,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _driver.Any();
+                _realm = Realm.GetInstance();
+                return _realm.All<Driver>().Any();
             }
             catch (Exception ex)
             {
@@ -39,13 +34,15 @@ namespace IcatuzinhoApp
         /// <param name="entity">Entity.</param>
         public bool Delete(Driver entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
-                if (_driver.Any(x => x.Id == entity.Id))
+                if (_realm.All<Driver>().Any(x => x.Id == entity.Id))
                 {
                     using (var tran = _realm.BeginWrite())
                     {
-                        _realm.Remove(_driver.First(x => x.Id == entity.Id));
+                        _realm.Remove(_realm.All<Driver>().First(x => x.Id == entity.Id));
                         tran.Commit();
                     }
                 }
@@ -67,7 +64,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _driver.FirstOrDefault();
+                _realm = Realm.GetInstance();
+                return _realm.All<Driver>().First();
             }
             catch (Exception ex)
             {
@@ -85,7 +83,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _driver.FirstOrDefault(predicate);
+                _realm = Realm.GetInstance();
+                return _realm.All<Driver>().First(predicate);
             }
             catch (Exception ex)
             {
@@ -102,7 +101,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _driver.ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Driver>().ToList();
             }
             catch (Exception ex)
             {
@@ -120,7 +120,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _driver.Where(predicate).ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Driver>().Where(predicate).ToList();
             }
             catch (Exception ex)
             {
@@ -137,7 +138,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _driver.FirstOrDefault(x => x.Id == pkId);
+                _realm = Realm.GetInstance();
+                return _realm.All<Driver>().First(x => x.Id == pkId);
             }
             catch (Exception ex)
             {
@@ -152,14 +154,19 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(Driver entity)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
                     var obj = _realm.CreateObject<Driver>();
-                    obj = entity;
+
+                    obj.Id = entity.Id;
+                    obj.Name = entity.Name;
 
                     tran.Commit();
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -171,8 +178,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-
-                return true;
             }
         }
 
@@ -181,17 +186,22 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(List<Driver> entities)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
-                    var obj = _realm.CreateObject<Driver>();
-
                     foreach (var entity in entities)
                     {
-                        obj = entity;
+                        var obj = _realm.CreateObject<Driver>();
+
+                        obj.Id = entity.Id;
+                        obj.Name = entity.Name;
+
                         tran.Commit();
                     }
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -203,7 +213,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-                return true;
             }
         }
 
@@ -212,16 +221,19 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Update(Driver entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
                 using (var tran = _realm.BeginWrite())
                 {
-                    var obj = _driver.First(x => x.Id == entity.Id);
-                    obj = entity;
+                    var obj = _realm.All<Driver>().First(x => x.Id == entity.Id);
+
+                    obj.Id = entity.Id;
+                    obj.Name = entity.Name;
 
                     tran.Commit();
                 }
-
                 return true;
             }
             catch (Exception ex)
@@ -229,7 +241,6 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-
         }
     }
 }

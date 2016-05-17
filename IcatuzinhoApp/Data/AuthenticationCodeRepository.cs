@@ -8,13 +8,7 @@ namespace IcatuzinhoApp
 {
     public class AuthenticationCodeRepository : BaseRepository, IAuthenticationCodeRepository
     {
-        private RealmResults<AuthenticationCode> _authCode
-        {
-            get
-            {
-                return _realm.All<AuthenticationCode>();
-            }
-        }
+        private Realm _realm;
 
         /// <summary>
         /// Retorna uma instância da entidade principal.
@@ -23,7 +17,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _authCode.Any();
+                _realm = Realm.GetInstance();
+                return _realm.All<AuthenticationCode>().Any();
             }
             catch (Exception ex)
             {
@@ -39,13 +34,15 @@ namespace IcatuzinhoApp
         /// <param name="entity">Entity.</param>
         public bool Delete(AuthenticationCode entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
-                if (_authCode.Any(x => x.Id == entity.Id))
+                if (_realm.All<AuthenticationCode>().Any(x => x.Id == entity.Id))
                 {
                     using (var tran = _realm.BeginWrite())
                     {
-                        _realm.Remove(_authCode.First(x => x.Id == entity.Id));
+                        _realm.Remove(_realm.All<AuthenticationCode>().First(x => x.Id == entity.Id));
                         tran.Commit();
                     }
                 }
@@ -67,7 +64,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _authCode.FirstOrDefault();
+                _realm = Realm.GetInstance();
+                return _realm.All<AuthenticationCode>().First();
             }
             catch (Exception ex)
             {
@@ -85,7 +83,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _authCode.FirstOrDefault(predicate);
+                _realm = Realm.GetInstance();
+                return _realm.All<AuthenticationCode>().First(predicate);
             }
             catch (Exception ex)
             {
@@ -102,7 +101,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _authCode.ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<AuthenticationCode>().ToList();
             }
             catch (Exception ex)
             {
@@ -120,7 +120,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _authCode.Where(predicate).ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<AuthenticationCode>().Where(predicate).ToList();
             }
             catch (Exception ex)
             {
@@ -137,7 +138,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _authCode.FirstOrDefault(x => x.Id == pkId);
+                _realm = Realm.GetInstance();
+                return _realm.All<AuthenticationCode>().First(x => x.Id == pkId);
             }
             catch (Exception ex)
             {
@@ -152,14 +154,20 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(AuthenticationCode entity)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
                     var obj = _realm.CreateObject<AuthenticationCode>();
-                    obj = entity;
+
+                    obj.Code = entity.Code;
+                    obj.Id = entity.Id;
+                    obj.User = entity.User;
 
                     tran.Commit();
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -171,8 +179,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-
-                return true;
             }
         }
 
@@ -181,17 +187,23 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(List<AuthenticationCode> entities)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
-                    var obj = _realm.CreateObject<AuthenticationCode>();
-
                     foreach (var entity in entities)
                     {
-                        obj = entity;
+                        var obj = _realm.CreateObject<AuthenticationCode>();
+
+                        obj.Code = entity.Code;
+                        obj.Id = entity.Id;
+                        obj.User = entity.User;
+
                         tran.Commit();
                     }
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -203,7 +215,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-                return true;
             }
         }
 
@@ -212,16 +223,20 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Update(AuthenticationCode entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
                 using (var tran = _realm.BeginWrite())
                 {
-                    var obj = _authCode.First(x => x.Id == entity.Id);
-                    obj = entity;
+                    var obj = _realm.All<AuthenticationCode>().First(x => x.Id == entity.Id);
+
+                    obj.Code = entity.Code;
+                    obj.Id = entity.Id;
+                    obj.User = entity.User;
 
                     tran.Commit();
                 }
-
                 return true;
             }
             catch (Exception ex)
@@ -229,7 +244,6 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-
         }
     }
 }

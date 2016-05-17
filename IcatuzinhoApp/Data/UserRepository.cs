@@ -8,13 +8,7 @@ namespace IcatuzinhoApp
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        private RealmResults<User> _user
-        {
-            get
-            {
-                return _realm.All<User>();
-            }
-        }
+        private Realm _realm;
 
         /// <summary>
         /// Retorna uma instância da entidade principal.
@@ -23,7 +17,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _user.Any();
+                _realm = Realm.GetInstance();
+                return _realm.All<User>().Any();
             }
             catch (Exception ex)
             {
@@ -39,13 +34,15 @@ namespace IcatuzinhoApp
         /// <param name="entity">Entity.</param>
         public bool Delete(User entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
-                if (_user.Any(x => x.Id == entity.Id))
+                if (_realm.All<User>().Any(x => x.Id == entity.Id))
                 {
                     using (var tran = _realm.BeginWrite())
                     {
-                        _realm.Remove(_user.First(x => x.Id == entity.Id));
+                        _realm.Remove(_realm.All<User>().First(x => x.Id == entity.Id));
                         tran.Commit();
                     }
                 }
@@ -67,7 +64,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _user.FirstOrDefault();
+                _realm = Realm.GetInstance();
+                return _realm.All<User>().First();
             }
             catch (Exception ex)
             {
@@ -85,7 +83,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _user.FirstOrDefault(predicate);
+                _realm = Realm.GetInstance();
+                return _realm.All<User>().First(predicate);
             }
             catch (Exception ex)
             {
@@ -102,7 +101,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _user.ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<User>().ToList();
             }
             catch (Exception ex)
             {
@@ -120,7 +120,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _user.Where(predicate).ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<User>().Where(predicate).ToList();
             }
             catch (Exception ex)
             {
@@ -137,7 +138,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _user.FirstOrDefault(x => x.Id == pkId);
+                _realm = Realm.GetInstance();
+                return _realm.All<User>().First(x => x.Id == pkId);
             }
             catch (Exception ex)
             {
@@ -152,14 +154,20 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(User entity)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
                     var obj = _realm.CreateObject<User>();
-                    obj = entity;
+                    obj.Email = entity.Email;
+                    obj.Id = entity.Id;
+                    obj.Name = entity.Name;
+                    obj.Password = entity.Password;
 
                     tran.Commit();
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -171,8 +179,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-
-                return true;
             }
         }
 
@@ -181,17 +187,24 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(List<User> entities)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
-                    var obj = _realm.CreateObject<User>();
-
                     foreach (var entity in entities)
                     {
-                        obj = entity;
+                        var obj = _realm.CreateObject<User>();
+
+                        obj.Email = entity.Email;
+                        obj.Id = entity.Id;
+                        obj.Name = entity.Name;
+                        obj.Password = entity.Password;
+
                         tran.Commit();
                     }
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -203,7 +216,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-                return true;
             }
         }
 
@@ -212,12 +224,17 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Update(User entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
                 using (var tran = _realm.BeginWrite())
                 {
-                    var obj = _user.First(x => x.Id == entity.Id);
-                    obj = entity;
+                    var obj = _realm.All<User>().First(x => x.Id == entity.Id);
+                    obj.Email = entity.Email;
+                    obj.Id = entity.Id;
+                    obj.Name = entity.Name;
+                    obj.Password = entity.Password;
 
                     tran.Commit();
                 }
@@ -229,7 +246,6 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-
         }
     }
 }

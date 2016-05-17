@@ -31,7 +31,7 @@ namespace IcatuzinhoApp
 
             try
             {
-                var user = GetAll().FirstOrDefault();
+                var user = Get();
 
                 if (user != null)
                     resultDB = await Task.FromResult(true);

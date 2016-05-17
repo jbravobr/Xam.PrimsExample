@@ -8,13 +8,7 @@ namespace IcatuzinhoApp
 {
     public class ScheduleRepository : BaseRepository, IScheduleRepository
     {
-        private RealmResults<Schedule> _schedule
-        {
-            get
-            {
-                return _realm.All<Schedule>();
-            }
-        }
+        private Realm _realm;
 
         /// <summary>
         /// Retorna uma instância da entidade principal.
@@ -23,7 +17,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _schedule.Any();
+                _realm = Realm.GetInstance();
+                return _realm.All<Schedule>().Any();
             }
             catch (Exception ex)
             {
@@ -39,13 +34,15 @@ namespace IcatuzinhoApp
         /// <param name="entity">Entity.</param>
         public bool Delete(Schedule entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
-                if (_schedule.Any(x => x.Id == entity.Id))
+                if (_realm.All<Schedule>().Any(x => x.Id == entity.Id))
                 {
                     using (var tran = _realm.BeginWrite())
                     {
-                        _realm.Remove(_schedule.First(x => x.Id == entity.Id));
+                        _realm.Remove(_realm.All<Schedule>().First(x => x.Id == entity.Id));
                         tran.Commit();
                     }
                 }
@@ -67,7 +64,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _schedule.FirstOrDefault();
+                _realm = Realm.GetInstance();
+                return _realm.All<Schedule>().First();
             }
             catch (Exception ex)
             {
@@ -85,7 +83,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _schedule.FirstOrDefault(predicate);
+                _realm = Realm.GetInstance();
+                return _realm.All<Schedule>().First(predicate);
             }
             catch (Exception ex)
             {
@@ -102,7 +101,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _schedule.ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Schedule>().ToList();
             }
             catch (Exception ex)
             {
@@ -120,7 +120,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _schedule.Where(predicate).ToList();
+                _realm = Realm.GetInstance();
+                return _realm.All<Schedule>().Where(predicate).ToList();
             }
             catch (Exception ex)
             {
@@ -137,7 +138,8 @@ namespace IcatuzinhoApp
         {
             try
             {
-                return _schedule.FirstOrDefault(x => x.Id == pkId);
+                _realm = Realm.GetInstance();
+                return _realm.All<Schedule>().First(x => x.Id == pkId);
             }
             catch (Exception ex)
             {
@@ -152,14 +154,22 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(Schedule entity)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
                     var obj = _realm.CreateObject<Schedule>();
-                    obj = entity;
+
+                    obj.Id = entity.Id;
+                    obj.Message = entity.Message;
+                    obj.StartSchedule = entity.StartSchedule;
+                    obj.StatusAvatar = entity.StatusAvatar;
+                    obj.StatusDescription = entity.StatusDescription;
 
                     tran.Commit();
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -171,8 +181,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-
-                return true;
             }
         }
 
@@ -181,17 +189,24 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Insert(List<Schedule> entities)
         {
+            _realm = Realm.GetInstance();
+
             using (var tran = _realm.BeginWrite())
             {
                 try
                 {
-                    var obj = _realm.CreateObject<Schedule>();
-
                     foreach (var entity in entities)
                     {
-                        obj = entity;
+                        var obj = _realm.CreateObject<Schedule>();
+
+                        obj.Id = entity.Id;
+                        obj.Message = entity.Message;
+                        obj.StartSchedule = entity.StartSchedule;
+                        obj.StatusAvatar = entity.StatusAvatar;
+                        obj.StatusDescription = entity.StatusDescription;
                         tran.Commit();
                     }
+                    return true;
                 }
                 catch (RealmException rEx)
                 {
@@ -203,7 +218,6 @@ namespace IcatuzinhoApp
                     Log(ex);
                     return false;
                 }
-                return true;
             }
         }
 
@@ -212,16 +226,22 @@ namespace IcatuzinhoApp
         /// </summary>
         public bool Update(Schedule entity)
         {
+            _realm = Realm.GetInstance();
+
             try
             {
                 using (var tran = _realm.BeginWrite())
                 {
-                    var obj = _schedule.First(x => x.Id == entity.Id);
-                    obj = entity;
+                    var obj = _realm.CreateObject<Schedule>();
+
+                    obj.Id = entity.Id;
+                    obj.Message = entity.Message;
+                    obj.StartSchedule = entity.StartSchedule;
+                    obj.StatusAvatar = entity.StatusAvatar;
+                    obj.StatusDescription = entity.StatusDescription;
 
                     tran.Commit();
                 }
-
                 return true;
             }
             catch (Exception ex)
@@ -229,7 +249,6 @@ namespace IcatuzinhoApp
                 Log(ex);
                 return false;
             }
-
         }
     }
 }

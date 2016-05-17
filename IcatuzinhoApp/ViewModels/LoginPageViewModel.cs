@@ -191,10 +191,10 @@ namespace IcatuzinhoApp
 
         public void RegisterLocalAuthenticatedUser()
         {
-            var user = _userService.GetAll();
+            var user = _userService.Get();
 
-            if (user != null && user.Any())
-                App.UserAuthenticated = user.FirstOrDefault();
+            if (user != null)
+                App.UserAuthenticated = user;
         }
 
         public async Task InsertTravels()

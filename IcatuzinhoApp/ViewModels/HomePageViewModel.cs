@@ -89,13 +89,13 @@ namespace IcatuzinhoApp
                     SeatsTotal = _travel.Vehicle.SeatsTotal.ToString();
                     Description = _travel.Schedule.Message;
 
-                    var _hours = Convert.ToDateTime(_travel.Schedule.StartSchedule).Hour == 0 ?
-                                        ZeroHours :
-                                        Convert.ToDateTime(_travel.Schedule.StartSchedule).Hour.ToString();
+                    var _hours = _travel.Schedule.StartSchedule.Hour == 0 ?
+                                  ZeroHours :
+                                  _travel.Schedule.StartSchedule.Hour.ToString();
 
-                    var _minutes = Convert.ToDateTime(_travel.Schedule.StartSchedule).Minute == 0 ?
-                                          Minutes :
-                                          Convert.ToDateTime(_travel.Schedule.StartSchedule).Minute.ToString();
+                    var _minutes = _travel.Schedule.StartSchedule.Minute == 0 ?
+                                    Minutes :
+                                    _travel.Schedule.StartSchedule.Minute.ToString();
 
                     Time = $"{_hours}:{_minutes}";
 
@@ -145,7 +145,7 @@ namespace IcatuzinhoApp
                 {
                     App.UserAuthenticated = null;
                     await _navigationService.Navigate("LoginPage", null, true, true);
-                });;
+                }); ;
             }
         }
 

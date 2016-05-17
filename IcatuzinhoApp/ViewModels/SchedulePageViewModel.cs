@@ -14,6 +14,7 @@ namespace IcatuzinhoApp
         readonly ITravelService _travelService;
         IUserDialogs _userDialogs { get; set; }
 
+        public List<TravelDTO> TravelsDTO { get; set; }
         public List<Travel> Travels { get; set; }
         public bool IsRefreshing { get; set; }
 
@@ -46,14 +47,28 @@ namespace IcatuzinhoApp
 
             foreach (var item in collection)
             {
-                item.Schedule.StatusAvatar = TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.StartSchedule.TimeOfDay) <= 0 ?
-                                    SetScheduleAvailable(true) :
-                                    SetScheduleAvailable(false);
+                TravelsDTO.Add(new TravelDTO
+                {
+                    Driver = item.Driver,
+                    Id = item.Id,
+                    Schedule = item.Schedule,
+                    Vehicle = item.Vehicle
+                });
+            }
 
-                item.Schedule.StatusDescription = TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.StartSchedule.TimeOfDay) <= 0 &&
-                                        item.Vehicle.SeatsAvailable > 0 ?
-                                        "Disponível" :
-                                        "Indisponível";
+            foreach (var item in TravelsDTO)
+            {
+                if (TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.StartSchedule.TimeOfDay) <= 0)
+                    SetScheduleAvatar(true, item);
+                else
+                    SetScheduleAvatar(false, item);
+
+                if (TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.StartSchedule.TimeOfDay) <= 0 &&
+                 item.Vehicle.SeatsAvailable > 0)
+                    SetScheduleStatusDescription(true, item);
+                else
+                    SetScheduleStatusDescription(false, item);
+                                        
             }
 
             return collection;
@@ -89,29 +104,31 @@ namespace IcatuzinhoApp
 
         public Command Refresh
         {
-            get 
+            get
             {
                 return new Command(async () =>
                 {
                     try
                     {
                         IsRefreshing = true;
-                        var ids = Travels.Select(x => x.Id).ToList();
+                        var ids = TravelsDTO.Select(x => x.Id).ToList();
 
                         foreach (var id in ids)
                         {
                             var availableSeats = await _travelService.GetAvailableSeats(id);
 
-                            Travels.First(x => x.Id == id).Vehicle.SeatsAvailable = availableSeats;
+                            TravelsDTO.First(x => x.Id == id).Vehicle.SeatsAvailable = availableSeats;
 
-                            Travels.First(x => x.Id == id).Schedule.StatusAvatar = TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.TimeOfDay) <= 0 ?
-                                    SetScheduleAvailable(true) :
-                                    SetScheduleAvailable(false);
+                            if (TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.TimeOfDay) <= 0)
+                                SetScheduleAvatar(true, TravelsDTO.First(x => x.Id == id));
+                            else
+                                SetScheduleAvatar(false, TravelsDTO.First(x => x.Id == id));
 
-                            Travels.First(x => x.Id == id).Schedule.StatusDescription = TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.TimeOfDay) <= 0 &&
-                                                    Travels.First(x => x.Id == id).Vehicle.SeatsAvailable > 0 ?
-                                                    "Disponível" :
-                                                    "Indisponível";
+                            if (TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.TimeOfDay) <= 0 &&
+                                Travels.First(x => x.Id == id).Vehicle.SeatsAvailable > 0)
+                                SetScheduleStatusDescription(true, TravelsDTO.First(x => x.Id == id));
+                            else
+                                SetScheduleStatusDescription(false, TravelsDTO.First(x => x.Id == id));
                         }
                     }
                     catch (Exception ex)
@@ -127,9 +144,26 @@ namespace IcatuzinhoApp
             }
         }
 
-        string SetScheduleAvailable(bool available)
+        void SetScheduleAvatar(bool available, TravelDTO item)
         {
-            return available ? "online.png" : "offline.png";
+            if (available)
+            {
+                item.Schedule.StatusAvatar = "online.png";
+                return;
+            }
+
+            item.Schedule.StatusAvatar = "offline.png";
+        }
+
+        void SetScheduleStatusDescription(bool available, TravelDTO item)
+        {
+            if (available)
+            {
+                item.Schedule.StatusDescription = "Disponível";
+                return;
+            }
+
+            item.Schedule.StatusAvatar = "Indisponível";
         }
     }
 }
