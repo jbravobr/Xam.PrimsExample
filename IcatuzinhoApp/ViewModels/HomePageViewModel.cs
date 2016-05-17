@@ -89,13 +89,13 @@ namespace IcatuzinhoApp
                     SeatsTotal = _travel.Vehicle.SeatsTotal.ToString();
                     Description = _travel.Schedule.Message;
 
-                    var _hours = _travel.Schedule.StartSchedule.Hour == 0 ?
+                    var _hours = _travel.Schedule.StartSchedule.ToLocalTime().Hour == 0 ?
                                   ZeroHours :
-                                  _travel.Schedule.StartSchedule.Hour.ToString();
+                                        _travel.Schedule.StartSchedule.ToLocalTime().Hour.ToString();
 
-                    var _minutes = _travel.Schedule.StartSchedule.Minute == 0 ?
+                    var _minutes = _travel.Schedule.StartSchedule.ToLocalTime().Minute == 0 ?
                                     Minutes :
-                                    _travel.Schedule.StartSchedule.Minute.ToString();
+                                          _travel.Schedule.StartSchedule.ToLocalTime().Minute.ToString();
 
                     Time = $"{_hours}:{_minutes}";
 
@@ -270,8 +270,8 @@ namespace IcatuzinhoApp
             var travels = _travelService.GetAll();
             Travel travel;
 
-            travel = travels.Where(c => TimeSpan.Compare(DateTime.Now.TimeOfDay, c.Schedule.StartSchedule.TimeOfDay) <= 0)
-                            .OrderBy(c => c.Schedule.StartSchedule)
+            travel = travels.Where(c => TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, c.Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0)
+                            .OrderBy(c => c.Schedule.StartSchedule.ToLocalTime())
                             .FirstOrDefault();
 
             if (travel != null)

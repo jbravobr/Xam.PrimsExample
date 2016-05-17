@@ -47,23 +47,12 @@ namespace IcatuzinhoApp
 
             foreach (var item in collection)
             {
-                Travels.Add(new Travel
-                {
-                    Driver = item.Driver,
-                    Id = item.Id,
-                    Schedule = item.Schedule,
-                    Vehicle = item.Vehicle
-                });
-            }
-
-            foreach (var item in Travels)
-            {
-                if (TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.StartSchedule.TimeOfDay) <= 0)
+                if (TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, item.Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0)
                     SetScheduleAvatar(true, item);
                 else
                     SetScheduleAvatar(false, item);
 
-                if (TimeSpan.Compare(DateTime.Now.TimeOfDay, item.Schedule.StartSchedule.TimeOfDay) <= 0 &&
+                if (TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, item.Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0 &&
                  item.Vehicle.SeatsAvailable > 0)
                     SetScheduleStatusDescription(true, item);
                 else
@@ -149,12 +138,12 @@ namespace IcatuzinhoApp
                                 }
                             }
 
-                            if (TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.TimeOfDay) <= 0)
+                            if (TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0)
                                 SetScheduleAvatar(true, Travels.First(x => x.Id == id));
                             else
                                 SetScheduleAvatar(false, Travels.First(x => x.Id == id));
 
-                            if (TimeSpan.Compare(DateTime.Now.TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.TimeOfDay) <= 0 &&
+                            if (TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0 &&
                                 Travels.First(x => x.Id == id).Vehicle.SeatsAvailable > 0)
                                 SetScheduleStatusDescription(true, Travels.First(x => x.Id == id));
                             else
@@ -224,7 +213,7 @@ namespace IcatuzinhoApp
                 {
                     try
                     {
-                        item.Schedule.StatusAvatar = "Disponível";
+                        item.Schedule.StatusDescription = "Disponível";
 
                         tran.Commit();
                         return;
@@ -241,7 +230,7 @@ namespace IcatuzinhoApp
             {
                 try
                 {
-                    item.Schedule.StatusAvatar = "Indisponível";
+                    item.Schedule.StatusDescription = "Indisponível";
 
                     tran.Commit();
                     return;

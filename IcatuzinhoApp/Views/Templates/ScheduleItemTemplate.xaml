@@ -37,7 +37,7 @@
 			    </Grid.RowDefinitions>
 
 			    <Label
-                        Text="{ Binding Schedule.TimeSchedule, StringFormat='{0:HH:mm}'}" 
+                        Text="{ Binding Schedule.StartSchedule.LocalDateTime, StringFormat='{0:HH:mm}'}" 
                         HorizontalOptions="StartAndExpand"
                         TextColor="White"
                         FontSize="18"

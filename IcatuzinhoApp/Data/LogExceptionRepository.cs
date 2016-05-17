@@ -191,11 +191,11 @@ namespace IcatuzinhoApp
         {
             _realm = Realm.GetInstance();
 
-            using (var tran = _realm.BeginWrite())
+            foreach (var entity in entities)
             {
-                try
+                using (var tran = _realm.BeginWrite())
                 {
-                    foreach (var entity in entities)
+                    try
                     {
                         var obj = _realm.CreateObject<LogException>();
 
@@ -205,20 +205,21 @@ namespace IcatuzinhoApp
                         obj.InnerException = entity.InnerException;
                         obj.Trasaction = entity.Trasaction;
                         tran.Commit();
+
                     }
-                    return true;
-                }
-                catch (RealmException rEx)
-                {
-                    Log(rEx);
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    Log(ex);
-                    return false;
+                    catch (RealmException rEx)
+                    {
+                        Log(rEx);
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log(ex);
+                        return false;
+                    }
                 }
             }
+            return true;
         }
 
         /// <summary>
