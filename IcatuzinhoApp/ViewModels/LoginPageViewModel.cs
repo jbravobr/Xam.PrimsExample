@@ -94,8 +94,6 @@ namespace IcatuzinhoApp
                         if (Device.OS == TargetPlatform.Android)
                             _userDialogs.HideLoading(); // Escondendo o loading da verificação de Rede.
 
-                        RegisterLocalAuthenticatedUser();
-
                         if (Device.OS == TargetPlatform.Android)
                             _userDialogs.ShowLoading("Carregando");
 
@@ -106,9 +104,6 @@ namespace IcatuzinhoApp
                                              App.UserAuthenticated.Email);
 
                         Tracks.TrackLoginInformation();
-
-                        if (Device.OS == TargetPlatform.Android)
-                            _userDialogs.HideLoading();
 
                         await NavigateCommand.Execute();
                     }
@@ -152,22 +147,13 @@ namespace IcatuzinhoApp
 
                        if (userAuthenticated)
                        {
-                           //Gravando user
+
                            await _userService.Login(Email, Password);
-
-                           RegisterLocalAuthenticatedUser();
-
                            await _stationService.GetAllStations();
                            await _scheduleService.GetAllSchedules();
-
                            await InsertTravels();
-
                            await _weatherService.GetWeather();
                            await _itineraryService.GetAllItineraries();
-
-                           RegisterLocalAuthenticatedUser();
-
-                           _userDialogs.HideLoading();
                            await NavigateCommand.Execute();
                        }
                        else
@@ -187,14 +173,6 @@ namespace IcatuzinhoApp
                    }
                });
             }
-        }
-
-        public void RegisterLocalAuthenticatedUser()
-        {
-            var user = _userService.Get();
-
-            if (user != null)
-                App.UserAuthenticated = user;
         }
 
         public async Task InsertTravels()

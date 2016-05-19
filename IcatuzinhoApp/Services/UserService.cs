@@ -34,7 +34,10 @@ namespace IcatuzinhoApp
                 var user = Get();
 
                 if (user != null)
+                {
                     resultDB = await Task.FromResult(true);
+                    RegisterLocalAuthenticatedUser();
+                }
             }
             catch (Exception ex)
             {
@@ -66,6 +69,7 @@ namespace IcatuzinhoApp
                     {
                         var _user = new User { Email = email, Password = Crypto.EncryptStringAES(password), Id = user.Id };
                         resultDB = Insert(_user);
+                        RegisterLocalAuthenticatedUser();
                     }
 
                     return resultDB;
@@ -85,6 +89,14 @@ namespace IcatuzinhoApp
             }
 
             return resultDB;
+        }
+
+        private void RegisterLocalAuthenticatedUser()
+        {
+            var user = Get();
+
+            if (user != null)
+                App.UserAuthenticated = user;
         }
 
         public bool Insert(User entity)

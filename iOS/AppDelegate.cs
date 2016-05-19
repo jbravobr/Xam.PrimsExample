@@ -28,8 +28,16 @@ namespace IcatuzinhoApp.iOS
             global::Xamarin.Forms.Forms.Init();
             Xamarin.FormsMaps.Init();
             Appearance.Configure();
-            LoadApplication(new App());
 
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var settings = UIUserNotificationSettings.GetSettingsForTypes(
+                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                    new NSSet());
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+            }
+
+            LoadApplication(new App());
             return base.FinishedLaunching(app, options);
         }
     }

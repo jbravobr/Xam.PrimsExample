@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using System.Linq;
 using Prism.Navigation;
-using Prism.Services;
 using Prism.Commands;
+
 
 namespace IcatuzinhoApp
 {
@@ -35,6 +35,8 @@ namespace IcatuzinhoApp
         const string ZeroHours = "00";
 
         const string Minutes = "00";
+
+        private DateTime[] arrivalTimes { get; set; }
 
         Travel _travel { get; set; }
 
@@ -65,6 +67,7 @@ namespace IcatuzinhoApp
 
             GetInfos();
             ScheduleGetInfoForUI();
+            ScheduleLocalNotificationForTravel();
 
             NavigateCommand = new DelegateCommand(Logout);
         }
@@ -126,6 +129,25 @@ namespace IcatuzinhoApp
             }
         }
 
+        public void ScheduleLocalNotificationForTravel()
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(10), () =>
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        var nextTravelTime = GetNextTravelTime();
+
+                        if (nextTravelTime != null)
+                            UIFunctions.ShowNotificationForNextTravel($"{nextTravelTime.Value.Hours}:{nextTravelTime.Value.Minutes}");
+                    });
+                });
+
+                return false;
+            });
+        }
+
         public void ScheduleGetInfoForUI()
         {
             Device.StartTimer(TimeSpan.FromSeconds(10), () =>
@@ -134,6 +156,7 @@ namespace IcatuzinhoApp
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
+                        GetInfos();
                         await UpdateSeats();
                         ScheduleGetInfoForUI();
                     });
@@ -160,6 +183,17 @@ namespace IcatuzinhoApp
                     _userDialogs.ActionSheet(cfg);
                 });
             }
+        }
+
+        public TimeSpan? GetNextTravelTime()
+        {
+            var result = _travelService.GetAll()
+                                       .FirstOrDefault(t => DateTime.Now.Add(TimeSpan.FromMinutes(5)).TimeOfDay <= t.Schedule.StartSchedule.ToLocalTime().TimeOfDay);
+
+            if (result != null)
+                return result.Schedule.StartSchedule.ToLocalTime().TimeOfDay;
+
+            return null;
         }
 
         public Command ShowMenuMoreAndroid
@@ -192,7 +226,7 @@ namespace IcatuzinhoApp
         {
             get
             {
-                return new Command(async (obj) =>
+                return new Command(async () =>
                 {
                     try
                     {
@@ -223,7 +257,7 @@ namespace IcatuzinhoApp
                     }
                     catch (Exception ex)
                     {
-                        _userDialogs.HideLoading();
+                        //_userDialogs.HideLoading();
 
                         base.SendToInsights(ex);
                         UIFunctions.ShowErrorMessageToUI();

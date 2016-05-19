@@ -14,6 +14,8 @@ namespace IcatuzinhoApp
         public Driver Driver { get; set; }
 
         public Vehicle Vehicle { get; set; }
+
+        public bool Status { get; set; }
     }
 }
 

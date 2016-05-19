@@ -66,6 +66,7 @@ namespace IcatuzinhoApp.Droid
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::IcatuzinhoApp.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
 			global::Splat.Resource.String.library_name = global::IcatuzinhoApp.Droid.Resource.String.library_name;
 			global::ModernHttpClient.Resource.String.library_name = global::IcatuzinhoApp.Droid.Resource.String.library_name;
+			global::Plugin.LocalNotifications.Resource.Drawable.plugin_lc_smallicon = global::IcatuzinhoApp.Droid.Resource.Drawable.plugin_lc_smallicon;
 		}
 		
 		public partial class Animation
@@ -2569,8 +2570,8 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f0200d0
 			public const int mr_ic_play_light = 2130837712;
 			
-			// aapt resource value: 0x7f0200d8
-			public const int notification_template_icon_bg = 2130837720;
+			// aapt resource value: 0x7f0200d9
+			public const int notification_template_icon_bg = 2130837721;
 			
 			// aapt resource value: 0x7f0200d1
 			public const int offline = 2130837713;
@@ -2579,19 +2580,22 @@ namespace IcatuzinhoApp.Droid
 			public const int online = 2130837714;
 			
 			// aapt resource value: 0x7f0200d3
-			public const int roundedbg = 2130837715;
+			public const int plugin_lc_smallicon = 2130837715;
 			
 			// aapt resource value: 0x7f0200d4
-			public const int roundedbgdark = 2130837716;
+			public const int roundedbg = 2130837716;
 			
 			// aapt resource value: 0x7f0200d5
-			public const int signup_bg = 2130837717;
+			public const int roundedbgdark = 2130837717;
 			
 			// aapt resource value: 0x7f0200d6
-			public const int social_header_bg_0 = 2130837718;
+			public const int signup_bg = 2130837718;
 			
 			// aapt resource value: 0x7f0200d7
-			public const int social_header_bg_1 = 2130837719;
+			public const int social_header_bg_0 = 2130837719;
+			
+			// aapt resource value: 0x7f0200d8
+			public const int social_header_bg_1 = 2130837720;
 			
 			static Drawable()
 			{

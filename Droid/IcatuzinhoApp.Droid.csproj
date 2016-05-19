@@ -163,6 +163,12 @@
     <Reference Include="Realm">
       <HintPath>..\packages\Realm.0.74.1\lib\MonoAndroid44\Realm.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.LocalNotifications.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Notifier.2.0.2\lib\MonoAndroid10\Plugin.LocalNotifications.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.LocalNotifications">
+      <HintPath>..\packages\Xam.Plugins.Notifier.2.0.2\lib\MonoAndroid10\Plugin.LocalNotifications.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

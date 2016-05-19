@@ -107,18 +107,18 @@ namespace IcatuzinhoApp
         {
             InitializeComponent();
 
-            if (_logExceptionService == null)
-                _logExceptionService = App._container.Resolve<ILogExceptionService>();
+            //if (_logExceptionService == null)
+            //    _logExceptionService = App._container.Resolve<ILogExceptionService>();
 
-            try
-            {
-                MapaTravel.MoveToRegion(MapSpan.FromCenterAndRadius(
-                    new Position(_latitudeInicial, _longitudeInicial), new Distance(2.00)));
-            }
-            catch (Exception ex)
-            {
-                _logExceptionService.SubmitToInsights(ex);
-            }
+            //try
+            //{
+            //    MapaTravel.MoveToRegion(MapSpan.FromCenterAndRadius(
+            //        new Position(_latitudeInicial, _longitudeInicial), new Distance(2.00)));
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logExceptionService.SubmitToInsights(ex);
+            //}
         }
     }
 }
