@@ -147,14 +147,13 @@ namespace IcatuzinhoApp
 
                        if (userAuthenticated)
                        {
-
                            await _userService.Login(Email, Password);
                            await _stationService.GetAllStations();
                            await _scheduleService.GetAllSchedules();
                            await InsertTravels();
                            await _weatherService.GetWeather();
                            await _itineraryService.GetAllItineraries();
-                           await NavigateCommand.Execute();
+                           await _navigationService.Navigate("SelectionPage", null, true);
                        }
                        else
                        {
@@ -193,7 +192,9 @@ namespace IcatuzinhoApp
         {
             try
             {
-                await _navigationService.Navigate("SelectionPage");
+                _userDialogs.ShowLoading("Abrindo...");
+
+                await _navigationService.Navigate("SelectionPage", null, true);
             }
             catch (Exception ex)
             {
