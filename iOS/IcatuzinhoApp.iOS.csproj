@@ -208,7 +208,6 @@
   <ItemGroup>
     <BundleResource Include="Resources\signup_bg.png" />
     <BundleResource Include="Resources\signup_bg%402x.png" />
-    <BundleResource Include="Resources\signup_bg%403x.png" />
     <BundleResource Include="Resources\fontawesome-webfont.ttf" />
     <BundleResource Include="Resources\social_header_bg_1.png" />
     <BundleResource Include="Resources\bus-full.png" />
