@@ -1,21 +1,17 @@
-﻿using System;
-using PropertyChanged;
-using SQLite.Net.Attributes;
-using SQLiteNetExtensions.Attributes;
+﻿using PropertyChanged;
+using Realms;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class AuthenticationCode : EntityBase
+    public class AuthenticationCode : RealmObject
     {
-        [Unique]
+        [ObjectId]
+        public int Id { get; set; }
+
         public string Code { get; set; }
 
-        [OneToOne]
         public User User { get; set; }
-
-        [ForeignKey(typeof(User))]
-        public int UserId { get; set; }
     }
 }
 

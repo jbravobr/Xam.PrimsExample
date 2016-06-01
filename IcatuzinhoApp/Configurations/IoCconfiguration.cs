@@ -1,29 +1,22 @@
-﻿using System;
-using Acr.UserDialogs;
+﻿using Microsoft.Practices.Unity;
 
 namespace IcatuzinhoApp
 {
-    public class IoCconfiguration
+    public static class IoCconfiguration
     {
-        public static void Init()
-        {
-            // Registrando Serviços e dependências.
-            FreshMvvm.FreshIOC.Container.Register<IUserService, UserService>();
-            FreshMvvm.FreshIOC.Container.Register<IHttpAccessService, HttpAccessService>();
-            FreshMvvm.FreshIOC.Container.Register<IAuthenticationCodeService, AuthenticationCodeService>();
-            FreshMvvm.FreshIOC.Container.Register<IDriveService, DriverService>();
-            FreshMvvm.FreshIOC.Container.Register<ILogExceptionService, LogExceptionService>();
-            FreshMvvm.FreshIOC.Container.Register<IScheduleService, ScheduleService>();
-            FreshMvvm.FreshIOC.Container.Register<IStationService, StationService>();
-            FreshMvvm.FreshIOC.Container.Register<ItineraryService, ItineraryService>();
-            FreshMvvm.FreshIOC.Container.Register<ITransactionService, TransactionService>();
-            FreshMvvm.FreshIOC.Container.Register<ITravelService, TravelService>();
-            FreshMvvm.FreshIOC.Container.Register<IUserService, UserService>();
-            FreshMvvm.FreshIOC.Container.Register<IVehicleService, VehicleService>();
-            FreshMvvm.FreshIOC.Container.Register<IWeatherService, WeatherService>();
+        static UnityContainer _container { get; set; }
 
-            //3rd Party Controlls
-            FreshMvvm.FreshIOC.Container.Register<IUserDialogs>(UserDialogs.Instance);
+        public static UnityContainer Init()
+        {
+            var _c = new UnityContainer();
+
+            _c.RegisterType<ILogExceptionService, LogExceptionService>();
+
+            _c.RegisterInstance(Acr.UserDialogs.UserDialogs.Instance);
+            _c.RegisterInstance(Plugin.DeviceInfo.CrossDeviceInfo.Current);
+            _c.RegisterInstance(Plugin.Connectivity.CrossConnectivity.Current);
+
+            return _c;
         }
     }
 }

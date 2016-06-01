@@ -1,11 +1,14 @@
-﻿using System;
-using PropertyChanged;
+﻿using PropertyChanged;
+using Realms;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class Weather : EntityBase
+    public class Weather : RealmObject
     {
+        [ObjectId]
+        public int Id { get; set; }
+
         public string Temp { get; set; }
 
         public string WeatherDesc { get; set; }

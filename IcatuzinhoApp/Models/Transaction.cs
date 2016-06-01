@@ -1,18 +1,20 @@
-﻿using System;
-using PropertyChanged;
-using SQLite.Net.Attributes;
+﻿using PropertyChanged;
+using Realms;
 
 namespace IcatuzinhoApp
 {
     [ImplementPropertyChanged]
-    public class Transaction
+    public class Transaction : RealmObject
     {
-        [PrimaryKey, AutoIncrement]
+        [ObjectId]
         public int Id { get; set; }
 
+        [Indexed]
         public string Name { get; set; }
 
-        public string TransactionDetails { get; set; }
+        public string DetailKey { get; set; }
+
+        public string DetailName { get; set; }
     }
 }
 

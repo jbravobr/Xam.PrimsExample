@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IcatuzinhoApp.App" xmlns:mark="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" >
+<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                        xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
+						x:Class="IcatuzinhoApp.App"
+						xmlns:mark="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
+						xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" >
+
 	<Application.Resources>
 		<!-- http://developer.xamarin.com/guides/cross-platform/xamarin-forms/working-with/styles/ -->
 		<ResourceDictionary>
@@ -23,6 +29,8 @@
 			<Color x:Key="AccentColor">Black</Color>
 			<!-- Export InverseTextColor -->
 			<Color x:Key="InverseTextColor">White</Color>
+			<!-- Cor do botão do login -->
+			<Color x:Key="BotaoLogin">Black</Color>
 			<!-- STATIC IMAGES -->
 			<FileImageSource x:Key="HamburguerIcon">hamburguer_icon.png</FileImageSource>
 			<FileImageSource x:Key="WelcomeBackgroundImage">welcome_bg.jpg</FileImageSource>
@@ -399,4 +407,4 @@
 			</Style>
 		</ResourceDictionary>
 	</Application.Resources>
-</Application>
+</prism:PrismApplication>

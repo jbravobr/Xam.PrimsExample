@@ -30,6 +30,7 @@ namespace IcatuzinhoApp.iOS
                 var nativeMap = Control as MKMapView;
 
                 nativeMap.OverlayRenderer = GetOverlayRenderer;
+                nativeMap.ShowsTraffic = true;
 
                 CLLocationCoordinate2D[] coords = new CLLocationCoordinate2D[formsMap.RouteCoordinates.Count];
 

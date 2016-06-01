@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿
 using Foundation;
-using Plugin.Toasts;
 using UIKit;
-using Xamarin.Forms;
+using Acr.UserDialogs;
 
 namespace IcatuzinhoApp.iOS
 {
@@ -14,23 +10,34 @@ namespace IcatuzinhoApp.iOS
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Xamarin.FormsMaps.Init();
-            Xamarin.Insights.Initialize("af422595c1a35c1ad1a77863b9852f80f7d7542c");
+            Xamarin.Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
+                {
+                    if (isStartupCrash)
+                        Xamarin.Insights.PurgePendingCrashReports().Wait();
+                };
 
-            DependencyService.Register<ToastNotificatorImplementation>();
-            ToastNotificatorImplementation.Init();
+#if DEBUG
+            Xamarin.Insights.Initialize(Xamarin.Insights.DebugModeKey);
+#else
+            Xamarin.Insights.Initialize("af73d7945c2d65a46435cb2f6441453f416e9b43");
+#endif
 
-            global::Xamarin.Forms.Forms.Init();
-
-            // Code for starting up the Xamarin Test Cloud Agent
 #if ENABLE_TEST_CLOUD
             Xamarin.Calabash.Start();
 #endif
-
+            global::Xamarin.Forms.Forms.Init();
+            Xamarin.FormsMaps.Init();
             Appearance.Configure();
 
-            LoadApplication(new App());
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var settings = UIUserNotificationSettings.GetSettingsForTypes(
+                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                    new NSSet());
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+            }
 
+            LoadApplication(new App());
             return base.FinishedLaunching(app, options);
         }
     }

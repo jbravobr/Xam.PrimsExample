@@ -1,36 +1,39 @@
-﻿using System;
-
-using Android.App;
-using Android.Content;
-using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using Android.App;
 using Android.OS;
-using Android.Graphics.Drawables;
 using Xamarin.Forms.Platform.Android;
-using Xamarin.Forms;
-using Plugin.Toasts;
+using Acr.UserDialogs;
+using Xamarin;
 
 namespace IcatuzinhoApp.Droid
 {
     [Activity(
         Label = "Icatuzinho",
         Theme = "@style/AppTheme",
-        Icon = "@android:color/transparent",
+        Icon = "@drawable/ic_launcher",
+        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait,
         MainLauncher = true)
     ]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
+            FormsAppCompatActivity.ToolbarResource = Resource.Layout.toolbar;
+            FormsAppCompatActivity.TabLayoutResource = Resource.Layout.tabs;
+
             base.OnCreate(bundle);
 
+            Xamarin.Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
+                {
+                    if (isStartupCrash)
+                        Xamarin.Insights.PurgePendingCrashReports().Wait();
+                };
+#if DEBUG
+            Xamarin.Insights.Initialize(Insights.DebugModeKey, this);
+#else
+            Xamarin.Insights.Initialize("af73d7945c2d65a46435cb2f6441453f416e9b43", this);
+#endif
+            UserDialogs.Init(this);
             Xamarin.FormsMaps.Init(this, bundle);
-            Xamarin.Insights.Initialize("af422595c1a35c1ad1a77863b9852f80f7d7542c", this);
-
-            DependencyService.Register<ToastNotificatorImplementation>(); // Register your dependency
-            ToastNotificatorImplementation.Init(this); // In Android ([this] is the current Android Activity)
 
             Xamarin.Forms.Forms.Init(this, bundle);
 
@@ -43,19 +46,6 @@ namespace IcatuzinhoApp.Droid
             */
 
             LoadApplication(new App());
-
-
-#pragma warning disable 618
-            // Hiding ActionBar Icon on Android versions using Material Design
-            if ((int)Android.OS.Build.VERSION.SdkInt >= 21)
-            {
-                ActionBar.SetIcon(
-                    new ColorDrawable(
-                        Resources.GetColor(Android.Resource.Color.Transparent)
-                    )
-                );
-            }
-#pragma warning restore 618
         }
     }
 }

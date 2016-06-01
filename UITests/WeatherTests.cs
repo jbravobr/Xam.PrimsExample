@@ -11,17 +11,17 @@ namespace IcatuzinhoApp.UITests
     [TestFixture]
     public class WeatherTests
     {
-        HttpClient _httpClient = Helpers.ReturnClient();
+        HttpClient _httpClient;
 
         [Test]
-        public async Task Try_Return_List_Schedules()
+        public async Task ReturnWeatherFromAPI()
         {
             var weather = new Weather();
+            var token = await Helpers.GenerateTokenAuthentication();
 
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient = Helpers.ReturnClient(token);
 
-            var result = await _httpClient.GetAsync($"icatuzinhoapi/api/weather");
+            var result = await _httpClient.GetAsync(Constants.WeatherServiceAddress);
 
             if (result.IsSuccessStatusCode)
             {
