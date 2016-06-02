@@ -132,6 +132,28 @@ namespace IcatuzinhoApp
 
         public async Task<bool> GetAuthenticatedUser() => await _userService.GetAuthenticatedUser();
 
+        public Command Cadastrar
+        {
+            get
+            {
+                return new Command(async (obj) =>
+                    {
+                        await _userDialogs.AlertAsync("Novo cadastro","Clicou!");
+                    });
+            }
+        }
+
+        public Command Recuperar
+        {
+            get
+            {
+                return new Command(async (obj) =>
+                    {
+                        await _userDialogs.AlertAsync("Recuperar Senha","Clicou!");
+                    });
+            }
+        }
+
         public Command Confirm
         {
             get
