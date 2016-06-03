@@ -6,9 +6,9 @@
 		xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp"
 		xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
         prism:ViewModelLocator.AutowireViewModel="True"
-		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
-		BackgroundColor="Black"
-		Title="Próxima Partida">
+		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared"
+		Title="Próxima Partida"
+		BackgroundColor="{ StaticResource AccentColor }">
 
 	<ContentPage.Resources>
 		 <ResourceDictionary>
@@ -22,13 +22,12 @@
 			<!-- BACKGROUND IMAGE -->
 			<Image Source="{ StaticResource SocialHeaderBackgroundImage1 }" 
 				IsOpaque="false" 
-				Opacity="0.75" 
 				Aspect="AspectFill" 
 				HorizontalOptions="FillAndExpand" 
 				VerticalOptions="FillAndExpand" />
 
 			<!-- TOOLBAR -->
-			<Grid VerticalOptions="StartAndExpand" Style="{StaticResource ToolbarStyle}" BackgroundColor="{StaticResource TranslucidBlack}" Padding="0">
+			<Grid VerticalOptions="StartAndExpand" Style="{StaticResource ToolbarCustomizedStyle}" Padding="0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="*" />
@@ -83,7 +82,7 @@
 						Grid.Row="0" 
 						HorizontalTextAlignment="Center" 
 						VerticalTextAlignment="Center"
-						FontSize="48"                  
+						FontSize="58"                  
                         FontFamily="{x:Static artina:FontAwesome.FontName}"
 						TextColor="White">
 				</Label>
@@ -94,7 +93,7 @@
 						HorizontalTextAlignment="Center" 
 						VerticalTextAlignment="Center"
 					    Text="{Binding Description}" 
-						FontSize="16">
+						FontSize="20">
 				</Label>
 				
 			</Grid>
@@ -134,7 +133,7 @@
 					Command="{Binding CheckIn}" 
 					IsVisible="{Binding isCheckIn}" 
 					VerticalOptions="End" 
-					Text="CHECK IN">
+					Text="EMBARQUEI">
 
 					<Button.WidthRequest>
 						<OnIdiom x:TypeArguments="x:Double">
@@ -155,7 +154,7 @@
 					Command="{Binding CheckOut}" 
 					IsVisible="{Binding isCheckOut}" 
 					VerticalOptions="End" 
-					Text="CHECK OUT">
+					Text="DESEMBARQUEI">
 
 					<Button.WidthRequest>
 						<OnIdiom x:TypeArguments="x:Double">

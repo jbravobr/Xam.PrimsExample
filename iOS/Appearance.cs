@@ -1,4 +1,4 @@
-﻿using Xamarin.Forms.Platform.iOS;
+using Xamarin.Forms.Platform.iOS;
 using UIKit;
 
 namespace IcatuzinhoApp.iOS
@@ -10,8 +10,8 @@ namespace IcatuzinhoApp.iOS
 
 		public static void Configure()
 		{
-            UINavigationBar.Appearance.BarTintColor = AccentColor;
-			UINavigationBar.Appearance.TintColor = TextColor;
+			UINavigationBar.Appearance.BarTintColor = AccentColor;
+    		UINavigationBar.Appearance.TintColor = TextColor;
 			UINavigationBar.Appearance.TitleTextAttributes = new UIStringAttributes {
 				ForegroundColor = TextColor,
 			};
@@ -34,10 +34,10 @@ namespace IcatuzinhoApp.iOS
 			UIButton.Appearance.TintColor = AccentColor;
 			UIButton.Appearance.SetTitleColor (AccentColor, UIControlState.Normal);
 
-            UITabBar.Appearance.TintColor = AccentColor;
-            UITabBar.Appearance.BarTintColor = AccentColor;
-			//UITabBar.Appearance.BackgroundColor = UIColor.FromRGB(30,30,30);
+			UITabBar.Appearance.TintColor = AccentColor;
+			//UITabBar.Appearance.BarTintColor = AccentColor;
+			//UITabBar.Appearance.BackgroundImage = new UIImage ();
+			//UITabBar.Appearance.BackgroundColor = AccentColor;
 		}
 	}
 }
-

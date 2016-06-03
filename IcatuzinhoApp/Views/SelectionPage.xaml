@@ -29,26 +29,6 @@
 
 	<NavigationPage>
 		<x:Arguments>
-			<local:TravelPage />
-		</x:Arguments>
-		<NavigationPage.Icon>
-			<OnPlatform x:TypeArguments="FileImageSource">
-				<OnPlatform.iOS>
-					bus-full.png
-				</OnPlatform.iOS>
-			</OnPlatform>
-		</NavigationPage.Icon>    
-		<NavigationPage.Title>
-			<OnPlatform x:TypeArguments="x:String">
-				<OnPlatform.Android>
-					Itinerário
-				</OnPlatform.Android>
-			</OnPlatform>
-		</NavigationPage.Title>
-	</NavigationPage>
-
-	<NavigationPage>
-		<x:Arguments>
             <local:SchedulePage />
         </x:Arguments>
 		<NavigationPage.Icon>
@@ -62,6 +42,26 @@
 			<OnPlatform x:TypeArguments="x:String">
 				<OnPlatform.Android>
 					Horários
+				</OnPlatform.Android>
+			</OnPlatform>
+		</NavigationPage.Title>
+	</NavigationPage>
+
+	<NavigationPage>
+		<x:Arguments>
+			<local:TravelPage />
+		</x:Arguments>
+		<NavigationPage.Icon>
+			<OnPlatform x:TypeArguments="FileImageSource">
+				<OnPlatform.iOS>
+					bus-full.png
+				</OnPlatform.iOS>
+			</OnPlatform>
+		</NavigationPage.Icon>    
+		<NavigationPage.Title>
+			<OnPlatform x:TypeArguments="x:String">
+				<OnPlatform.Android>
+					Itinerário
 				</OnPlatform.Android>
 			</OnPlatform>
 		</NavigationPage.Title>
