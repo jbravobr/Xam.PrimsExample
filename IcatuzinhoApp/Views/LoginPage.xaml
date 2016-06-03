@@ -7,7 +7,8 @@
     prism:ViewModelLocator.AutowireViewModel="True"
 	xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp" 
 	xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
-	BackgroundColor="{ StaticResource AccentColor }">
+	BackgroundColor="{ StaticResource AccentColor }"
+	Title="Login">
 
 	<ContentPage.Resources>
 		<ResourceDictionary>
@@ -23,7 +24,7 @@
 					Source="{ StaticResource LoginBackgroundImage }" 
 					IsOpaque="false" />
 
-					<Grid>
+				<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="350" />
 							<RowDefinition Height="Auto" />
@@ -42,13 +43,11 @@
 							<Image Source="{StaticResource BrandImage}" />
 						</StackLayout>
 
-						<Grid Padding="40" Grid.Row="1">
+						<Grid Margin="30" RowSpacing="5" Grid.Row="1">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
-								<RowDefinition Height="29" />
-								<RowDefinition Height="*" />
-								<RowDefinition Height="14" />
-								<RowDefinition Height="*" />
+								<RowDefinition Height="30" />
+								<RowDefinition Height="30" />
 							</Grid.RowDefinitions>
 
 								<Entry
@@ -70,7 +69,7 @@
 									Style="{DynamicResource IcatuLoginEntryStyle}"
 									IsEnabled="{Binding PasswordIsEnabled}" />
 
-									<Button 
+								<Button 
 										Grid.Row="4"
 										Style="{DynamicResource ButtonEntrar}" 
 										Command="{Binding Confirm}" 

@@ -140,7 +140,7 @@ namespace IcatuzinhoApp
                     {
                         try
                         {
-                            await _navigationService.Navigate("RegisterPage", null, false);
+                            await _navigationService.Navigate(new Uri("RegisterPage", UriKind.Relative));
                         }
                         catch (Exception ex)
                         {

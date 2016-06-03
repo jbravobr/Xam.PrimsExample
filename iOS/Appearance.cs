@@ -10,7 +10,7 @@ namespace IcatuzinhoApp.iOS
 
 		public static void Configure()
 		{
-			UINavigationBar.Appearance.BarTintColor = UIColor.FromRGB(30,30,30);
+            UINavigationBar.Appearance.BarTintColor = AccentColor;
 			UINavigationBar.Appearance.TintColor = TextColor;
 			UINavigationBar.Appearance.TitleTextAttributes = new UIStringAttributes {
 				ForegroundColor = TextColor,
@@ -34,9 +34,9 @@ namespace IcatuzinhoApp.iOS
 			UIButton.Appearance.TintColor = AccentColor;
 			UIButton.Appearance.SetTitleColor (AccentColor, UIControlState.Normal);
 
-			UITabBar.Appearance.TintColor = UIColor.White;
-			UITabBar.Appearance.BarTintColor = UIColor.Black;
-			UITabBar.Appearance.BackgroundColor = UIColor.FromRGB(30,30,30);
+            UITabBar.Appearance.TintColor = AccentColor;
+            UITabBar.Appearance.BarTintColor = AccentColor;
+			//UITabBar.Appearance.BackgroundColor = UIColor.FromRGB(30,30,30);
 		}
 	}
 }

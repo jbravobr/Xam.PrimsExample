@@ -22,7 +22,7 @@ namespace IcatuzinhoApp
                 _container = IoCconfiguration.Init();
                 MapLoaded = false;
 
-                NavigationService.Navigate("LoginPage", null, true, true);
+                NavigationService.Navigate("NavPage", useModalNavigation: false);
             }
             catch (System.Exception ex)
             {
@@ -72,6 +72,7 @@ namespace IcatuzinhoApp
                 Container.RegisterTypeForNavigation<TravelPage>();
                 Container.RegisterTypeForNavigation<SelectionPage>();
                 Container.RegisterTypeForNavigation<RegisterPage>();
+                Container.RegisterTypeForNavigation<NavPage>();
 
                 // 3rd Party Controlls
                 Container.RegisterInstance(Acr.UserDialogs.UserDialogs.Instance);

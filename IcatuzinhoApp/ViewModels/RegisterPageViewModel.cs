@@ -6,61 +6,65 @@ using Prism.Navigation;
 
 namespace IcatuzinhoApp
 {
-	public class RegisterPageViewModel : BasePageViewModel
-	{
-		readonly IUserService _userService;
-		//readonly IUserDialogs _userDialogs;
-		readonly INavigationService _navigationService;
+    public class RegisterPageViewModel : BasePageViewModel
+    {
+        readonly IUserService _userService;
+        readonly INavigationService _navigationService;
 
-		public string Name { get; set; }
-		public string Email { get; set; }
-		public string Password { get; set; }
-		public DelegateCommand NavigateCommand { get; set; }
+        public string Name { get; set; }
 
-		public RegisterPageViewModel (IUserService userService, /*IUserDialogs userDialogs,*/ INavigationService navigationService)
-		{
-			//_userDialogs = userDialogs;
-			_userService = userService;
-			_navigationService = navigationService;
+        public string Email { get; set; }
 
-			NavigateCommand = new DelegateCommand(Navigate);
-		}
+        public string Password { get; set; }
 
-		public Command Cadastrar
-		{
-			get
-			{
-				return new Command (async (obj) => 
-					{
-						if (!string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Email)
-							&& !string.IsNullOrWhiteSpace(Password) && ValidateEmail())
-						{
-							var result =_userService.Insert(new User {Email = Email, Name = Name, Password = Password});
+        public DelegateCommand NavigateCommand { get; set; }
 
-							if (result)
-								await NavigateCommand.Execute();
-						}
-					});
-			}
-		}
+        public RegisterPageViewModel(IUserService userService, INavigationService navigationService)
+        {
+            _userService = userService;
+            _navigationService = navigationService;
 
-		private bool ValidateEmail()
-		{
-			return Email.Split('@')[1].Contains("icatuseguros.com.br");
-		}
+            NavigateCommand = new DelegateCommand(Navigate);
+        }
 
-		async void Navigate()
-		{
-			try
-			{
-				await _navigationService.Navigate("RegisterConfirmationPage", null, true);
-			}
-			catch (Exception ex)
-			{
-				UIFunctions.ShowErrorMessageToUI();
-				base.SendToInsights(ex);
-			}
-		}
-	}
+        public Command Cadastrar
+        {
+            get
+            {
+                return new Command(async (obj) =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Email)
+                        && !string.IsNullOrWhiteSpace(Password) && ValidateEmail())
+                        {
+                            var result = _userService.Insert(new User
+                                {
+                                    Email = Email, Name = Name, Password = Password
+                                });
+
+                            if (result)
+                                await NavigateCommand.Execute();
+                        }
+                    });
+            }
+        }
+
+        private bool ValidateEmail()
+        {
+            return Email.Split('@')[1].Contains("icatuseguros.com.br");
+        }
+
+        async void Navigate()
+        {
+            try
+            {
+                await _navigationService.Navigate("RegisterConfirmationPage", null, true);
+            }
+            catch (Exception ex)
+            {
+                UIFunctions.ShowErrorMessageToUI();
+                base.SendToInsights(ex);
+            }
+        }
+    }
 }
 

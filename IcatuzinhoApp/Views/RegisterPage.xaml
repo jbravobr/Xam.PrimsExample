@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<NavigationPage 
+<ContentPage 
 	xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	x:Class="IcatuzinhoApp.RegisterPage"
@@ -10,8 +10,7 @@
 	Title="Cadastro"
 	BackgroundColor="{ StaticResource AccentColor }">
 
-	<x:Arguments>
-		<Page>
+	<ContentPage.Content>
 			<ScrollView>
 				<StackLayout Spacing="30" Margin="30">
 					<StackLayout.Children>
@@ -32,11 +31,22 @@
 
 						<Button Text="Cadastrar" 
 								Style="{DynamicResource ButtonEntrar}"
-								Command="{ Binding Cadastrar }" />
+								Command="{ Binding Cadastrar }" >
+										<Button.WidthRequest>
+											<OnIdiom x:TypeArguments="x:Double">
+												<OnIdiom.Tablet>400</OnIdiom.Tablet>
+											</OnIdiom>
+										</Button.WidthRequest>
+										<Button.HeightRequest>
+											<OnIdiom x:TypeArguments="x:Double">
+												<OnIdiom.Tablet>70</OnIdiom.Tablet>
+												<OnIdiom.Phone>50</OnIdiom.Phone>
+											</OnIdiom>
+										</Button.HeightRequest>
+						</Button>
 					</StackLayout.Children>
 				</StackLayout>
 			</ScrollView>
-		</Page>
-	</x:Arguments>
-</NavigationPage>
+	</ContentPage.Content>
+</ContentPage>
 
