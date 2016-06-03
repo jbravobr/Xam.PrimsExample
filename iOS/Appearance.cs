@@ -1,4 +1,4 @@
-﻿using Xamarin.Forms.Platform.iOS;
+using Xamarin.Forms.Platform.iOS;
 using UIKit;
 
 namespace IcatuzinhoApp.iOS
@@ -11,7 +11,7 @@ namespace IcatuzinhoApp.iOS
 		public static void Configure()
 		{
 			UINavigationBar.Appearance.BarTintColor = AccentColor;
-			UINavigationBar.Appearance.TintColor = TextColor;
+            		UINavigationBar.Appearance.TintColor = TextColor;
 			UINavigationBar.Appearance.TitleTextAttributes = new UIStringAttributes {
 				ForegroundColor = TextColor,
 			};

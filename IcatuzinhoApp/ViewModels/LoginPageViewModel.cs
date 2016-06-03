@@ -42,14 +42,14 @@ namespace IcatuzinhoApp
         public DelegateCommand NavigateCommand { get; set; }
 
         public LoginPageViewModel(IUserService userService,
-                              IScheduleService scheduleService,
-                              IStationService stationService,
-                              ITravelService travelService,
-                              IWeatherService weatherService,
-                              IItineraryService itineraryService,
-                              IAuthenticationService authService,
-                              IUserDialogs userDialogs,
-                              INavigationService navigationService)
+                                  IScheduleService scheduleService,
+                                  IStationService stationService,
+                                  ITravelService travelService,
+                                  IWeatherService weatherService,
+                                  IItineraryService itineraryService,
+                                  IAuthenticationService authService,
+                                  IUserDialogs userDialogs,
+                                  INavigationService navigationService)
         {
             _userService = userService;
             _scheduleService = scheduleService;
@@ -103,8 +103,8 @@ namespace IcatuzinhoApp
                         await _weatherService.GetWeather();
 
                         Insights.Identify(App.UserAuthenticated.Email,
-                                             Insights.Traits.GuestIdentifier,
-                                             App.UserAuthenticated.Email);
+                            Insights.Traits.GuestIdentifier,
+                            App.UserAuthenticated.Email);
 
                         Tracks.TrackLoginInformation();
 
@@ -141,7 +141,15 @@ namespace IcatuzinhoApp
             {
                 return new Command(async (obj) =>
                     {
-                        await _userDialogs.AlertAsync("Novo cadastro","Clicou!");
+                        try
+                        {
+                            await _navigationService.Navigate(new Uri("RegisterPage", UriKind.Relative));
+                        }
+                        catch (Exception ex)
+                        {
+                            UIFunctions.ShowErrorMessageToUI();
+                            base.SendToInsights(ex);
+                        }
                     });
             }
         }
@@ -152,7 +160,7 @@ namespace IcatuzinhoApp
             {
                 return new Command(async (obj) =>
                     {
-                        await _userDialogs.AlertAsync("Recuperar Senha","Clicou!");
+                        await _userDialogs.AlertAsync("Recuperar Senha", "Clicou!");
                     });
             }
         }
@@ -162,40 +170,40 @@ namespace IcatuzinhoApp
             get
             {
                 return new Command(async (obj) =>
-               {
-                   try
-                   {
-                       _userDialogs.ShowLoading("Carregando");
+                    {
+                        try
+                        {
+                            _userDialogs.ShowLoading("Carregando");
 
-                       // Com token
-                       var userAuthenticated = await _authService.AuthenticationWithFormUrlEncoded(Email, Password, false);
+                            // Com token
+                            var userAuthenticated = await _authService.AuthenticationWithFormUrlEncoded(Email, Password, false);
 
-                       if (userAuthenticated)
-                       {
-                           await _userService.Login(Email, Password);
-                           await _stationService.GetAllStations();
-                           await _scheduleService.GetAllSchedules();
-                           await InsertTravels();
-                           await _weatherService.GetWeather();
-                           await _itineraryService.GetAllItineraries();
-                           await _navigationService.Navigate("SelectionPage", null, true);
-                       }
-                       else
-                       {
-                           _userDialogs.HideLoading();
-                           UIFunctions.ShowToastErrorMessageToUI("Usuário/Senha inválidos",
-                                                                   Device.OS == TargetPlatform.iOS ?
+                            if (userAuthenticated)
+                            {
+                                await _userService.Login(Email, Password);
+                                await _stationService.GetAllStations();
+                                await _scheduleService.GetAllSchedules();
+                                await InsertTravels();
+                                await _weatherService.GetWeather();
+                                await _itineraryService.GetAllItineraries();
+                                await _navigationService.Navigate("SelectionPage", null, true);
+                            }
+                            else
+                            {
+                                _userDialogs.HideLoading();
+                                UIFunctions.ShowToastErrorMessageToUI("Usuário/Senha inválidos",
+                                    Device.OS == TargetPlatform.iOS ?
                                                                    6000 : 3000);
-                       }
-                   }
-                   catch (Exception ex)
-                   {
-                       _userDialogs.HideLoading();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _userDialogs.HideLoading();
 
-                       base.SendToInsights(ex);
-                       UIFunctions.ShowErrorMessageToUI();
-                   }
-               });
+                            base.SendToInsights(ex);
+                            UIFunctions.ShowErrorMessageToUI();
+                        }
+                    });
             }
         }
 

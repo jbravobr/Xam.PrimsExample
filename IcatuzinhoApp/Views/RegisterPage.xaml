@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+	xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	x:Class="IcatuzinhoApp.RegisterPage"
+	xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True"
+	xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp" 
+	xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
+	Title="Cadastro"
+	BackgroundColor="{ StaticResource AccentColor }">
+
+	<ContentPage.Content>
+			<ScrollView>
+				<StackLayout Spacing="30" Margin="30">
+					<StackLayout.Children>
+						<Entry
+							Placeholder="Nome"
+							Style="{DynamicResource IcatuLoginEntryStyle}"
+							Text="{ Binding Nome }" />
+
+						<Entry
+							Placeholder="E-mail" 
+							Style="{DynamicResource IcatuLoginEntryStyle}"
+							Text="{ Binding Email }" />
+
+						<Entry
+							Placeholder="Senha"
+							Style="{DynamicResource IcatuLoginEntryStyle}"
+							Text="{ Binding Senha}" />
+
+						<Button Text="Cadastrar" 
+								Style="{DynamicResource ButtonEntrar}"
+								Command="{ Binding Cadastrar }" >
+										<Button.WidthRequest>
+											<OnIdiom x:TypeArguments="x:Double">
+												<OnIdiom.Tablet>400</OnIdiom.Tablet>
+											</OnIdiom>
+										</Button.WidthRequest>
+										<Button.HeightRequest>
+											<OnIdiom x:TypeArguments="x:Double">
+												<OnIdiom.Tablet>70</OnIdiom.Tablet>
+												<OnIdiom.Phone>50</OnIdiom.Phone>
+											</OnIdiom>
+										</Button.HeightRequest>
+						</Button>
+					</StackLayout.Children>
+				</StackLayout>
+			</ScrollView>
+	</ContentPage.Content>
+</ContentPage>
+

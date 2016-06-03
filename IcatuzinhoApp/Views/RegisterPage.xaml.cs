@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace IcatuzinhoApp
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class RegisterPage : ContentPage
     {
         protected override void OnAppearing()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
+            //NavigationPage.SetBackButtonTitle(this, "");
             base.OnAppearing();
         }
 
-        public LoginPage()
+        public RegisterPage()
         {
             InitializeComponent();
         }
