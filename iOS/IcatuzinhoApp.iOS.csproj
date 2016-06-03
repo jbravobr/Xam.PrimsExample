@@ -230,15 +230,12 @@
     <BundleResource Include="Resources\Logo.png" />
     <BundleResource Include="Resources\Logo%402x.png" />
     <BundleResource Include="Resources\Logo%403x.png" />
-<<<<<<< HEAD
     <BundleResource Include="Resources\bus-full.png" />
     <BundleResource Include="Resources\calendar.png" />
     <BundleResource Include="Resources\house-full.png" />
-=======
     <BundleResource Include="Resources\Line.png" />
     <BundleResource Include="Resources\Line%402x.png" />
     <BundleResource Include="Resources\Line%403x.png" />
->>>>>>> origin/dev_rodrigo_realm
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
