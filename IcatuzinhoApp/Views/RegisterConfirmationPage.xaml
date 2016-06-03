@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+	xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	x:Class="IcatuzinhoApp.RegisterConfirmationPage"
+	xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True"
+	xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp" 
+	xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
+	Title="Validar Cadastro"
+	BackgroundColor="{ StaticResource AccentColor }">
+
+	<ContentPage.Content>
+			<ScrollView>
+				<StackLayout Spacing="30" Margin="30">
+					<StackLayout.Children>
+						<Label 
+							Text="Creativity can provide all that 
+								  which is required to make your advertising an 
+								  attractive and effective one. Getting your product 
+								  endorsed with an increase in its popularity figure 
+								  has become quite easy these days with the availability 
+								  of several advertising mediums in market. Among them advertising
+								  blimps and balloons can bring your brand interesting visual advertising
+								  without much cost. They are capable to grab maximum attention of the audience,
+								  especially if the blimp is visually crafted and appealing to look from a great
+								  distance."
+							LineBreakMode="WordWrap"
+							TextColor="White" />
+
+						<Entry
+							Placeholder="Código de verificação"
+							Style="{DynamicResource IcatuLoginEntryStyle}"
+							Text="{ Binding VerificationCode}" />
+
+						<Button Text="Validar" 
+								Style="{DynamicResource ButtonEntrar}"
+								Command="{ Binding Validate }" >
+										<Button.WidthRequest>
+											<OnIdiom x:TypeArguments="x:Double">
+												<OnIdiom.Tablet>400</OnIdiom.Tablet>
+											</OnIdiom>
+										</Button.WidthRequest>
+										<Button.HeightRequest>
+											<OnIdiom x:TypeArguments="x:Double">
+												<OnIdiom.Tablet>70</OnIdiom.Tablet>
+												<OnIdiom.Phone>50</OnIdiom.Phone>
+											</OnIdiom>
+										</Button.HeightRequest>
+						</Button>
+
+						<Button 
+							Text="Reenviar código" 
+							FontSize="16" 
+							HorizontalOptions="CenterAndExpand" 
+							VerticalOptions="CenterAndExpand" 
+							FontFamily="{x:Static artina:FontAwesome.FontName}" 
+							TextColor="{ StaticResource EntryPlaceholderColor }"
+							BackgroundColor="Transparent"
+							Command="{Binding Resend}" />
+					</StackLayout.Children>
+				</StackLayout>
+			</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

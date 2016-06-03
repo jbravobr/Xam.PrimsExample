@@ -27,7 +27,7 @@ namespace IcatuzinhoApp
             NavigateCommand = new DelegateCommand(Navigate);
         }
 
-        public Command Cadastrar
+        public Command Register
         {
             get
             {

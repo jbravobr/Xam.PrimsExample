@@ -157,7 +157,7 @@ namespace IcatuzinhoApp
             {
                 return new Command(async (obj) =>
                     {
-                        await _userDialogs.AlertAsync("Recuperar Senha", "Clicou!");
+                        await _navigationService.Navigate(new Uri("RegisterConfirmationPage", UriKind.Relative));
                     });
             }
         }

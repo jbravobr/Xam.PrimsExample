@@ -17,7 +17,7 @@
 						<Entry
 							Placeholder="Nome"
 							Style="{DynamicResource IcatuLoginEntryStyle}"
-							Text="{ Binding Nome }" />
+							Text="{ Binding Name }" />
 
 						<Entry
 							Placeholder="E-mail" 
@@ -27,11 +27,11 @@
 						<Entry
 							Placeholder="Senha"
 							Style="{DynamicResource IcatuLoginEntryStyle}"
-							Text="{ Binding Senha}" />
+							Text="{ Binding Password}" />
 
 						<Button Text="Cadastrar" 
 								Style="{DynamicResource ButtonEntrar}"
-								Command="{ Binding Cadastrar }" >
+								Command="{ Binding Register }" >
 										<Button.WidthRequest>
 											<OnIdiom x:TypeArguments="x:Double">
 												<OnIdiom.Tablet>400</OnIdiom.Tablet>
