@@ -17,126 +17,140 @@
 	<ContentPage.Content>
 
 		<!-- MAIN CONTAINER -->
+		<ScrollView Orientation="Vertical">
 			<Grid>
-
 				<Image 
 					Source="{ StaticResource LoginBackgroundImage }" 
 					IsOpaque="false" />
 
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="340" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-
-					<StackLayout 
-						VerticalOptions="FillAndExpand" 
-						Grid.Row="0" >
-
-						<StackLayout.Padding>
-							<OnPlatform x:TypeArguments="Thickness">
-								<OnPlatform.iOS>20, 60, 20, 20</OnPlatform.iOS>
-								<OnPlatform.Android>20, 80, 20, 20</OnPlatform.Android>
-							</OnPlatform>
-						</StackLayout.Padding>
-						<Image Source="{StaticResource BrandImage}" />
-					</StackLayout>
-
-					<Grid Padding="40" 
-						Grid.Row="1">
+					<Grid>
 						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="12" />
+							<RowDefinition Height="350" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
-							<Entry
-								Grid.Row="0"
-								x:Name="entryEmail"
-								Placeholder="E-mail" 
-								Keyboard="Email" 
-								Text="{Binding Email}" 
-								Style="{DynamicResource ArtinaLoginEntryStyle}"
-								IsEnabled="{Binding EmailIsEnabled}" />
+						<StackLayout 
+							VerticalOptions="FillAndExpand" 
+							Grid.Row="0" >
 
-							<Entry 
-								Grid.Row="2"
-								x:Name="entryPassword" 
-								Placeholder="Senha" 
-								Keyboard="Default" 
-								Text="{Binding Password}" 
-								IsPassword="true" 
-								Style="{DynamicResource ArtinaLoginEntryStyle}"
-								IsEnabled="{Binding PasswordIsEnabled}" />
+							<StackLayout.Padding>
+								<OnPlatform x:TypeArguments="Thickness">
+									<OnPlatform.iOS>20, 60, 20, 20</OnPlatform.iOS>
+									<OnPlatform.Android>20, 80, 20, 20</OnPlatform.Android>
+								</OnPlatform>
+							</StackLayout.Padding>
+							<Image Source="{StaticResource BrandImage}" />
+						</StackLayout>
 
-					</Grid>
+						<Grid Padding="40" Grid.Row="1">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="29" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="14" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+								<Entry
+									Grid.Row="0"
+									x:Name="entryEmail"
+									Placeholder="E-mail" 
+									Keyboard="Email" 
+									Text="{Binding Email}"
+									Style="{DynamicResource IcatuLoginEntryStyle}"
+									IsEnabled="{Binding EmailIsEnabled}" />
+
+								<Entry 
+									Grid.Row="2"
+									x:Name="entryPassword" 
+									Placeholder="Senha" 
+									Keyboard="Default" 
+									Text="{Binding Password}" 
+									IsPassword="true" 
+									Style="{DynamicResource IcatuLoginEntryStyle}"
+									IsEnabled="{Binding PasswordIsEnabled}" />
+
+									<Button 
+										Grid.Row="4"
+										Style="{DynamicResource ButtonEntrar}" 
+										Command="{Binding Confirm}" 
+										Text="Entrar" 
+										IsVisible="true" 
+										IsEnabled="true">
+										<Button.Triggers>
+												<MultiTrigger TargetType="Button">
+				                                    <MultiTrigger.Conditions>
+				                                        <BindingCondition Binding="{Binding Source={x:Reference entryEmail},
+				                                                                   Path=Text.Length,
+																	               Converter={StaticResource dataHasBeenEntered}}"
+				                                                               Value="true" />
+				                                        <BindingCondition Binding="{Binding Source={x:Reference entryPassword},
+				                                                                   Path=Text.Length,
+																	               Converter={StaticResource dataHasBeenEntered}}"
+				                                                               Value="true" />
+				                                        </MultiTrigger.Conditions>
+				        									 <Setter Property="IsVisible" Value="True" />
+				                                             <Setter Property="IsEnabled" Value="True" />
+				                                    </MultiTrigger>
+											</Button.Triggers>
+										<Button.WidthRequest>
+											<OnIdiom x:TypeArguments="x:Double">
+												<OnIdiom.Tablet>400</OnIdiom.Tablet>
+											</OnIdiom>
+										</Button.WidthRequest>
+										<Button.HeightRequest>
+											<OnIdiom x:TypeArguments="x:Double">
+												<OnIdiom.Tablet>70</OnIdiom.Tablet>
+												<OnIdiom.Phone>50</OnIdiom.Phone>
+											</OnIdiom>
+										</Button.HeightRequest>
+									</Button>
+						</Grid>
 				</Grid>
 
-				<StackLayout Padding="30,490,30,5">
-					<Button 
-						Style="{DynamicResource ButtonEntrar}" 
-						Command="{Binding Confirm}" 
-						Text="Entrar" 
-						IsVisible="true" 
-						IsEnabled="true">
-						<Button.Triggers>
-								<MultiTrigger TargetType="Button">
-                                    <MultiTrigger.Conditions>
-                                        <BindingCondition Binding="{Binding Source={x:Reference entryEmail},
-                                                                   Path=Text.Length,
-													               Converter={StaticResource dataHasBeenEntered}}"
-                                                               Value="true" />
-                                        <BindingCondition Binding="{Binding Source={x:Reference entryPassword},
-                                                                   Path=Text.Length,
-													               Converter={StaticResource dataHasBeenEntered}}"
-                                                               Value="true" />
-                                        </MultiTrigger.Conditions>
-        									 <Setter Property="IsVisible" Value="True" />
-                                             <Setter Property="IsEnabled" Value="True" />
-                                    </MultiTrigger>
-							</Button.Triggers>
-						<Button.WidthRequest>
-							<OnIdiom x:TypeArguments="x:Double">
-								<OnIdiom.Tablet>400</OnIdiom.Tablet>
-							</OnIdiom>
-						</Button.WidthRequest>
-						<Button.HeightRequest>
-							<OnIdiom x:TypeArguments="x:Double">
-								<OnIdiom.Tablet>70</OnIdiom.Tablet>
-								<OnIdiom.Phone>50</OnIdiom.Phone>
-							</OnIdiom>
-						</Button.HeightRequest>
-					</Button>
-			</StackLayout>
-
 				<Grid 
-					VerticalOptions="EndAndExpand"
+					VerticalOptions="End"
 					HeightRequest="45"
+					Padding="10,0,10,0"
 					BackgroundColor="{StaticResource ButtonGray}">
 
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<Label 
+					<Button 
 						Text="Cadastrar" 
 						FontSize="16" 
-						HorizontalOptions="Center" 
-						VerticalOptions="Center" 
+						HorizontalOptions="CenterAndExpand" 
+						VerticalOptions="CenterAndExpand" 
 						FontFamily="{x:Static artina:FontAwesome.FontName}" 
-						TextColor="White" Grid.Column="0" />
+						TextColor="White"
+						BackgroundColor="Transparent"
+						Command="{Binding Cadastrar}"
+						Grid.Column="0" />
 
-					<Label 
+					<Image 
+						Source="{ StaticResource LineIcon}" 
+						VerticalOptions="CenterAndExpand"  
+						Grid.Column="1" />
+
+					<Button 
 						Text="Recuperar Senha" 
-						FontSize="16" 
-						HorizontalOptions="Center" 
-						VerticalOptions="Center" 
+						FontSize="16"
+						Command="{Binding Recuperar}"
+						HorizontalOptions="CenterAndExpand"
+						VerticalOptions="CenterAndExpand"
 						FontFamily="{x:Static artina:FontAwesome.FontName}" 
-						TextColor="White" Grid.Column="1" />
+						TextColor="White" 
+						Grid.Column="2" />
 
 				</Grid>
+
 			</Grid>
+		</ScrollView>
+			
 
 	</ContentPage.Content>
 </ContentPage>

@@ -47,6 +47,7 @@
 			<!-- Cor das linhas de bordas dos controles tipo Entry -->
 			<Color x:Key="EntryBorderLineColor">#1F557B</Color>
 			<!-- STATIC IMAGES -->
+			<FileImageSource x:Key="LineIcon">Line.png</FileImageSource>
 			<FileImageSource x:Key="HamburguerIcon">hamburguer_icon.png</FileImageSource>
 			<FileImageSource x:Key="WelcomeBackgroundImage">welcome_bg.jpg</FileImageSource>
 			<FileImageSource x:Key="BrandImage">Logo.png</FileImageSource>
