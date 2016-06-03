@@ -11,7 +11,7 @@ namespace IcatuzinhoApp.iOS
 		public static void Configure()
 		{
 			UINavigationBar.Appearance.BarTintColor = AccentColor;
-            		UINavigationBar.Appearance.TintColor = TextColor;
+    		UINavigationBar.Appearance.TintColor = TextColor;
 			UINavigationBar.Appearance.TitleTextAttributes = new UIStringAttributes {
 				ForegroundColor = TextColor,
 			};
@@ -36,8 +36,8 @@ namespace IcatuzinhoApp.iOS
 
 			UITabBar.Appearance.TintColor = AccentColor;
 			//UITabBar.Appearance.BarTintColor = AccentColor;
-			UITabBar.Appearance.BackgroundImage = new UIImage ();
-			UITabBar.Appearance.BackgroundColor = AccentColor;
+			//UITabBar.Appearance.BackgroundImage = new UIImage ();
+			//UITabBar.Appearance.BackgroundColor = AccentColor;
 		}
 	}
 }
