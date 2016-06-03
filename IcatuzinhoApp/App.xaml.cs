@@ -9,7 +9,9 @@ namespace IcatuzinhoApp
     public partial class App : PrismApplication
     {
         public static User UserAuthenticated { get; set; }
+
         public static UnityContainer _container { get; private set; }
+
         public static bool MapLoaded { get; set; }
 
         protected override void OnInitialized()
@@ -20,7 +22,7 @@ namespace IcatuzinhoApp
                 _container = IoCconfiguration.Init();
                 MapLoaded = false;
 
-                NavigationService.Navigate("LoginPage");
+                NavigationService.Navigate("LoginPage", null, true, true);
             }
             catch (System.Exception ex)
             {
@@ -69,6 +71,7 @@ namespace IcatuzinhoApp
                 Container.RegisterTypeForNavigation<SchedulePage>();
                 Container.RegisterTypeForNavigation<TravelPage>();
                 Container.RegisterTypeForNavigation<SelectionPage>();
+                Container.RegisterTypeForNavigation<RegisterPage>();
 
                 // 3rd Party Controlls
                 Container.RegisterInstance(Acr.UserDialogs.UserDialogs.Instance);
