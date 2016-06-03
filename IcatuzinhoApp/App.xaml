@@ -37,7 +37,7 @@
 			<!-- Cor do botão do login -->
 			<Color x:Key="ButtonGray">#84888B</Color>
 			<!-- Cor do botão de EMBARQUEI -->
-			<Color x:Key="ButtonEmbarquei">#84888B</Color>
+			<Color x:Key="ButtonEmbarquei">#119734</Color>
 			<!-- Cor do botão de DESEMBARQUEI -->
 			<Color x:Key="ButtonDesembarquei">#FF4040</Color>
 			<!-- Cor do botão BRANCO -->
@@ -267,12 +267,12 @@
 				<Setter Property="HeightRequest" Value="{StaticResource BaseButtonHeight}" />
 			</Style>
 			<Style x:Key="SecondaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource RoundedButtonStyle}">
-				<Setter Property="BackgroundColor" Value="{StaticResource ComplementGreen}" />
+				<Setter Property="BackgroundColor" Value="{StaticResource ButtonEmbarquei}" />
 				<Setter Property="TextColor" Value="{StaticResource LabelButtonColor}" />
 				<Setter Property="HeightRequest" Value="{StaticResource BaseButtonHeight}" />
 			</Style>
 			<Style x:Key="TertiaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource RoundedButtonStyle}">
-				<Setter Property="BackgroundColor" Value="{StaticResource ComplementRed}" />
+				<Setter Property="BackgroundColor" Value="{StaticResource ButtonDesembarquei}" />
 				<Setter Property="TextColor" Value="{StaticResource LabelButtonColor}" />
 				<Setter Property="HeightRequest" Value="{StaticResource BaseButtonHeight}" />
 			</Style>
@@ -439,6 +439,13 @@
 						<OnPlatform x:TypeArguments="x:Double" Android="56" iOS="66" />
 					</Setter.Value>
 				</Setter>
+			</Style>
+
+			<Style x:Key="ToolbarCustomizedStyle" TargetType="Grid">
+				<Setter Property="BackgroundColor" Value="{StaticResource AccentColor}" />
+				<Setter Property="Opacity" Value="0.5" />
+				<Setter Property="HeightRequest" Value="45" />
+				<Setter Property="ColumnSpacing" Value="0" />
 			</Style>
 		</ResourceDictionary>
 	</Application.Resources>

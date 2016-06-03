@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace IcatuzinhoApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SelectionPage : TabbedPage
+	public partial class SelectionPage : TabbedPage
     {
         public SelectionPage()
         {

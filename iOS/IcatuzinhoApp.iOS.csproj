@@ -232,6 +232,9 @@
     <BundleResource Include="Resources\Logo.png" />
     <BundleResource Include="Resources\Logo%402x.png" />
     <BundleResource Include="Resources\Logo%403x.png" />
+    <BundleResource Include="Resources\bus-full.png" />
+    <BundleResource Include="Resources\calendar.png" />
+    <BundleResource Include="Resources\house-full.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />

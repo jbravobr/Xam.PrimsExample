@@ -1245,32 +1245,35 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f06005a
 			public const int InverseTextColor = 2131099738;
 			
-			// aapt resource value: 0x7f06005e
-			public const int abc_background_cache_hint_selector_material_dark = 2131099742;
+			// aapt resource value: 0x7f06005b
+			public const int TabSelectedColor = 2131099739;
 			
 			// aapt resource value: 0x7f06005f
-			public const int abc_background_cache_hint_selector_material_light = 2131099743;
+			public const int abc_background_cache_hint_selector_material_dark = 2131099743;
 			
 			// aapt resource value: 0x7f060060
-			public const int abc_color_highlight_material = 2131099744;
+			public const int abc_background_cache_hint_selector_material_light = 2131099744;
+			
+			// aapt resource value: 0x7f060061
+			public const int abc_color_highlight_material = 2131099745;
 			
 			// aapt resource value: 0x7f06001b
 			public const int abc_input_method_navigation_guard = 2131099675;
 			
-			// aapt resource value: 0x7f060061
-			public const int abc_primary_text_disable_only_material_dark = 2131099745;
-			
 			// aapt resource value: 0x7f060062
-			public const int abc_primary_text_disable_only_material_light = 2131099746;
+			public const int abc_primary_text_disable_only_material_dark = 2131099746;
 			
 			// aapt resource value: 0x7f060063
-			public const int abc_primary_text_material_dark = 2131099747;
+			public const int abc_primary_text_disable_only_material_light = 2131099747;
 			
 			// aapt resource value: 0x7f060064
-			public const int abc_primary_text_material_light = 2131099748;
+			public const int abc_primary_text_material_dark = 2131099748;
 			
 			// aapt resource value: 0x7f060065
-			public const int abc_search_url_text = 2131099749;
+			public const int abc_primary_text_material_light = 2131099749;
+			
+			// aapt resource value: 0x7f060066
+			public const int abc_search_url_text = 2131099750;
 			
 			// aapt resource value: 0x7f06001c
 			public const int abc_search_url_text_normal = 2131099676;
@@ -1281,11 +1284,11 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f06001e
 			public const int abc_search_url_text_selected = 2131099678;
 			
-			// aapt resource value: 0x7f060066
-			public const int abc_secondary_text_material_dark = 2131099750;
-			
 			// aapt resource value: 0x7f060067
-			public const int abc_secondary_text_material_light = 2131099751;
+			public const int abc_secondary_text_material_dark = 2131099751;
+			
+			// aapt resource value: 0x7f060068
+			public const int abc_secondary_text_material_light = 2131099752;
 			
 			// aapt resource value: 0x7f06001f
 			public const int accent_material_dark = 2131099679;
@@ -1293,8 +1296,8 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f060020
 			public const int accent_material_light = 2131099680;
 			
-			// aapt resource value: 0x7f06005d
-			public const int actionbar_tab_indicator = 2131099741;
+			// aapt resource value: 0x7f06005e
+			public const int actionbar_tab_indicator = 2131099742;
 			
 			// aapt resource value: 0x7f060021
 			public const int background_floating_material_dark = 2131099681;
@@ -1347,8 +1350,8 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f060008
 			public const int common_action_bar_splitter = 2131099656;
 			
-			// aapt resource value: 0x7f060068
-			public const int common_google_signin_btn_text_dark = 2131099752;
+			// aapt resource value: 0x7f060069
+			public const int common_google_signin_btn_text_dark = 2131099753;
 			
 			// aapt resource value: 0x7f060009
 			public const int common_google_signin_btn_text_dark_default = 2131099657;
@@ -1362,8 +1365,8 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f06000a
 			public const int common_google_signin_btn_text_dark_pressed = 2131099658;
 			
-			// aapt resource value: 0x7f060069
-			public const int common_google_signin_btn_text_light = 2131099753;
+			// aapt resource value: 0x7f06006a
+			public const int common_google_signin_btn_text_light = 2131099754;
 			
 			// aapt resource value: 0x7f06000d
 			public const int common_google_signin_btn_text_light_default = 2131099661;
@@ -1377,8 +1380,8 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f06000e
 			public const int common_google_signin_btn_text_light_pressed = 2131099662;
 			
-			// aapt resource value: 0x7f06006a
-			public const int common_plus_signin_btn_text_dark = 2131099754;
+			// aapt resource value: 0x7f06006b
+			public const int common_plus_signin_btn_text_dark = 2131099755;
 			
 			// aapt resource value: 0x7f060000
 			public const int common_plus_signin_btn_text_dark_default = 2131099648;
@@ -1392,8 +1395,8 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f060001
 			public const int common_plus_signin_btn_text_dark_pressed = 2131099649;
 			
-			// aapt resource value: 0x7f06006b
-			public const int common_plus_signin_btn_text_light = 2131099755;
+			// aapt resource value: 0x7f06006c
+			public const int common_plus_signin_btn_text_light = 2131099756;
 			
 			// aapt resource value: 0x7f060004
 			public const int common_plus_signin_btn_text_light_default = 2131099652;
@@ -1503,11 +1506,11 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f060042
 			public const int material_grey_900 = 2131099714;
 			
-			// aapt resource value: 0x7f06005b
-			public const int primary = 2131099739;
-			
 			// aapt resource value: 0x7f06005c
-			public const int primary_dark = 2131099740;
+			public const int primary = 2131099740;
+			
+			// aapt resource value: 0x7f06005d
+			public const int primary_dark = 2131099741;
 			
 			// aapt resource value: 0x7f060043
 			public const int primary_dark_material_dark = 2131099715;
@@ -1557,11 +1560,11 @@ namespace IcatuzinhoApp.Droid
 			// aapt resource value: 0x7f060052
 			public const int switch_thumb_disabled_material_light = 2131099730;
 			
-			// aapt resource value: 0x7f06006c
-			public const int switch_thumb_material_dark = 2131099756;
-			
 			// aapt resource value: 0x7f06006d
-			public const int switch_thumb_material_light = 2131099757;
+			public const int switch_thumb_material_dark = 2131099757;
+			
+			// aapt resource value: 0x7f06006e
+			public const int switch_thumb_material_light = 2131099758;
 			
 			// aapt resource value: 0x7f060053
 			public const int switch_thumb_normal_material_dark = 2131099731;

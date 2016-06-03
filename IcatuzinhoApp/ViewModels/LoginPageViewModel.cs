@@ -1,12 +1,12 @@
-using Xamarin.Forms;
-using PropertyChanged;
 using System;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 using Acr.UserDialogs;
-using Xamarin;
-using Prism.Navigation;
 using Prism.Commands;
+using Prism.Navigation;
+using PropertyChanged;
+using Xamarin;
+using Xamarin.Forms;
 
 namespace IcatuzinhoApp
 {
@@ -63,6 +63,9 @@ namespace IcatuzinhoApp
 
             EmailIsEnabled = true;
             PasswordIsEnabled = true;
+
+			//Email = "teste@icatuseguros.com.br";
+			//Password = "Icatu123!";
 
             NavigateCommand = new DelegateCommand(Navigate);
 
