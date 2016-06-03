@@ -18,14 +18,11 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<artina:CircleImage 
-            Source="busstop.png" 
-            Style="{ StaticResource Avatar }"
-            BorderThickness="10"
-			BorderColor="Red"
+		<Image
+			Source="{ Binding Schedule.StatusAvatar }" 
             HeightRequest="50"
             WidthRequest="50"
-            Aspect="AspectFill"
+            Aspect="AspectFill"          
             HorizontalOptions="Center"
             VerticalOptions="Center"
 			Grid.Column="0"/>
@@ -36,38 +33,38 @@
 				    <RowDefinition Height="*" />
 			    </Grid.RowDefinitions>
 
+			    <Grid.ColumnDefinitions>
+			    	<ColumnDefinition Width="Auto" />
+			    	<ColumnDefinition Width="Auto" />
+			    </Grid.ColumnDefinitions>
+
 			    <Label
                         Text="{ Binding Schedule.StartSchedule.LocalDateTime, StringFormat='{0:HH:mm}'}" 
                         HorizontalOptions="StartAndExpand"
-                        TextColor="White"
+                        TextColor="Black"
                         FontSize="18"
 					    FontAttributes="Bold"
-				        Grid.Row="0"/>
-
-			    <Grid Padding="0" Grid.Row="1">
-				    <Grid.ColumnDefinitions>
-					    <ColumnDefinition Width="Auto" />
-					    <ColumnDefinition Width="*" />
-				    </Grid.ColumnDefinitions>
-
-				      <Image 
-						Source="{Binding Schedule.StatusAvatar}"
-						Aspect="AspectFill"
-						HorizontalOptions="Center"
-						VerticalOptions="Center"
-						HeightRequest="10"
-						WidthRequest="10"
-					    Grid.Column="0"/>
+				        Grid.Row="0"
+				        Grid.Column="0"/>
 				
-                      <Label Text="{Binding Schedule.StatusDescription}"
+                <Label Text="{Binding Schedule.StatusDescription}"
                         HorizontalOptions="Center"
-                        TextColor="White"
-                        FontSize="12"
+                        TextColor="{ StaticResource EntryPlaceholderColor}"
+                        FontSize="16"
 						Margin="2,0,5,0"
-                        Grid.Column="1"/>    
-				
-			    </Grid>
-              
+                        Grid.Column="0"
+                        Grid.Row="1"/>    
+
+<!--                <Label Text="{Binding GetTemp}" 
+						Grid.Column="1" 
+						Grid.Row="0"
+						VerticalOptions="EndAndExpand"
+						HorizontalOptions="EndAndExpand"
+						FontSize="18"                  
+                        FontFamily="{x:Static artina:FontAwesome.FontName}"
+						TextColor="{ StaticResource EntryPlaceholderColor}">
+				</Label>-->
+
 		    </Grid>
 		
 	   </Grid>

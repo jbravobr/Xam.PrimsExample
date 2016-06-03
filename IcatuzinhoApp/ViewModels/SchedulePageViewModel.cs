@@ -13,18 +13,30 @@ namespace IcatuzinhoApp
     public class SchedulePageViewModel : BasePageViewModel
     {
         readonly ITravelService _travelService;
+        readonly IWeatherService _weatherService;
+
         IUserDialogs _userDialogs { get; set; }
 
         public List<Travel> Travels { get; set; }
+
         public bool IsRefreshing { get; set; }
 
+        public bool IsOval2Setup { get ; set; }
+
+        public string Temp { get; set; }
+
+        public string TempIco { get; set; }
+
         public SchedulePageViewModel(IScheduleService scheduleService,
-                                     ITravelService travelService)
+                                     ITravelService travelService,
+                                     IWeatherService weatherService)
         {
             _travelService = travelService;
+            _weatherService = weatherService;
             Init();
 
             IsRefreshing = false;
+            IsOval2Setup = false;
         }
 
         public void Init()
@@ -43,9 +55,13 @@ namespace IcatuzinhoApp
 
         public List<Travel> GetAll()
         {
+            var w = GetWeather();
+            TempIco = SetFontAwesomeForTemp(w.Ico);
+            Temp = w.Temp;
+
             var collection = _travelService.GetAll();
 
-            foreach (var item in collection)
+            foreach (var item in collection.OrderBy(c=>c.Schedule.StartSchedule.ToLocalTime()))
             {
                 if (TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, item.Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0)
                     SetScheduleAvatar(true, item);
@@ -53,10 +69,12 @@ namespace IcatuzinhoApp
                     SetScheduleAvatar(false, item);
 
                 if (TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, item.Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0 &&
-                 item.Vehicle.SeatsAvailable > 0)
+                    item.Vehicle.SeatsAvailable > 0)
                     SetScheduleStatusDescription(true, item);
                 else
                     SetScheduleStatusDescription(false, item);
+
+                item.GetTemp = $"{TempIco} {Temp}º";
 
             }
 
@@ -92,18 +110,18 @@ namespace IcatuzinhoApp
         public void ScheduleGetInfoForUI()
         {
             Device.StartTimer(TimeSpan.FromSeconds(10), () =>
-            {
-                Task.Factory.StartNew(() =>
                 {
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await GetUpdatedSeatsAvailableBySchedule();
-                        ScheduleGetInfoForUI();
-                    });
-                });
+                    Task.Factory.StartNew(() =>
+                        {
+                            Device.BeginInvokeOnMainThread(async () =>
+                                {
+                                    await GetUpdatedSeatsAvailableBySchedule();
+                                    ScheduleGetInfoForUI();
+                                });
+                        });
 
-                return false;
-            });
+                    return false;
+                });
         }
 
         public Command Refresh
@@ -111,55 +129,55 @@ namespace IcatuzinhoApp
             get
             {
                 return new Command(async () =>
-                {
-                    var realm = Realm.GetInstance();
-
-                    try
                     {
-                        IsRefreshing = true;
-                        var ids = Travels.Select(x => x.Id).ToList();
+                        var realm = Realm.GetInstance();
 
-                        foreach (var id in ids)
+                        try
                         {
-                            var availableSeats = await _travelService.GetAvailableSeats(id);
+                            IsRefreshing = true;
+                            var ids = Travels.Select(x => x.Id).ToList();
 
-                            using (var tran = realm.BeginWrite())
+                            foreach (var id in ids)
                             {
-                                try
-                                {
-                                    Travels.First(x => x.Id == id).Vehicle.SeatsAvailable = availableSeats;
+                                var availableSeats = await _travelService.GetAvailableSeats(id);
 
-                                    tran.Commit();
-                                }
-                                catch (Exception ex)
+                                using (var tran = realm.BeginWrite())
                                 {
-                                    SendToInsights(ex);
-                                    tran.Rollback();
+                                    try
+                                    {
+                                        Travels.First(x => x.Id == id).Vehicle.SeatsAvailable = availableSeats;
+
+                                        tran.Commit();
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        SendToInsights(ex);
+                                        tran.Rollback();
+                                    }
                                 }
+
+                                if (TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0)
+                                    SetScheduleAvatar(true, Travels.First(x => x.Id == id));
+                                else
+                                    SetScheduleAvatar(false, Travels.First(x => x.Id == id));
+
+                                if (TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0 &&
+                                    Travels.First(x => x.Id == id).Vehicle.SeatsAvailable > 0)
+                                    SetScheduleStatusDescription(true, Travels.First(x => x.Id == id));
+                                else
+                                    SetScheduleStatusDescription(false, Travels.First(x => x.Id == id));
                             }
-
-                            if (TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0)
-                                SetScheduleAvatar(true, Travels.First(x => x.Id == id));
-                            else
-                                SetScheduleAvatar(false, Travels.First(x => x.Id == id));
-
-                            if (TimeSpan.Compare(DateTime.Now.ToLocalTime().TimeOfDay, Travels.First(x => x.Id == id).Schedule.StartSchedule.ToLocalTime().TimeOfDay) <= 0 &&
-                                Travels.First(x => x.Id == id).Vehicle.SeatsAvailable > 0)
-                                SetScheduleStatusDescription(true, Travels.First(x => x.Id == id));
-                            else
-                                SetScheduleStatusDescription(false, Travels.First(x => x.Id == id));
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        SendToInsights(ex);
-                        UIFunctions.ShowErrorMessageToUI("Erro ao atualizar as viagens, por favor tente novamente");
-                    }
-                    finally
-                    {
-                        IsRefreshing = false;
-                    }
-                });
+                        catch (Exception ex)
+                        {
+                            SendToInsights(ex);
+                            UIFunctions.ShowErrorMessageToUI("Erro ao atualizar as viagens, por favor tente novamente");
+                        }
+                        finally
+                        {
+                            IsRefreshing = false;
+                        }
+                    });
             }
         }
 
@@ -173,7 +191,14 @@ namespace IcatuzinhoApp
                 {
                     try
                     {
-                        item.Schedule.StatusAvatar = "online.png";
+                        if (item.Schedule.StartSchedule.ToLocalTime() <= DateTime.Now.ToLocalTime()
+                            && !IsOval2Setup)
+                        {
+                            item.Schedule.StatusAvatar = "Oval2.png";
+                            IsOval2Setup = true;
+                        }
+                        else
+                            item.Schedule.StatusAvatar = "Oval3.png";
 
                         tran.Commit();
                         return;
@@ -190,7 +215,7 @@ namespace IcatuzinhoApp
             {
                 try
                 {
-                    item.Schedule.StatusAvatar = "offline.png";
+                    item.Schedule.StatusAvatar = "Oval1.png";
 
                     tran.Commit();
                     return;
@@ -213,7 +238,10 @@ namespace IcatuzinhoApp
                 {
                     try
                     {
-                        item.Schedule.StatusDescription = "Disponível";
+                        if (item.Schedule.StartSchedule.ToLocalTime() <= DateTime.Now.ToLocalTime() && IsOval2Setup)
+                            item.Schedule.StatusDescription = "Embarque Liberado";
+                        else if (item.Schedule.StartSchedule.ToLocalTime() <= DateTime.Now.ToLocalTime() && !IsOval2Setup)
+                            item.Schedule.StatusDescription = "Embarque fechado";
 
                         tran.Commit();
                         return;
@@ -230,7 +258,7 @@ namespace IcatuzinhoApp
             {
                 try
                 {
-                    item.Schedule.StatusDescription = "Indisponível";
+                    item.Schedule.StatusDescription = "Embarque encerrado";
 
                     tran.Commit();
                     return;
@@ -241,6 +269,25 @@ namespace IcatuzinhoApp
                     tran.Rollback();
                 }
             }
+        }
+
+        public Weather GetWeather()
+        {
+            return _weatherService.Get();
+        }
+
+        string SetFontAwesomeForTemp(string ico)
+        {
+            if (ico.Contains("rain") || ico.Contains("thunder"))
+                return $"\uf0e9";
+
+            if (ico.Contains("cloudy"))
+                return $"\uf073";
+
+            if (ico.Contains("sunny"))
+                return $"\uf185";
+
+            return $"\uf186";
         }
     }
 }

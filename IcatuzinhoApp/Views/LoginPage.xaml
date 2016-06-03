@@ -73,7 +73,7 @@
 										Grid.Row="4"
 										Style="{DynamicResource ButtonEntrar}" 
 										Command="{Binding Confirm}" 
-										Text="Entrar" 
+										Text="ENTRAR" 
 										IsVisible="true" 
 										IsEnabled="true">
 										<Button.Triggers>

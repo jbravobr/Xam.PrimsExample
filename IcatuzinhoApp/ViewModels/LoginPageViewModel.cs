@@ -160,7 +160,7 @@ namespace IcatuzinhoApp
             {
                 return new Command(async (obj) =>
                     {
-                        await _navigationService.Navigate(new Uri("RegisterConfirmationPage", UriKind.Relative));
+                        await _navigationService.Navigate(new Uri("ForgotPasswordPage", UriKind.Relative));
                     });
             }
         }

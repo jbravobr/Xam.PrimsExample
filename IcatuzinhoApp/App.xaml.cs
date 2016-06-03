@@ -73,6 +73,7 @@ namespace IcatuzinhoApp
                 Container.RegisterTypeForNavigation<SelectionPage>();
                 Container.RegisterTypeForNavigation<RegisterPage>();
                 Container.RegisterTypeForNavigation<RegisterConfirmationPage>();
+                Container.RegisterTypeForNavigation<ForgotPasswordPage>();
                 Container.RegisterTypeForNavigation<NavPage>();
 
                 // 3rd Party Controlls

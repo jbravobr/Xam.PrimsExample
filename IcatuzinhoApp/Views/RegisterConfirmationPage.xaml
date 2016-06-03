@@ -33,7 +33,7 @@
 							Style="{DynamicResource IcatuLoginEntryStyle}"
 							Text="{ Binding VerificationCode}" />
 
-						<Button Text="Validar" 
+						<Button Text="VALIDAR" 
 								Style="{DynamicResource ButtonEntrar}"
 								Command="{ Binding Validate }" >
 										<Button.WidthRequest>

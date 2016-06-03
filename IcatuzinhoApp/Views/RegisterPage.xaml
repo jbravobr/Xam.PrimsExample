@@ -29,7 +29,7 @@
 							Style="{DynamicResource IcatuLoginEntryStyle}"
 							Text="{ Binding Password}" />
 
-						<Button Text="Cadastrar" 
+						<Button Text="CADASTRAR" 
 								Style="{DynamicResource ButtonEntrar}"
 								Command="{ Binding Register }" >
 										<Button.WidthRequest>

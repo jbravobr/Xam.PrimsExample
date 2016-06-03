@@ -7,7 +7,7 @@
         prism:ViewModelLocator.AutowireViewModel="True"
 		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
         xmlns:templates="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp"
-        BackgroundColor="Black"
+        BackgroundColor="White"
 		Title="Horários">
 	
     <ContentPage.Content>
@@ -15,10 +15,10 @@
             <StackLayout Padding="0">
 				<ListView 
                     ItemsSource="{Binding Travels}"
-                    RowHeight="66"
+                    RowHeight="72"
 				    CachingStrategy="RecycleElement"
 					x:Name="listViewSchedules"
-					SeparatorColor="Black"
+					SeparatorVisibility="None"
 					IsPullToRefreshEnabled="true"
 					RefreshCommand="{Binding Refresh}"
 					IsRefreshing="{Binding IsRefreshing}">

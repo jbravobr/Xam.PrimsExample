@@ -16,6 +16,9 @@ namespace IcatuzinhoApp
         public Vehicle Vehicle { get; set; }
 
         public bool Status { get; set; }
+
+        [Ignored]
+        public string GetTemp { get; set;}
     }
 }
 
