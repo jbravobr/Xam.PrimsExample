@@ -86,20 +86,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="Calabash">
-      <HintPath>..\packages\Xamarin.TestCloud.Agent.0.19.0\lib\Xamarin.iOS10\Calabash.dll</HintPath>
-    </Reference>
     <Reference Include="PLCrashReporterUnifiedBinding">
       <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Insights">
       <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
-    </Reference>
-    <Reference Include="UXDivers.Artina.Shared">
-      <HintPath>..\Version_1_2_2\pcl\UXDivers.Artina.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="UXDivers.Artina.Shared.iOS">
-      <HintPath>..\Version_1_2_2\ios-unified\UXDivers.Artina.Shared.iOS.dll</HintPath>
     </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.1.6.2\lib\Xamarin.iOS10\Splat.dll</HintPath>
@@ -136,9 +127,6 @@
     </Reference>
     <Reference Include="Prism.Unity.Forms">
       <HintPath>..\packages\Prism.Unity.Forms.6.2.0-pre3\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Prism.Unity.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="Realm">
-      <HintPath>..\packages\Realm.0.74.1\lib\Xamarin.iOS10\Realm.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.LocalNotifications.Abstractions">
       <HintPath>..\packages\Xam.Plugins.Notifier.2.0.2\lib\Xamarin.iOS10\Plugin.LocalNotifications.Abstractions.dll</HintPath>
@@ -179,6 +167,18 @@
     <Reference Include="BTProgressHUD">
       <HintPath>..\packages\BTProgressHUD.1.2.0.3\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
     </Reference>
+    <Reference Include="UXDivers.Artina.Shared.iOS">
+      <HintPath>..\ios-unified\UXDivers.Artina.Shared.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="UXDivers.Artina.Shared">
+      <HintPath>..\pcl\UXDivers.Artina.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Realm">
+      <HintPath>..\packages\Realm.0.75.0\lib\Xamarin.iOS10\Realm.dll</HintPath>
+    </Reference>
+    <Reference Include="Calabash">
+      <HintPath>..\packages\Xamarin.TestCloud.Agent.0.19.1\lib\Xamarin.iOS10\Calabash.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IcatuzinhoApp\IcatuzinhoApp.csproj">
@@ -203,8 +203,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
-  <Import Project="..\packages\Realm.0.74.1\build\Realm.targets" Condition="Exists('..\packages\Realm.0.74.1\build\Realm.targets')" />
   <Import Project="..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\Realm.0.75.0\build\Realm.targets" Condition="Exists('..\packages\Realm.0.75.0\build\Realm.targets')" />
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Properties\" />

@@ -1,5 +1,4 @@
-﻿
-using Prism.Unity;
+﻿using Prism.Unity;
 using Microsoft.Practices.Unity;
 using Xamarin;
 using Xamarin.Forms;
@@ -14,6 +13,12 @@ namespace IcatuzinhoApp
 
         public static bool MapLoaded { get; set; }
 
+//        public App()
+//        {
+//            this.MainPage = new LoginPage();
+//        }
+
+
         protected override void OnInitialized()
         {
             try
@@ -22,7 +27,7 @@ namespace IcatuzinhoApp
                 _container = IoCconfiguration.Init();
                 MapLoaded = false;
 
-                NavigationService.Navigate("NavPage", useModalNavigation: false);
+                NavigationService.Navigate("LoginPage", useModalNavigation: false);
             }
             catch (System.Exception ex)
             {

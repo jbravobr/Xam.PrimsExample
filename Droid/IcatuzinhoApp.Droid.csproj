@@ -49,12 +49,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="UXDivers.Artina.Shared.Droid">
-      <HintPath>..\Version_1_2_2\android\UXDivers.Artina.Shared.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="UXDivers.Artina.Shared">
-      <HintPath>..\Version_1_2_2\pcl\UXDivers.Artina.Shared.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\packages\Xamarin.Android.Support.v4.23.3.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
@@ -133,9 +127,6 @@
     <Reference Include="Prism.Unity.Forms">
       <HintPath>..\packages\Prism.Unity.Forms.6.2.0-pre3\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Prism.Unity.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="Realm">
-      <HintPath>..\packages\Realm.0.74.1\lib\MonoAndroid44\Realm.dll</HintPath>
-    </Reference>
     <Reference Include="Plugin.LocalNotifications.Abstractions">
       <HintPath>..\packages\Xam.Plugins.Notifier.2.0.2\lib\MonoAndroid10\Plugin.LocalNotifications.Abstractions.dll</HintPath>
     </Reference>
@@ -169,6 +160,15 @@
     <Reference Include="Acr.UserDialogs.Interface">
       <HintPath>..\packages\Acr.UserDialogs.5.2.2\lib\MonoAndroid10\Acr.UserDialogs.Interface.dll</HintPath>
     </Reference>
+    <Reference Include="UXDivers.Artina.Shared.Droid">
+      <HintPath>..\android\UXDivers.Artina.Shared.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="UXDivers.Artina.Shared">
+      <HintPath>..\pcl\UXDivers.Artina.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Realm">
+      <HintPath>..\packages\Realm.0.75.0\lib\MonoAndroid44\Realm.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -176,6 +176,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\CustomFontLabelRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
+    <Compile Include="Renderers\CustomNavigationRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -194,15 +195,12 @@
     <None Include="Assets\Fonts\Lato\Lato-Regular.ttf" />
     <None Include="Assets\Fonts\Lato\OFL.txt" />
     <None Include="Assets\avatar.png" />
-    <None Include="Resources\ArticleImg.png" />
     <None Include="Resources\values\Colors.tt" />
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values-v19\bools.xml" />
-    <AndroidResource Include="Resources\values-v21\Styles.xml" />
     <AndroidResource Include="Resources\drawable\logo.png" />
-    <AndroidResource Include="Resources\values\Styles.xml" />
     <AndroidResource Include="Resources\values\Colors.xml" />
     <AndroidResource Include="Resources\layout\tabs.axml" />
     <AndroidResource Include="Resources\layout\toolbar.axml" />
@@ -261,6 +259,9 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\oval2.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\oval3.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\social_header_bg_1.png" />
+    <AndroidResource Include="Resources\values\Style.xml" />
+    <AndroidResource Include="Resources\values-v21\Style.xml" />
+    <AndroidResource Include="Resources\drawable\login.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
@@ -268,6 +269,7 @@
     <Folder Include="Resources\drawable-hdpi\" />
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
+    <Folder Include="Resources\values-v21\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IcatuzinhoApp\IcatuzinhoApp.csproj">
@@ -282,6 +284,7 @@
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
-  <Import Project="..\packages\Realm.0.74.1\build\Realm.targets" Condition="Exists('..\packages\Realm.0.74.1\build\Realm.targets')" />
   <Import Project="..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\Realm.0.75.0\build\Realm.targets" Condition="Exists('..\packages\Realm.0.75.0\build\Realm.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
 </Project>

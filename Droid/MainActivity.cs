@@ -6,20 +6,17 @@ using Xamarin;
 
 namespace IcatuzinhoApp.Droid
 {
-    [Activity(
-        Label = "Icatuzinho",
-        Theme = "@style/AppTheme",
+    [Activity (
+		Label = "Icatuzinho",
+		Theme = "@style/AppTheme",
         Icon = "@drawable/ic_launcher",
         ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait,
-        MainLauncher = true)
+		MainLauncher = true)
     ]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
-            FormsAppCompatActivity.ToolbarResource = Resource.Layout.toolbar;
-            FormsAppCompatActivity.TabLayoutResource = Resource.Layout.tabs;
-
             base.OnCreate(bundle);
 
             Xamarin.Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
@@ -34,16 +31,10 @@ namespace IcatuzinhoApp.Droid
 #endif
             UserDialogs.Init(this);
             Xamarin.FormsMaps.Init(this, bundle);
-
             Xamarin.Forms.Forms.Init(this, bundle);
 
-            /*
-
-            Uncomment to remove StatusBar in Android
-            
-            Window.AddFlags(WindowManagerFlags.Fullscreen);
-            Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
-            */
+            FormsAppCompatActivity.ToolbarResource = Resource.Layout.toolbar;
+			FormsAppCompatActivity.TabLayoutResource = Resource.Layout.tabs;
 
             LoadApplication(new App());
         }

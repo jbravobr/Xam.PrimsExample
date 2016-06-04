@@ -48,6 +48,10 @@ if (resources != null) {
 					Color color;
 
 					if (colorDefinition.StartsWith ("#")) {
+						if (colorDefinition.Length == 7) {
+							colorDefinition = "FF" + colorDefinition;
+						}
+
 						int argb = Int32.Parse (colorDefinition.Replace ("#", ""), NumberStyles.HexNumber);
 						color = Color.FromArgb (argb);
 					} else {
