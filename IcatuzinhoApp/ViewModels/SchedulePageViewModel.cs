@@ -191,14 +191,18 @@ namespace IcatuzinhoApp
                 {
                     try
                     {
-                        if (item.Schedule.StartSchedule.ToLocalTime() <= DateTime.Now.ToLocalTime()
+                        if (DateTime.Now.ToLocalTime().TimeOfDay <= item.Schedule.StartSchedule.ToLocalTime().TimeOfDay
                             && !IsOval2Setup)
                         {
-                            item.Schedule.StatusAvatar = "Oval2.png";
+                            item.Schedule.StatusAvatar = "oval2.png";
+                            item.Schedule.StatusDescription = "Embarque Liberado";
                             IsOval2Setup = true;
                         }
                         else
-                            item.Schedule.StatusAvatar = "Oval3.png";
+                        {
+                            item.Schedule.StatusAvatar = "oval3.png";
+                            item.Schedule.StatusDescription = "Embarque fechado";
+                        }
 
                         tran.Commit();
                         return;
@@ -215,7 +219,7 @@ namespace IcatuzinhoApp
             {
                 try
                 {
-                    item.Schedule.StatusAvatar = "Oval1.png";
+                    item.Schedule.StatusAvatar = "oval1.png";
 
                     tran.Commit();
                     return;
@@ -230,6 +234,7 @@ namespace IcatuzinhoApp
 
         void SetScheduleStatusDescription(bool available, Travel item)
         {
+            /*
             var realm = Realm.GetInstance();
 
             if (available)
@@ -238,9 +243,9 @@ namespace IcatuzinhoApp
                 {
                     try
                     {
-                        if (item.Schedule.StartSchedule.ToLocalTime() <= DateTime.Now.ToLocalTime() && IsOval2Setup)
+                        if (IsOval2Setup && DateTime.Now.ToLocalTime().TimeOfDay <= item.Schedule.StartSchedule.ToLocalTime().TimeOfDay)
                             item.Schedule.StatusDescription = "Embarque Liberado";
-                        else if (item.Schedule.StartSchedule.ToLocalTime() <= DateTime.Now.ToLocalTime() && !IsOval2Setup)
+                        else
                             item.Schedule.StatusDescription = "Embarque fechado";
 
                         tran.Commit();
@@ -269,6 +274,7 @@ namespace IcatuzinhoApp
                     tran.Rollback();
                 }
             }
+            */
         }
 
         public Weather GetWeather()

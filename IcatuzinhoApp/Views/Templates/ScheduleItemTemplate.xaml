@@ -4,7 +4,7 @@
 		x:Class="IcatuzinhoApp.ScheduleItemTemplate"
 		xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared">
 
-       <Grid Padding="0" VerticalOptions="FillAndExpand">
+       <Grid Margin="0" VerticalOptions="FillAndExpand">
 
 		<Grid.TranslationX>
 			<OnIdiom x:TypeArguments="x:Double">
@@ -27,7 +27,7 @@
             VerticalOptions="Center"
 			Grid.Column="0"/>
 
-		    <Grid Padding="10" Grid.Column="1" HorizontalOptions="Start">
+		    <Grid Margin="10" Grid.Column="1" HorizontalOptions="Start">
 			    <Grid.RowDefinitions>
 				    <RowDefinition Height="*" />
 				    <RowDefinition Height="*" />
@@ -35,7 +35,7 @@
 
 			    <Grid.ColumnDefinitions>
 			    	<ColumnDefinition Width="Auto" />
-			    	<ColumnDefinition Width="Auto" />
+			    	<ColumnDefinition Width="*" />
 			    </Grid.ColumnDefinitions>
 
 			    <Label
@@ -55,7 +55,7 @@
                         Grid.Column="0"
                         Grid.Row="1"/>    
 
-<!--                <Label Text="{Binding GetTemp}" 
+                <Label Text="{Binding GetTemp}" 
 						Grid.Column="1" 
 						Grid.Row="0"
 						VerticalOptions="EndAndExpand"
@@ -63,7 +63,7 @@
 						FontSize="18"                  
                         FontFamily="{x:Static artina:FontAwesome.FontName}"
 						TextColor="{ StaticResource EntryPlaceholderColor}">
-				</Label>-->
+				</Label>
 
 		    </Grid>
 		

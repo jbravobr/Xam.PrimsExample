@@ -7,7 +7,7 @@
         prism:ViewModelLocator.AutowireViewModel="True"
 		xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp">
 	
-	<NavigationPage>
+	<NavigationPage BarBackgroundColor="{ StaticResource AccentColor}">
 		<x:Arguments>
     		<local:HomePage />
 		</x:Arguments>
@@ -27,7 +27,7 @@
 		</NavigationPage.Title>
 	</NavigationPage>
 
-	<NavigationPage>
+    <NavigationPage BarBackgroundColor="{ StaticResource AccentColor}">
 		<x:Arguments>
             <local:SchedulePage />
         </x:Arguments>
@@ -47,7 +47,7 @@
 		</NavigationPage.Title>
 	</NavigationPage>
 
-	<NavigationPage>
+    <NavigationPage BarBackgroundColor="{ StaticResource AccentColor}">
 		<x:Arguments>
 			<local:TravelPage />
 		</x:Arguments>

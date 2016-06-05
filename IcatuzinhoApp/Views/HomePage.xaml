@@ -40,7 +40,8 @@
 						VerticalTextAlignment="Center"
 						FontSize="16"                  
 						FontFamily="{x:Static artina:FontAwesome.FontName}"
-						TextColor="White">
+						TextColor="White"
+                        FontAttributes="Bold">
 				</Label>
 
 				<Label Text="{Binding GetSeats}" 
@@ -50,7 +51,8 @@
 						FontSize="16"                  
                         FontFamily="{x:Static artina:FontAwesome.FontName}"
 						TextColor="White"
-						x:Name="labelSeats">
+						x:Name="labelSeats"
+                        FontAttributes="Bold">
 
 					<!--<Label.Triggers>
 						<EventTrigger Event="PropertyChanged">
@@ -66,7 +68,8 @@
 						VerticalTextAlignment="Center"
 						FontSize="16"                  
                         FontFamily="{x:Static artina:FontAwesome.FontName}"
-						TextColor="White">
+						TextColor="White"
+                        FontAttributes="Bold">
 				</Label>
 			</Grid>
 
@@ -129,7 +132,7 @@
                     </MultiTrigger>
 				</StackLayout.Triggers>-->
 
-				<Button Style="{DynamicResource SecondaryActionButtonStyle}" 
+				<Button Style="{DynamicResource EmbarqueiActionButtonStyle}" 
 					Command="{Binding CheckIn}" 
 					IsVisible="{Binding isCheckIn}" 
 					VerticalOptions="End" 
@@ -150,7 +153,7 @@
 					
 				</Button>
 				
-				<Button Style="{DynamicResource TertiaryActionButtonStyle}" 
+				<Button Style="{DynamicResource DesembarqueiActionButtonStyle}" 
 					Command="{Binding CheckOut}" 
 					IsVisible="{Binding isCheckOut}" 
 					VerticalOptions="End" 

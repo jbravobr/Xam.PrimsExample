@@ -549,6 +549,20 @@
                 <Setter Property="HeightRequest" Value="45" />
                 <Setter Property="ColumnSpacing" Value="0" />
             </Style>
+
+            <!--- HOME PAGE -->
+                <!-- BUTTONS -->
+                    <Style x:Key="EmbarqueiActionButtonStyle" TargetType="Button" BasedOn="{StaticResource RoundedButtonStyle}">
+                    <Setter Property="BackgroundColor" Value="{StaticResource ButtonEmbarquei}" />
+                    <Setter Property="TextColor" Value="{StaticResource LabelButtonColor}" />
+                    <Setter Property="HeightRequest" Value="{StaticResource BaseButtonHeight}" />
+                    </Style>
+                    <Style x:Key="DesembarqueiActionButtonStyle" TargetType="Button" BasedOn="{StaticResource RoundedButtonStyle}">
+                        <Setter Property="BackgroundColor" Value="{StaticResource ButtonDesembarquei}" />
+                        <Setter Property="TextColor" Value="{StaticResource LabelButtonColor}" />
+                        <Setter Property="HeightRequest" Value="{StaticResource BaseButtonHeight}" />
+                    </Style>
+
 		</ResourceDictionary>
 	</Application.Resources>
 <!--</Application>-->
