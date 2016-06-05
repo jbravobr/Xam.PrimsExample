@@ -7,6 +7,14 @@ namespace IcatuzinhoApp
 {
     public partial class ForgotPasswordPage : ContentPage
     {
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (Device.OS == TargetPlatform.Android)
+                Title = "Login";
+        }
+
         public ForgotPasswordPage()
         {
             InitializeComponent();

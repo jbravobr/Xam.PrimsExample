@@ -13,7 +13,7 @@
 		<!-- Set AppCompat’s color theming attrs -->
 
 		<!-- colorPrimary is used for the default action bar background -->
-		<item name="colorPrimary">@color/AccentColor</item>
+		<item name="colorPrimary">@color/NavBarColor</item>
 
 		<!-- colorPrimaryDark is used for the status bar 
 		<item name="colorPrimaryDark">@color/AccentColor</item>-->

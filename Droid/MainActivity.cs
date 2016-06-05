@@ -29,12 +29,12 @@ namespace IcatuzinhoApp.Droid
 #else
             Xamarin.Insights.Initialize("af73d7945c2d65a46435cb2f6441453f416e9b43", this);
 #endif
+            FormsAppCompatActivity.ToolbarResource = Resource.Layout.toolbar;
+            FormsAppCompatActivity.TabLayoutResource = Resource.Layout.tabs;
+
             UserDialogs.Init(this);
             Xamarin.FormsMaps.Init(this, bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
-
-            FormsAppCompatActivity.ToolbarResource = Resource.Layout.toolbar;
-			FormsAppCompatActivity.TabLayoutResource = Resource.Layout.tabs;
 
             LoadApplication(new App());
         }

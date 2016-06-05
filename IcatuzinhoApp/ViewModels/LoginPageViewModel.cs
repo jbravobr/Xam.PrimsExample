@@ -135,7 +135,7 @@ namespace IcatuzinhoApp
 
         public async Task<bool> GetAuthenticatedUser() => await _userService.GetAuthenticatedUser();
 
-        public Command Cadastrar
+        public Command Register
         {
             get
             {
@@ -154,7 +154,7 @@ namespace IcatuzinhoApp
             }
         }
 
-        public Command Recuperar
+        public Command Recovery
         {
             get
             {

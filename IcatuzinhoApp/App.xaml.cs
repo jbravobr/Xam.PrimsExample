@@ -13,12 +13,6 @@ namespace IcatuzinhoApp
 
         public static bool MapLoaded { get; set; }
 
-//        public App()
-//        {
-//            this.MainPage = new LoginPage();
-//        }
-
-
         protected override void OnInitialized()
         {
             try
@@ -27,7 +21,10 @@ namespace IcatuzinhoApp
                 _container = IoCconfiguration.Init();
                 MapLoaded = false;
 
-                NavigationService.Navigate("LoginPage", useModalNavigation: false);
+                if (Device.OS == TargetPlatform.Android)
+                    NavigationService.Navigate("NavPageDroid", useModalNavigation: false);
+                else
+                    NavigationService.Navigate("NavPageiOS", useModalNavigation: false);
             }
             catch (System.Exception ex)
             {
@@ -79,7 +76,8 @@ namespace IcatuzinhoApp
                 Container.RegisterTypeForNavigation<RegisterPage>();
                 Container.RegisterTypeForNavigation<RegisterConfirmationPage>();
                 Container.RegisterTypeForNavigation<ForgotPasswordPage>();
-                Container.RegisterTypeForNavigation<NavPage>();
+                Container.RegisterTypeForNavigation<NavPageiOS>();
+                Container.RegisterTypeForNavigation<NavPageDroid>();
 
                 // 3rd Party Controlls
                 Container.RegisterInstance(Acr.UserDialogs.UserDialogs.Instance);

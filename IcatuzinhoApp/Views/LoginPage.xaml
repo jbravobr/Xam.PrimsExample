@@ -9,15 +9,6 @@
     xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
     BackgroundColor="{ StaticResource AccentColor }"
     Title="Login">
-
-<!--<ContentPage 
-    xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="IcatuzinhoApp.LoginPage"
-    xmlns:local="clr-namespace:IcatuzinhoApp;assembly=IcatuzinhoApp" 
-    xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared" 
-    BackgroundColor="{ StaticResource AccentColor }"
-    Title="Login">-->
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -33,38 +24,37 @@
                     Source="{ StaticResource LoginBackgroundImage }" 
                     IsOpaque="false" Aspect="AspectFill" />
 
-                <Grid>
+                <Grid Margin="0" RowSpacing="0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="360" />
-                            <RowDefinition Height="300" />
+                            <RowDefinition Height="340" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <StackLayout 
-                            VerticalOptions="FillAndExpand" 
-                            Grid.Row="0" >
+                        <StackLayout Grid.Row="0" >
 
-<!--                            <StackLayout.Margin>
+                            <StackLayout.Margin>
                                 <OnPlatform x:TypeArguments="Thickness">
                                     <OnPlatform.iOS>20, 60, 20, 20</OnPlatform.iOS>
-                                    <OnPlatform.Android>20, 40, 20, 20</OnPlatform.Android>
+                                    <OnPlatform.Android>20, 30, 20, 20</OnPlatform.Android>
                                 </OnPlatform>
-                            </StackLayout.Margin>-->
+                            </StackLayout.Margin>
 
                             <Image Source="{StaticResource BrandImage}" />
                         </StackLayout>
 
-                        <Grid Margin="30" RowSpacing="5" Grid.Row="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="30" />
-                                <RowDefinition Height="30" />
-                            </Grid.RowDefinitions>
+                        <Grid x:Name="gridLogin" RowSpacing="5" Grid.Row="1">
+                            <Grid.Margin>
+                                <OnPlatform x:TypeArguments="Thickness">
+                                    <OnPlatform.iOS>30</OnPlatform.iOS>
+                                    <OnPlatform.Android>30,0,30,75</OnPlatform.Android>
+                                </OnPlatform>
+                            </Grid.Margin>
 
                                 <Entry
                                     Grid.Row="0"
                                     x:Name="entryEmail"
                                     Placeholder="E-mail" 
-                                    Keyboard="Email" 
+                                    Keyboard="Email"
                                     Text="{Binding Email}"
                                     Style="{DynamicResource IcatuLoginEntryStyle}"
                                     IsEnabled="{Binding EmailIsEnabled}" /> 
@@ -116,11 +106,10 @@
                                     </Button>
                         </Grid>
                 </Grid>
-                <!---
+
                 <Grid 
-                    VerticalOptions="End"
+                    VerticalOptions="EndAndExpand"
                     HeightRequest="45"
-                    Padding="10,0,10,0"
                     BackgroundColor="{StaticResource ButtonGray}">
 
                     <Grid.ColumnDefinitions>
@@ -129,37 +118,47 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <Button 
+                    <Label 
                         Text="Cadastrar" 
                         FontSize="16" 
-                        BorderColor="Transparent"
-                        BorderWidth="0"
                         HorizontalOptions="CenterAndExpand" 
                         VerticalOptions="CenterAndExpand" 
                         FontFamily="{x:Static artina:FontAwesome.FontName}" 
                         TextColor="White"
-                        BackgroundColor="Transparent"
-                        Command="{Binding Cadastrar}"
-                        Grid.Column="0" />
+                        Grid.Column="0">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{ Binding Register }" />
+                        </Label.GestureRecognizers>
+
+                        </Label>
 
                     <Image 
                         Source="{ StaticResource LineIcon}" 
-                        VerticalOptions="CenterAndExpand"  
+                        VerticalOptions="CenterAndExpand" 
+                        Margin="5,0,0,0" 
                         Grid.Column="1" />
 
-                    <Button 
+                    <Label 
                         Text="Recuperar Senha" 
                         FontSize="16"
-                        BorderColor="Transparent"
-                        Command="{Binding Recuperar}"
+                        Margin="0,0,10,0"
                         HorizontalOptions="CenterAndExpand"
                         VerticalOptions="CenterAndExpand"
                         FontFamily="{x:Static artina:FontAwesome.FontName}" 
                         TextColor="White" 
-                        Grid.Column="2" />
+                        Grid.Column="2">
+
+                            <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{ Binding Recovery }" NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+
+                        </Label>
 
                 </Grid>
-                -->
+
             </Grid>
 <!--        </ScrollView>-->
 

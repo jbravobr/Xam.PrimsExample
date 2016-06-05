@@ -11,7 +11,7 @@ namespace IcatuzinhoApp
     {
         protected override void OnAppearing()
         {
-            //NavigationPage.SetHasNavigationBar(this, false);
+            NavigationPage.SetHasNavigationBar(this, false);
             base.OnAppearing();
         }
 

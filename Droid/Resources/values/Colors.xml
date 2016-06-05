@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
 	<!-- Artina Exported Colors -->
-	<color name="AccentColor">#FFDA125F</color>
+	<color name="AccentColor">#003E69</color>
+    <color name="NavBarColor">#84888B</color>
 	<color name="InverseTextColor">#FFFFFFFF</color>
 </resources>

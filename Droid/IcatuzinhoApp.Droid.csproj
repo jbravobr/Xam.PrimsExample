@@ -259,9 +259,9 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\oval2.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\oval3.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\social_header_bg_1.png" />
-    <AndroidResource Include="Resources\values\Style.xml" />
-    <AndroidResource Include="Resources\values-v21\Style.xml" />
     <AndroidResource Include="Resources\drawable\login.png" />
+    <AndroidResource Include="Resources\values\Styles.xml" />
+    <AndroidResource Include="Resources\values-v21\Styles.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

@@ -541,6 +541,14 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
+
+            <!-- CUSTOM TOOLBAR -->
+            <Style x:Key="ToolbarCustomizedStyle" TargetType="Grid">
+                <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}" />
+                <Setter Property="Opacity" Value="0.5" />
+                <Setter Property="HeightRequest" Value="45" />
+                <Setter Property="ColumnSpacing" Value="0" />
+            </Style>
 		</ResourceDictionary>
 	</Application.Resources>
 <!--</Application>-->

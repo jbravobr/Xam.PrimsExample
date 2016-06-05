@@ -9,8 +9,10 @@ namespace IcatuzinhoApp
     {
         protected override void OnAppearing()
         {
-            //NavigationPage.SetBackButtonTitle(this, "");
             base.OnAppearing();
+
+            if (Device.OS == TargetPlatform.Android)
+                Title = "Login";
         }
 
         public RegisterPage()
